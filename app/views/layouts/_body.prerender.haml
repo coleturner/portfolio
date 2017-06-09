@@ -1,0 +1,6 @@
+%body{ :class => "controller-#{controller_name.parameterize} action-#{action_name.parameterize}" }
+  = render 'layouts/header'
+  = render 'layouts/flash'
+  = yield
+  = render 'layouts/footer'
+  = render 'layouts/javascript'

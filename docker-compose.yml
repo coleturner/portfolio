@@ -1,0 +1,69 @@
+version: '2'
+
+services:
+  postgres:
+    image: 'postgres:9.5'
+    environment:
+      POSTGRES_USER: 'app'
+      POSTGRES_PASSWORD: 'yourpassword'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+
+  redis:
+    image: 'redis:3.2-alpine'
+    command: redis-server --requirepass yourpassword
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/var/lib/redis/data'
+
+  web:
+    build: .
+    ports:
+      - $BACKEND_PORT:$BACKEND_PORT
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/app/user'
+      - ./public:/app/user/public
+
+  webpack:
+    build:
+      context: .
+      dockerfile: Dockerfile.webpack
+    depends_on:
+      - 'web'
+    env_file:
+      - '.env'
+    environment:
+       WEBPACK_PORT: $WEBPACK_PORT
+    command: bash -c "node /mnt/build/generate.js && /mnt/node_modules/.bin/webpack-dev-server --progress --host 0.0.0.0"
+    ports:
+       - $WEBPACK_PORT:$WEBPACK_PORT
+    volumes:
+      - ./app:/mnt/app
+      - ./build:/mnt/build
+      - ./config/locales:/mnt/config/locales
+      - ./public:/mnt/public
+      - ./yarn.lock:/mnt/yarn.lock
+      - ./package.json:/mnt/package.json
+      - ./webpack.config.js:/mnt/webpack.config.js
+      - ./webpack:/mnt/webpack
+      - ./.babelrc:/mnt/.babelrc
+
+  sidekiq:
+    depends_on:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: sidekiq -C config/sidekiq.yml.erb
+    volumes:
+      - '.:/app/user'
+    env_file:
+      - '.env'
+
+volumes:
+  redis:
+  postgres:

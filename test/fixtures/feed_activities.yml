@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  feed: one
+  activity: one
+  score: 
+
+two:
+  feed: two
+  activity: two
+  score: 

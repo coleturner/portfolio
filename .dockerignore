@@ -1,0 +1,34 @@
+.git/*
+.bundle
+.jhw*
+jhw*
+log/*
+tmp/
+.idea
+.powrc
+*~
+**/*~
+public/assets/
+public/sitemap*
+.DS_Store
+.sass-cache/
+coverage
+
+# redis
+dump.rdb
+temp-*.rdb
+redis.conf
+
+#tools/
+
+# Rails environment should not introduce these files. They're only here for older, unused files
+public/system/
+public/stylesheets/*.css
+public/assets-dev
+db/*.sqlite3
+rspec*.xml
+public/app/
+test-artifacts/
+
+# Relay
+__generated__
