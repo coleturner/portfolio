@@ -1,0 +1,14 @@
+{
+ "@context": "http://schema.org",
+ "publisher": {
+    "@type": "Organization",
+    "name": "Everyday Carry",
+    "url": "http://everydaycarry.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://everydaycarry.com/public/img/team/logo.jpg",
+      "width": "232px",
+      "height": "232px"
+    }
+  }
+}
