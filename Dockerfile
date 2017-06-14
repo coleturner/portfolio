@@ -1,15 +1,25 @@
-FROM colept/edc_rails:2.4.0
+FROM node:7.7.2
 
-ENV RAILS_ENV development
+ENV USER node
+ENV NODE_ENV development
+ENV PORT 7000
+ENV PATH="/usr/local/bin:$PATH"
 
-# Run bundler to cache dependencies
-RUN apt-get install -y inotify-tools
+COPY ["./package.json", "/home/$USER/"]
+ADD . /home/$USER
+WORKDIR /home/$USER
+RUN chown $USER --recursive /home/$USER
 
-RUN mkdir -p /app/user/vendor
+USER $USER
 
-COPY ["Gemfile", "Gemfile.lock", "/app/user/"]
-RUN bundle install --binstubs --path /app/ruby/bundle --jobs 4
+RUN yarn install
+RUN npm rebuild node-sass
 
-ADD . /app/user
-VOLUME ["/app/user/public"]
-CMD ["/app/user/bin/puma", "-C", "config/puma.rb"]
+EXPOSE $PORT
+CMD if [ ${NODE_ENV} = production ]; \
+	then \
+  /home/$USER/node_modules/.bin/webpack; \
+	/home/$USER/node_modules/.bin/pm2-docker start processes.json -i 0; \
+	else \
+	/home/$USER/node_modules/.bin/pm2-dev start processes.json --ignore public; \
+	fi

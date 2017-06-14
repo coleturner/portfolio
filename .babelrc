@@ -1,4 +1,4 @@
 {
-  "plugins": [["relay", {"schema": "./build/schema.graphql"}], "react-hot-loader/babel", "babel-plugin-idx", "transform-runtime", "transform-decorators-legacy", "transform-class-properties", ["babel-plugin-transform-builtin-extend", { "globals": ["Error", "Array"], "approximate": true }]],
+  "plugins": ["react-hot-loader/babel", "babel-plugin-idx", "transform-runtime", "transform-decorators-legacy", "transform-class-properties", ["babel-plugin-transform-builtin-extend", { "globals": ["Error", "Array"], "approximate": true }]],
   "presets": [["es2015", { "modules": false }], "stage-0", "react"]
 }

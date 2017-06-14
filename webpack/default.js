@@ -1,12 +1,10 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const WebpackRailsI18nJS = require('webpack-rails-i18n-js-plugin');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 
-const assetURL = '//' + process.env.ASSET_HOST + '/';
+const assetURL = `//${process.env.ASSET_HOST}:${process.env.ASSET_PORT}`;
 
 const useHash = process.env.NODE_ENV === 'production' ? true : false;
 
@@ -28,18 +26,18 @@ const jsxRules = [
   }];
 
 const config = {
-  context: path.resolve(__dirname, '../', 'app/assets/'),
+  context: path.resolve(__dirname, '../', 'assets/'),
   entry: {
     'main': [
       'babel-polyfill',
       'react-hot-loader/patch',
       './javascripts/main.js',
-      './stylesheets/main.scss',
+      //'./stylesheets/main.scss',
     ]
   },
   output: {
     filename: '[name]' + (useHash ? '.[hash]' : '') + '.js',
-    path: path.resolve(__dirname, '../', 'public/assets/'),
+    path: path.resolve(__dirname, '../', 'public/'),
   },
   module: {
     rules: [
@@ -50,13 +48,48 @@ const config = {
       },
       {
         test: /\.(scss|css)$/i,
-        use: ExtractTextPlugin.extract({
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              //root: encodeURIComponent(assetURL),
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader?sourceMap',
+            options: {
+              plugins: () => {
+                return [autoprefixer({ browsers: ['last 3 version', '> 5%'] })];
+              }
+            }
+          }
+        ]
+    /*    use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
               options: {
-                root: encodeURIComponent(assetURL),
+                //root: encodeURIComponent(assetURL),
                 sourceMap: true
               }
             },
@@ -81,7 +114,7 @@ const config = {
               }
             }
           ]
-        })
+        })*/
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/i,
@@ -124,17 +157,13 @@ const config = {
     fs: 'empty'
   },
   plugins: [
-    new WebpackRailsI18nJS({
-      locale: 'html.lang',
-      defaultLocale: 'en'
-    }),
     new CopyWebpackPlugin([
-        { from: '**/*.{gif,png,jpe?g,svg}' }
+        { from: '**/*.{gif,png,jpe?g,svg,ico}' }
     ]),
-    new ManifestPlugin(),
     new ExtractTextPlugin('[name]' + (useHash ? '.[hash]' : '') + '.css'),
     new WriteFilePlugin({
-      force: true
+      force: true,
+      log: false
     })
   ],
   resolve: {

@@ -32,3 +32,6 @@ test-artifacts/
 
 # Relay
 __generated__
+node_modules
+.pm2
+.pm2-dev

@@ -1,0 +1,286 @@
+#resume {
+
+  h2 {
+    background: #eee;
+    background-blend-mode: screen;
+    margin: 0 0 3em 0;
+    padding: 1.5em 0;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: 100;
+    letter-spacing: -0.03em;
+  }
+
+  .project-list {
+    border-left: 3px solid #eee;
+    max-width: 100vh;
+    margin: 0 auto;
+
+    .project {
+      position: relative;
+      padding: 0 3em;
+      margin-bottom: 6em;
+      font-size: 1.2em;
+
+      h3 {
+        font-size: 1.5em;
+        letter-spacing: -0.03em;
+        margin: 0;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 0.5em;
+        box-shadow: 0 0.15em 0.45em rgba(0,0,0,0.15);
+        padding: 0.5em;
+        margin-top: 1em;
+        color: #717171;
+
+        .gallery {
+          $breakingPoint: 700px;
+          $arrowWidth: 8px;
+
+          position: relative;
+          overflow: hidden;
+
+          .previous,
+          .next {
+            background: rgba(0,0,0, 0.35);
+            border-radius: 10em;
+            width: 3em;
+            height: 3em;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            content: " ";
+            padding: 0.25em;
+            z-index: 4;
+            cursor: pointer;
+            transition: all 150ms ease;
+
+            &:hover {
+              background: rgba(0,0,0,0.65);
+
+              &::before {
+                opacity: 0.85;
+              }
+            }
+
+            &::before {
+              width: 0;
+              height: 0;
+              content: " ";
+              border: $arrowWidth solid transparent;
+              position: absolute;
+              opacity: 0.45;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+
+          .previous {
+            left: 1em;
+
+            &.disabled {
+              left: -5em;
+            }
+
+            &::before {
+              border-right-color: #fff;
+              margin-left: -6px;
+            }
+          }
+
+          .next {
+            right: 1em;
+
+            &.disabled {
+              right: -5em;
+            }
+
+            &::before {
+              border-left-color: #fff;
+              margin-left: 6px;
+            }
+          }
+
+          .gallery-images {
+            overflow: hidden;
+            position: relative;
+
+            &::before {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              z-index: 3;
+              border-radius: 0.35em;
+              content: " ";
+              box-shadow: inset 0 0 3em rgba(0,0,0,0.15);
+            }
+
+            img {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              z-index: 2;
+              animation: fadein 300ms ease-in;
+              animation-fill-mode: forwards;
+              opacity: 0;
+            }
+
+            img.preload {
+              z-index: 1;
+              filter: blur(30px);
+            }
+          }
+
+          .scroller {
+            display: flex;
+            flex-direction: row;
+            transition: left 150ms ease;
+            position: relative;
+            min-height: 15em;
+            max-height: 60vh;
+          }
+
+          .blips {
+            padding: 0.5em 0 0;
+            text-align: center;
+
+            &:empty {
+              display: none;
+            }
+
+            .blip {
+              display: inline-block;
+              vertical-align: middle;
+              border-radius: 10em;
+              background: #ccc;
+              width: 0.75em;
+              height: 0.75em;
+              margin: 0 0.35em;
+              padding: 1px;
+              cursor: pointer;
+
+              &:hover,
+              &.active {
+                background: #333;
+              }
+            }
+          }
+        }
+
+        .image {
+          /*
+          width: 40%;
+          flex: 0 0 auto;
+          */
+          border-radius: 0.35em;
+          overflow: hidden;
+          position: relative;
+          flex: 0 0 100%;
+
+          img {
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            object-fit: cover;
+            object-position: top center;
+          }
+        }
+
+        .details {
+          padding: 1.5em 3em 3em;
+          line-height: 1.4;
+
+          h1, h2, h3, h4, h5, h6 {
+            color: #333;
+          }
+
+          h4 {
+            font-size: 1.15em;
+            font-weight: 500;
+            margin: 1em 0 0.25em;
+
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+
+          .tags {
+            margin-top: 1em;
+
+            span {
+              background: #eee;
+              border-radius: 10em;
+              display: inline-block;
+              margin-right: 0.3em;
+              margin-bottom: 0.3em;
+              padding: 0.2em 0.65em;
+              color: #999;
+            }
+          }
+        }
+
+        .external-link {
+          display: inline-block;
+          margin-top: 1.5em;
+          font-size: 1em;
+          color: #aaa;
+
+          svg.icon {
+            margin-right: 0.5em;
+            use { fill: #aaa; }
+          }
+
+          &:hover {
+            color: $primary-color;
+            svg use { fill: $primary-color; }
+          }
+        }
+      }
+
+      .duration {
+        color: #aaa;
+      }
+
+
+      time {
+        font-size: inherit;
+        display: inline;
+        vertical-align: baseline;
+      }
+
+      &::before {
+        position: absolute;
+        left: -1px;
+        top: 1.5em;
+        width: 1em;
+        height: 1em;
+        content: " ";
+        border-radius: 10em;
+        background: #ccc;
+        border: 2px solid transparent;
+        transform: translate(-50%, -50%);
+      }
+
+      &.active {
+        &::before {
+          background: #fff;
+          border-color: #ccc;
+          width: 1.35em;
+          height: 1.35em;
+        }
+      }
+
+      &.short-term {
+        max-width: 730px;
+      }
+    }
+  }
+}

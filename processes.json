@@ -1,0 +1,15 @@
+{
+    "apps": [
+        {
+            "name": "Portfolio",
+            "script": "./bin/www",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "instances": 1,
+            "max_memory_restart": "1G",
+            "watch": ["app.js", "routes", "views", "webpack"],
+            "ignore_watch" : ["node_modules", "public"],
+            "exec_mode" : "cluster"
+        }
+    ]
+}
