@@ -7,7 +7,7 @@ const config = deepAssign({}, defaultConfig,
   {
     devtool: 'source-map',
     output: {
-      publicPath: defaultConfig.assetURL + '/assets/'
+      publicPath: '/public/'
     }
   }
 );
