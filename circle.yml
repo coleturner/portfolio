@@ -9,7 +9,8 @@ dependencies:
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
     - docker info
-    - docker build --rm=false -t colept/portfolio:compiled .
+    - export NODE_ENV=`if [[ $CIRCLE_TAG == release* ]] ; then echo 'production'; else echo 'development'; fi`;
+    - docker build --build-arg NODE_ENV=$NODE_ENV --rm=false -t colept/portfolio:compiled .
     - mkdir -p ~/docker; docker save colept/portfolio:compiled > ~/docker/image.tar
 
 deployment:
@@ -22,6 +23,6 @@ deployment:
   demo:
     tag: /demo-.*/
     commands:
-      -docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker tag colept/portfolio:compiled colept/portfolio:release-latest; docker push colept/portfolio:demo-latest
       - docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_TAG; docker push colept/portfolio:$CIRCLE_TAG
