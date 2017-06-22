@@ -74,7 +74,7 @@ const config = {
     ? 'source-map' : 'eval-source-map',
   output: {
     filename: '[name]' + (useHash ? '.[hash]' : '') + '.js',
-    path: path.resolve(__dirname, '../public/'),
+    path: path.resolve(__dirname, './public/'),
     publicPath: '/public/'
   },
   module: {
