@@ -62,18 +62,20 @@ const cssLoaders = process.env.NODE_ENV === 'production'
   : [{ loader: 'style-loader', options: { sourceMap: true } }].concat(baseCSSLoaders);
 
 const config = {
-  context: path.resolve(__dirname, '../', 'assets/'),
+  context: path.resolve(__dirname, './assets/'),
   entry: {
     'main': [
       'babel-polyfill',
       'react-hot-loader/patch',
-      './javascripts/main.js',
-      //'./stylesheets/main.scss',
+      './javascripts/main.js'
     ]
   },
+  devtool: process.env.NODE_ENV === 'production'
+    ? 'source-map' : 'eval-source-map',
   output: {
     filename: '[name]' + (useHash ? '.[hash]' : '') + '.js',
-    path: path.resolve(__dirname, '../', 'public/'),
+    path: path.resolve(__dirname, './public/'),
+    publicPath: '/public/'
   },
   module: {
     rules: [
@@ -85,38 +87,6 @@ const config = {
       {
         test: /\.(scss|css)$/i,
         use: cssLoaders
-    /*    use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                //root: encodeURIComponent(assetURL),
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'resolve-url-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'postcss-loader?sourceMap',
-              options: {
-                plugins: () => {
-                  return [autoprefixer({ browsers: ['last 3 version', '> 5%'] })];
-                }
-              }
-            }
-          ]
-        })*/
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/i,
@@ -162,6 +132,10 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
     new CopyWebpackPlugin([
         { from: '**/*.{gif,png,jpe?g,svg,ico}' }
     ]),
@@ -176,5 +150,29 @@ const config = {
     extensions: ['.js', '.jsx']
   }
 };
+
+if (process.env.NODE_ENV !== 'production') {
+  config.devServer = {
+    hot: true,
+    disableHostCheck: true,
+    contentBase: './public',
+    port: process.env.SERVER_PORT,
+    headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' }
+  };
+
+  config.plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ].concat(config.plugins);
+
+  config.watch = true;
+
+  for (let key in config.entry) {
+    if (config.entry.hasOwnProperty(key)) {
+      config.entry[key] =
+        config.entry[key].concat(['webpack-hot-middleware/client']);
+    }
+  }
+}
 
 module.exports = config;
