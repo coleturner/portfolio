@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Logo extends React.PureComponent {
+  static propTypes = {
+    animateLogo: PropTypes.bool.isRequired
+  };
+
   componentWillMount() {
     document.addEventListener('mousemove', this.onMouseMove);
   }
@@ -10,6 +15,10 @@ export default class Logo extends React.PureComponent {
   }
 
   onMouseMove = (e) => {
+    if (!this.props.animateLogo) {
+      return;
+    }
+
     const [moveX, moveY] = [(e.clientX / -100), (e.clientY / -120)];
     this.node.style.textShadow = `${-moveX/2}px ${-moveY}px rgba(0, 0, 0, 0.1)`;
     this.node.style.transform = `translate(${-moveX / 4}px, 0)`;
@@ -24,8 +33,10 @@ export default class Logo extends React.PureComponent {
   }
 
   render() {
+    const { animateLogo, ...otherProps } = this.props;
+
     return (
-      <a ref={this.onReference} {...this.props} href="/">
+      <a ref={this.onReference} {...otherProps} href="/">
         Cole Turner
       </a>
     );

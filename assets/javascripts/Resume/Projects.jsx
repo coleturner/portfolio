@@ -5,7 +5,7 @@ import moment from 'moment-mini';
 import ReactMarkdown from 'react-markdown';
 
 import Gallery from '../Components/Gallery';
-import { H2, H3, H4, H5, H6 } from '../Components/Heading';
+import { H1, H3, H4, H5, H6 } from '../Components/Heading';
 import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
 import Time from '../Components/Time';
@@ -98,7 +98,7 @@ export default class ResumeProjects extends React.Component {
 
     return (
       <View className="resume-projects">
-        <H2>{title}</H2>
+        <H1>{title}</H1>
         <View className="container">
           <View className="project-list">
             {sortedProjects.map(({ timelineImage, images, abstract, name, started, ended, tags, url }, index) => {

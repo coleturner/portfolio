@@ -17,7 +17,7 @@ export default class FrontpageIntroduction extends React.Component {
 
   onMouseMove = (e) => {
     const [moveX, moveY] = [(((window.innerWidth / 2) - e.clientX) / -100), (e.clientY / -100)];
-    this.node.style.textShadow = `${-moveX}px ${-moveY /2}px 5px rgba(251, 228, 70, 1)`;
+    this.node.style.textShadow = `${-moveX}px ${-moveY /2}px 5px rgba(254, 255, 190, 0.45)`;
     this.node.style.transform = `translate3d(${-moveX}px, 0, 0)`;
   }
 

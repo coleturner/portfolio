@@ -40,6 +40,6 @@ export default class ResumeScreen extends React.Component {
   }
 
   render() {
-    return <Wrapper>{this.view()}</Wrapper>;
+    return <Wrapper animateLogo={false}>{this.view()}</Wrapper>;
   }
 }

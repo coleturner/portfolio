@@ -1,10 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Logo from '../Logo';
 import Hyperlink from '../../Components/Hyperlink';
 import View from '../../Components/View';
 
 export default class HeaderView extends React.PureComponent {
+  static propTypes = {
+    animateLogo: PropTypes.bool.isRequired
+  }
+
   state = { sticky: false }
 
   componentWillMount() {
@@ -33,14 +38,14 @@ export default class HeaderView extends React.PureComponent {
     if (document.body.className.indexOf('index') === -1) {
       return (
         <View className="brand">
-          <Logo />
+          <Logo animateLogo={this.props.animateLogo} />
         </View>
       );
     }
 
     return (
       <h1 className="brand">
-        <Logo />
+        <Logo animateLogo={this.props.animateLogo} />
       </h1>
     );
   }
