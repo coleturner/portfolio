@@ -6,12 +6,14 @@ import Icon from '../Components/Icon';
 import Picture from '../Components/Picture';
 import View from '../Components/View';
 
+import PORTRAIT_IMAGE from '../../images/portrait.jpg';
+
 export const Footer = () => {
   return (
     <footer>
 			<View className="container">
         <View className="portrait">
-          <Picture src="http://cole.codes/public/images/portrait.jpg" />
+          <Picture src={PORTRAIT_IMAGE} />
           <View className="availability">
             <Icon id={Icon.LIST.CHECKMARK} />
             Available For Hire

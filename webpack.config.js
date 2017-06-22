@@ -6,8 +6,6 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 
-const assetURL = `//${process.env.ASSET_HOST}:${process.env.ASSET_PORT}`;
-
 const useHash = process.env.NODE_ENV === 'production' ? true : false;
 
 const jsxRules = [
@@ -31,7 +29,6 @@ const baseCSSLoaders = [
   {
     loader: 'css-loader',
     options: {
-      //root: encodeURIComponent(assetURL),
       sourceMap: true
     }
   },
