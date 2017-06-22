@@ -68,6 +68,10 @@ function onListening() {
  */
 
 server.listen(port);
+// Prevents encoding error in dev
+if (process.env.NODE_ENV !== 'production') {
+  server.keepAliveTimeout = 0;
+}
 server.on('error', onError);
 server.on('listening', onListening);
 
