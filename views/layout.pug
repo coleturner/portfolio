@@ -7,10 +7,10 @@ html(lang="en")
     meta(content='width=device-width, initial-scale=1.0', name='viewport')
     meta(content=description, name='description')
 
-    //-
-      link(rel='stylesheet' type='text/css' href='/public/main.css')
+    if process.env.NODE_ENV === 'production'
+      link(rel='stylesheet' type='text/css' href=manifestAsset('main.css'))
 
   body(class=bodyClass)
     block content
 
-    script(type='text/javascript' src='/public/main.js')
+    script(type='text/javascript' src=manifestAsset('main.js'))

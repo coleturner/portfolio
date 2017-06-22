@@ -1,6 +1,6 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
-const pug = require('pug');
 const logger = require('morgan');
 const favicon = require('serve-favicon')
 
@@ -32,14 +32,8 @@ app.use(favicon(path.join(__dirname, 'assets/icons/', 'favicon.ico')))
 
 app.use((req, res, next) => {
   res.locals = {
-    renderReact: (component, props = {}) => {
-      const id = Math.random().toString(36).substr(2, 10);
-      return pug.render('div(class="react-component" id=id data-props=props data-react=true data-component=component)', {
-        component,
-        id,
-        props
-      });
-    }
+    manifestAsset: require('./util/manifestAsset'),
+    renderReact: require('./util/renderReact')
   };
 
   next();
@@ -50,16 +44,6 @@ app.get('/', indexRoute);
 app.get('/resume', resumeRoute);
 
 // error handler
-app.use((err, req, res, next) => {
-  console.warn('\x1b[41m\x1b[37mError\x1b[0m', err.message);
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.use(require('./routes/errorHandler'));
 
 module.exports = app;

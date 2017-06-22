@@ -1,5 +1,7 @@
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
@@ -25,6 +27,40 @@ const jsxRules = [
     }
   }];
 
+const baseCSSLoaders = [
+  {
+    loader: 'css-loader',
+    options: {
+      //root: encodeURIComponent(assetURL),
+      sourceMap: true
+    }
+  },
+  {
+    loader: 'resolve-url-loader',
+    options: {
+      sourceMap: true
+    }
+  },
+  {
+    loader: 'sass-loader',
+    options: {
+      sourceMap: true
+    }
+  },
+  {
+    loader: 'postcss-loader?sourceMap',
+    options: {
+      plugins: () => {
+        return [autoprefixer({ browsers: ['last 3 version', '> 5%'] })];
+      }
+    }
+  }
+];
+
+const cssLoaders = process.env.NODE_ENV === 'production'
+  ? ExtractTextPlugin.extract({ fallback: 'style-loader', use: baseCSSLoaders })
+  : [{ loader: 'style-loader', options: { sourceMap: true } }].concat(baseCSSLoaders);
+
 const config = {
   context: path.resolve(__dirname, '../', 'assets/'),
   entry: {
@@ -48,41 +84,7 @@ const config = {
       },
       {
         test: /\.(scss|css)$/i,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              //root: encodeURIComponent(assetURL),
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'resolve-url-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'postcss-loader?sourceMap',
-            options: {
-              plugins: () => {
-                return [autoprefixer({ browsers: ['last 3 version', '> 5%'] })];
-              }
-            }
-          }
-        ]
+        use: cssLoaders
     /*    use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -157,9 +159,13 @@ const config = {
     fs: 'empty'
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
     new CopyWebpackPlugin([
         { from: '**/*.{gif,png,jpe?g,svg,ico}' }
     ]),
+    new ManifestPlugin(),
     new ExtractTextPlugin('[name]' + (useHash ? '.[hash]' : '') + '.css'),
     new WriteFilePlugin({
       force: true,

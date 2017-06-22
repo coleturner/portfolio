@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const contentful = require('../contentful');
+const contentful = require('../util/contentful');
 
 
 router.get('/', (req, res, next) => {

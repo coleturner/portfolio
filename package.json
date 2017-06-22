@@ -34,7 +34,8 @@
     "react-select": "^1.0.0-rc.4",
     "ress": "^1.2.2",
     "serve-favicon": "^2.4.3",
-    "url-polyfill": "^1.0.3"
+    "url-polyfill": "^1.0.3",
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
