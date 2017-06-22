@@ -18,8 +18,8 @@ RUN npm rebuild node-sass
 EXPOSE $PORT
 CMD if [ ${NODE_ENV} = production ]; \
 	then \
-  /home/$USER/node_modules/.bin/webpack; \
-	/home/$USER/node_modules/.bin/pm2-docker start processes.json -i 0; \
+  yarn run webpack -- --config webpack/config.js; \
+	yarn run pm2-docker start processes.json -- -i 0; \
 	else \
-	/home/$USER/node_modules/.bin/pm2-dev start processes.json --ignore public; \
+	yarn run pm2-dev start processes.json -- --ignore public; \
 	fi
