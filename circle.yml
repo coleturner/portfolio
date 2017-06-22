@@ -1,0 +1,27 @@
+machine:
+  services:
+    - docker
+
+
+
+dependencies:
+  override:
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - docker info
+    - docker build --rm=false -t colept/portfolio:compiled .
+    - mkdir -p ~/docker; docker save colept/portfolio:compiled > ~/docker/image.tar
+
+deployment:
+  release:
+    tag: /release-.*/
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag colept/portfolio:compiled colept/portfolio:release-latest; docker push colept/portfolio:release-latest
+      - docker tag colept/portfolio:compiled colept/portfolio:release-latest; docker push colept/portfolio:$CIRCLE_TAG
+  demo:
+    tag: /demo-.*/
+    commands:
+      -docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag colept/portfolio:compiled colept/portfolio:release-latest; docker push colept/portfolio:demo-latest
+      - docker tag colept/portfolio:compiled colept/portfolio:demo-latest; docker push colept/portfolio:$CIRCLE_TAG
