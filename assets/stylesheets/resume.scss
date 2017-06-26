@@ -1,4 +1,5 @@
 #resume {
+  $breakingPoint: 700px;
 
   h1 {
     background: #eee;
@@ -14,14 +15,21 @@
   }
 
   .project-list {
-    border-left: 3px solid #eee;
     margin: 0 auto;
+
+    @media screen and (min-width: $breakingPoint) {
+      border-left: 3px solid #eee;
+    }
 
     .project {
       position: relative;
-      padding: 0 3em;
+      padding: 0;
       margin-bottom: 6em;
       font-size: 1.2em;
+
+      @media screen and (min-width: $breakingPoint) {
+        padding: 0 3em;
+      }
 
       h3 {
         font-size: 1.5em;
@@ -162,8 +170,8 @@
               vertical-align: middle;
               border-radius: 10em;
               background: #ccc;
-              width: 0.75em;
-              height: 0.75em;
+              width: 0.73em;
+              height: 0.73em;
               margin: 0 0.35em;
               padding: 1px;
               cursor: pointer;
@@ -196,8 +204,12 @@
         }
 
         .details {
-          padding: 1.5em 3em 3em;
+          padding: 1em;
           line-height: 1.4;
+
+          @media screen and (min-width: $breakingPoint) {
+            padding: 1.5em 3em 3em;
+          }
 
           h1, h2, h3, h4, h5, h6 {
             color: #333;
@@ -257,17 +269,20 @@
         vertical-align: baseline;
       }
 
-      &::before {
-        position: absolute;
-        left: -1px;
-        top: 1.5em;
-        width: 1em;
-        height: 1em;
-        content: " ";
-        border-radius: 10em;
-        background: #ccc;
-        border: 2px solid transparent;
-        transform: translate(-50%, -50%);
+
+      @media screen and (min-width: $breakingPoint) {
+        &::before {
+          position: absolute;
+          left: -1px;
+          top: 1.5em;
+          width: 1em;
+          height: 1em;
+          content: " ";
+          border-radius: 10em;
+          background: #ccc;
+          border: 2px solid transparent;
+          transform: translate(-50%, -50%);
+        }
       }
 
       &.active {

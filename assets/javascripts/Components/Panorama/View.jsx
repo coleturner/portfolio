@@ -109,8 +109,6 @@ export default class Panorama extends React.PureComponent {
       return;
     }
 
-    e.preventDefault();
-
     const touch = e.touches[0];
     if (!touch) {
       return;
