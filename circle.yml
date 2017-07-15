@@ -2,7 +2,9 @@ machine:
   services:
     - docker
 
-
+test:
+  pre:
+    - npm i -g jest
 
 dependencies:
   override:
