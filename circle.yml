@@ -4,7 +4,7 @@ machine:
 
 test:
   pre:
-    - npm i -g jest
+    - yarn install
 
 dependencies:
   override:
