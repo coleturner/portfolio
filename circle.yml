@@ -1,16 +1,26 @@
 machine:
+  node:
+    version: 7.7.2
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   services:
     - docker
 
 
+test:
+  override:
+    - yarn test
 
 dependencies:
   override:
+    - yarn
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
     - docker info
     - docker build --rm=false -t colept/portfolio:compiled .
     - mkdir -p ~/docker; docker save colept/portfolio:compiled > ~/docker/image.tar
+  cache_directories:
+    - ~/.cache/yarn
 
 deployment:
   release:
