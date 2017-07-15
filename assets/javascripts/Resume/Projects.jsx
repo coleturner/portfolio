@@ -101,7 +101,7 @@ export default class ResumeProjects extends React.Component {
         <H1>{title}</H1>
         <View className="container">
           <View className="project-list">
-            {sortedProjects.map(({ timelineImage, images, abstract, name, started, ended, tags, url }, index) => {
+            {sortedProjects.map(({ images, abstract, name, started, ended, tags, url }, index) => {
               const classes = [];
               if (!ended) {
                 classes.push('active');
@@ -117,7 +117,7 @@ export default class ResumeProjects extends React.Component {
                 classes.push('short-term');
               }
 
-              const imageArray = (images && images.length ? images : [timelineImage])
+              const imageArray = (images && images.length ? images : [])
                 .map(image => {
                   const width = isShortTerm ? 620 : 1000;
                   return {
