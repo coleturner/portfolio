@@ -23,20 +23,24 @@ export const ProjectHeading = (props, context) => {
 
 
 export const ProjectLink = (props) => {
-  const { className, href, title, children, target = '_blank' } = props;
+  const { className, href, title, children } = props;
+
+  let rel;
+  let target;
 
   try {
-    const url = new URL(href);
-    if (url.hostname === window.location.hostname) {
-      return (
-        <RouterLink className={classNames(className)} {...{ to: url.pathname, title, target }}>{children}</RouterLink>
-      );
+
+    const url = new URL(`${!href.match(/^https?/) ? 'https:' : ''}${href}`);
+    if (url.hostname !== window.location.hostname) {
+      rel = 'nofollow';
+      target = '_blank';
     }
+
     return (
-        <a className={classNames(className)} {...{ href, title, target, rel: 'nofollow' }}>{children}</a>
+        <a className={classNames(className)} {...{ href, title, target, rel }}>{children}</a>
     );
 
-  } catch (e) { }
+  } catch (e) {}
 
   return (
     <a className={classNames(className)} {...{ href, title, target, rel }}>{children}</a>
@@ -64,7 +68,7 @@ export default class ResumeProjects extends React.Component {
   }
 
   render() {
-    const { title, projects } = this.props;
+    const { title, body, projects } = this.props;
 
     const sortedProjects = projects.sort((a, b) => {
       if (a.default === true) {
@@ -98,7 +102,17 @@ export default class ResumeProjects extends React.Component {
 
     return (
       <View className="resume-projects">
-        <H1>{title}</H1>
+        <View className="title-container">
+          <H1>{title}</H1>
+          {body &&
+            <ReactMarkdown
+              className="markdown"
+              source={body}
+              renderers={{
+                'Link': ProjectLink
+              }} />
+          }
+        </View>
         <View className="container">
           <View className="project-list">
             {sortedProjects.map(({ images, abstract, name, started, ended, tags, url }, index) => {
