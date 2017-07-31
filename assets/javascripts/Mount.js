@@ -13,7 +13,9 @@ export default class Mount {
     for (let mount of mounts) {
       const resolve = './' + mount.getAttribute('data-component');
       const resolution = Mount.resolve(resolve);
-      const props = JSON.parse(mount.getAttribute('data-props')) || {};
+
+      const propChild = mount.querySelector('script[type=\'application/json\']');
+      const props = propChild ? JSON.parse(propChild.innerHTML) : {};
 
       render(createElement(resolution.default, props), mount);
     }
