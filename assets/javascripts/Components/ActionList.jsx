@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const ActionList = props => {
   const { children, className, ...otherProps } = props;
@@ -11,8 +12,8 @@ const ActionList = props => {
 };
 
 ActionList.propTypes = {
-  className: React.PropTypes.string,
-  children: React.PropTypes.node.isRequired
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired
 };
 
 export default ActionList;

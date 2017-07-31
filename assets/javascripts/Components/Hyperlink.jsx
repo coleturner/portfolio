@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const getHref = (props) => {
   if (!('path' in props) && !('href' in props)) {
@@ -46,9 +47,9 @@ export const Hyperlink = (props) => {
 };
 
 Hyperlink.propTypes = {
-  children: React.PropTypes.node,
-  href: React.PropTypes.string,
-  path: React.PropTypes.string
+  children: PropTypes.node,
+  href: PropTypes.string,
+  path: PropTypes.string
 };
 
 export default Hyperlink;

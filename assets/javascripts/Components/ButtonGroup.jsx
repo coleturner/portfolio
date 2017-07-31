@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const ButtonGroup = props => {
@@ -11,8 +12,8 @@ const ButtonGroup = props => {
 };
 
 ButtonGroup.propTypes = {
-  className: React.PropTypes.string,
-  children: React.PropTypes.node.isRequired
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired
 };
 
 export default ButtonGroup;

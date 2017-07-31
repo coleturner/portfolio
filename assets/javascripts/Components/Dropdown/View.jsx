@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import View from '../View';
@@ -7,12 +8,12 @@ import ifDocument from '../../ifDocument';
 
 export default class Dropdown extends React.PureComponent {
   static propTypes = {
-    activeClassName: React.PropTypes.any,
-    className: React.PropTypes.any,
-    inactiveClassName: React.PropTypes.any,
-    children: React.PropTypes.node.isRequired,
-    toggle: React.PropTypes.node.isRequired,
-    trigger: React.PropTypes.string.isRequired
+    activeClassName: PropTypes.any,
+    className: PropTypes.any,
+    inactiveClassName: PropTypes.any,
+    children: PropTypes.node.isRequired,
+    toggle: PropTypes.node.isRequired,
+    trigger: PropTypes.string.isRequired
   }
 
   static defaultProps = {

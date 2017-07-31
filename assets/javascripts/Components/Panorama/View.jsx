@@ -17,11 +17,6 @@ export default class Panorama extends React.PureComponent {
     src: PropTypes.string.isRequired
   };
 
-  constructor(...args) {
-    super(...args);
-    this.loadImage(this.props);
-  }
-
   state = {
     isPanning: false,
     objectPositionX: null,
@@ -30,6 +25,10 @@ export default class Panorama extends React.PureComponent {
     backgroundPositionY: null,
     scale: null,
     src: null
+  }
+
+  componentWillMount() {
+    this.loadImage(this.props);
   }
 
   componentDidMount() {

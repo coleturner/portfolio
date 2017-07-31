@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
@@ -12,8 +13,8 @@ export const Section = (props) => {
 };
 
 Section.propTypes = {
-  children: React.PropTypes.node,
-  className: React.PropTypes.any
+  children: PropTypes.node,
+  className: PropTypes.any
 };
 
 export default Section;

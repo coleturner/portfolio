@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const List = (props) => {
   const { children, items, ordered, ...otherProps } = props;
@@ -27,9 +28,9 @@ export const ListItem = (props) => {
 };
 
 List.propTypes = {
-  children: React.PropTypes.node,
-  ordered: React.PropTypes.bool,
-  items: React.PropTypes.array
+  children: PropTypes.node,
+  ordered: PropTypes.bool,
+  items: PropTypes.array
 };
 
 List.defaultProps = {

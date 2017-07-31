@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export const Icon = (props) => {
@@ -12,8 +13,8 @@ export const Icon = (props) => {
 };
 
 Icon.propTypes = {
-  className: React.PropTypes.any,
-  id: React.PropTypes.string.isRequired
+  className: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 Icon.LIST = {

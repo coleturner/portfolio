@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import View from './View';
 
@@ -15,8 +16,8 @@ const Flex = (props) => {
 };
 
 Flex.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  direction: React.PropTypes.string
+  children: PropTypes.node.isRequired,
+  direction: PropTypes.string
 };
 
 Flex.defaultProps = {

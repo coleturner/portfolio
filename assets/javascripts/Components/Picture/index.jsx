@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Image from '../Image';
 
 export default class Picture extends React.PureComponent {
 
   static propTypes = {
-    backupSrc: React.PropTypes.string,
-    onAlreadyLoaded: React.PropTypes.func,
-    onError: React.PropTypes.func,
-    src: React.PropTypes.string
+    backupSrc: PropTypes.string,
+    onAlreadyLoaded: PropTypes.func,
+    onError: PropTypes.func,
+    src: PropTypes.string
   };
 
   static defaultProps = {
