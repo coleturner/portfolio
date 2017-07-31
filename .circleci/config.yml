@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:7.7.2
+    services:
+      - docker
+    steps:
+      - checkout
+      - setup_remote_docker
+#      - run: echo 'export PATH=${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:$PATH' >> $BASH_ENV
+
+      - restore_cache:
+          keys: portfolio-{{ checksum "yarn.lock" }}
+      - run: yarn
+      
+      - run:
+        name: Docker Login
+        command: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+        name: Build Docker Image
+        command: docker build -f Dockerfile.prod --rm=false -t colept/portfolio:compiled .
+      - run:
+        name: Tag Docker Image
+        command: |
+          docker tag colept/portfolio:compiled colept/portfolio:release-latest
+          docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_TAG
+      - run: 
+        name: Push Docker Image
+        command: |
+          docker push colept/portfolio:release-latest
+          docker push colept/portfolio:$CIRCLE_TAG
+      - save_cache:
+          key: portfolio-{{ checksum "yarn.lock" }}
+          paths:
+            - "~/.cache/yarn"
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build:
+          filters:
+            tags:
+              ignore: /release-.*/
