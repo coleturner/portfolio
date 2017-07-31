@@ -141,7 +141,7 @@ button.transparent,
     box-shadow: none;
   }
 }
-
+/*
 .button-primary,
 .button.primary,
 button.primary {
@@ -166,8 +166,4 @@ button.danger {
   @include color-button($danger-color);
 }
 
-.button-purchase,
-.button.purchase,
-button.purchase {
-  @include color-button($shopping-color);
-}
+*/
