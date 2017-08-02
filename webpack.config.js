@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 
 const useHash = process.env.NODE_ENV === 'production' ? true : false;
+console.log("Using", process.env.NODE_ENV, "config");
 
 const jsxRules = [
   {

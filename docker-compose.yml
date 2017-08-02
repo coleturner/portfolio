@@ -5,8 +5,11 @@ services:
     build: .
     ports:
       - $PORT:$PORT
+    environment:
+      NODE_ENV: ${NODE_ENV}
     env_file:
       - '.env'
     volumes:
       - '.:/home/node'
       - ./public:/home/node/public
+      - /home/node/node_modules
