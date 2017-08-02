@@ -423,11 +423,12 @@ hr {
     display: block;
     width: 100%;
     align-self: stretch;
-    padding-bottom: 100%;
+    height: 20em;
     outline: none;
 
     &.feature {
       grid-area: feature;
+      height: 40em;
       .card h3 {
         font-size: 3em;
       }
@@ -435,7 +436,8 @@ hr {
 
     &.subfeature {
       grid-area: subfeature;
-      padding-bottom: 50%;
+      height: 15.85em;
+
       .card h3 {
         font-size: 2em;
       }
@@ -443,7 +445,7 @@ hr {
 
     &.leftside,
     &.rightside {
-      padding-bottom: 200%;
+      height: 36em;
       .card h3 {
         font-size: 1.75em;
       }
