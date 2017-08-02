@@ -64,41 +64,12 @@ export const getDomain = (url) => {
 export default class ResumeProjects extends React.Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string
   }
 
   render() {
     const { title, body, projects } = this.props;
-
-    const sortedProjects = projects.sort((a, b) => {
-      if (a.default === true) {
-        return -1;
-      } else if (b.default === true) {
-        return 1;
-      }
-
-      const Astart = moment(a.started);
-      const Aend = a.ended ? moment(a.ended) : null;
-
-      const Bstart = moment(b.started);
-      const Bend = b.ended ? moment(b.ended) : null;
-
-      if (!Bend && !Aend) {
-        if (Astart === Bstart) {
-          return 0;
-        }
-
-        return Astart > Bstart ? -1 : 1;
-      } else if (Aend && !Bend) {
-        return 1;
-      } else if (Bend && !Aend) {
-        return -1;
-      }
-
-      return Aend - Astart > Bend - Bstart ? -1 : 1;
-    });
-
-    const shortTermDays = 300;
 
     return (
       <View className="resume-projects">
@@ -115,7 +86,7 @@ export default class ResumeProjects extends React.Component {
         </View>
         <View className="container">
           <View className="project-list">
-            {sortedProjects.map(({ images, abstract, name, started, ended, tags, url }, index) => {
+            {projects.map(({ images, abstract, name, started, ended, emphasize, tags, url }, index) => {
               const classes = [];
               if (!ended) {
                 classes.push('active');
@@ -125,15 +96,15 @@ export default class ResumeProjects extends React.Component {
               const endTime = ended && moment(ended);
               const startTimestamp = startTime && startTime.format('MMMM YYYY');
               const endTimestamp = endTime && endTime.format('MMMM YYYY');
-              const isShortTerm = endTime && (endTime - startTime) / 1000 / 86400 <= shortTermDays;
 
-              if (isShortTerm) {
+
+              if (!emphasize) {
                 classes.push('short-term');
               }
 
               const imageArray = (images && images.length ? images : [])
                 .map(image => {
-                  const width = isShortTerm ? 620 : 1000;
+                  const width = !emphasize ? 620 : 1000;
                   return {
                     src: `${image.file.url}?w=${width}`,
                     preloadSrc: `${image.file.url}?w=30&h=30`,
