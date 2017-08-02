@@ -219,8 +219,7 @@ hr {
   }
 }
 
-.cover-picture,
-.panorama {
+.cover-picture  {
   img {
     object-fit: cover;
     object-position: center center;
@@ -255,8 +254,14 @@ hr {
     overflow: hidden;
 
     img {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      max-width: none;
+      width: 300vw;
       transition: all 150ms ease;
-      transform: scale(1.25);
+      transform: translateX(-50%) scale(1.25);
       opacity: 0;
       animation: fadein 300ms;
       animation-fill-mode: forwards;

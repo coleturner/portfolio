@@ -2,10 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import View from '../View';
-
-export const useBGImage =
-  ('objectFit' in document.documentElement.style) !== true;
 
 export default class Panorama extends React.PureComponent {
 
@@ -19,12 +15,9 @@ export default class Panorama extends React.PureComponent {
 
   state = {
     isPanning: false,
-    objectPositionX: null,
-    objectPositionY: null,
-    backgroundPositionX: null,
-    backgroundPositionY: null,
-    scale: null,
-    src: null
+    x: null,
+    src: null,
+    anchor: null
   }
 
   componentWillMount() {
@@ -83,23 +76,11 @@ export default class Panorama extends React.PureComponent {
   }
 
   getPositionProperties(x, y) {
-    const normalX = Math.max(1, Math.min(99, x)) + '%';
-
-    const anchor = 50;
-    const scale = Math.min(1.25,
-      Math.max(1, 1.5 * (anchor - ((Math.max(anchor, x) - Math.min(anchor, x)) / 4)) / anchor)
-    );
-
-    if (useBGImage) {
-      return {
-        backgroundPositionX: normalX,
-        scale
-      };
-    }
+    const normalX = Math.min(-20, Math.max(-75, -1 * x)) + '%';
 
     return {
-      objectPositionX: normalX,
-      scale
+      x: normalX,
+      anchor: x + '%'
     };
   }
 
@@ -136,8 +117,7 @@ export default class Panorama extends React.PureComponent {
     this.resetTimeout = setTimeout(() => {
       this.setState({
         backgroundPositionX: null,
-        objectPositionX: null,
-        scale: null
+        objectPositionX: null
       });
     }, 10 * 1000);
   }
@@ -162,40 +142,26 @@ export default class Panorama extends React.PureComponent {
   render()  {
     const { children, className } = this.props;
     const {
-      objectPositionX,
-      backgroundPositionX,
-      scale
+      anchor,
+      x
     } = this.state;
 
     const src = this.state.src || this.props.preloadSrc || this.props.src;
 
-    const bgStyle = useBGImage
-      ? { backgroundPositionX }
-      : {};
-
-    const imgStyle =
-      useBGImage ? null :
-      { objectPosition: objectPositionX ? `${objectPositionX} 50%` : '' };
-
-    if (useBGImage) {
-      bgStyle.backgroundImage = 'url(' + src + ')';
-    }
-
-    if (scale) {
-      imgStyle.transform = `scale(${scale})`;
-    }
+    const imgStyle = {
+      transform: `translateX(${x})`
+    };
 
     const anchorStyle = {
-      left: useBGImage ? backgroundPositionX : objectPositionX
+      left: anchor
     };
 
     return (
       <div
         ref={this.onReference}
-        className={classNames(['panorama', className])}
-        style={bgStyle}>
-        {!useBGImage && src === this.props.preloadSrc && <img className="preload" src={src} style={imgStyle} />}
-        {!useBGImage && src !== this.props.preloadSrc && <img src={src} style={imgStyle} />}
+        className={classNames(['panorama', className])}>
+        {src === this.props.preloadSrc && <img className="preload" src={src} style={imgStyle} />}
+        {src !== this.props.preloadSrc && <img src={src} style={imgStyle} />}
         {children}
         <span
           className="anchor"
