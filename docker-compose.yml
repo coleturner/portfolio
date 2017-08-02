@@ -10,3 +10,4 @@ services:
     volumes:
       - '.:/home/node'
       - ./public:/home/node/public
+      - /home/node/node_modules
