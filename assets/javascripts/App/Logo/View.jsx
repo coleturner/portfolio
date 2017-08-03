@@ -21,7 +21,6 @@ export default class Logo extends React.PureComponent {
 
     const [moveX, moveY] = [(e.clientX / -100), (e.clientY / -120)];
     this.node.style.textShadow = `${-moveX/2}px ${-moveY}px rgba(0, 0, 0, 0.1)`;
-    this.node.style.transform = `translate(${-moveX / 4}px, 0)`;
   }
 
   onReference = (node) => {
