@@ -10,8 +10,13 @@ export default class Panorama extends React.PureComponent {
     children: PropTypes.node,
     pannable: PropTypes.bool,
     preloadSrc: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired
+    src: PropTypes.string.isRequired,
+    maxScale: PropTypes.number.isRequired,
   };
+
+  static defaultProps = {
+    maxScale: 1.25
+  }
 
   state = {
     isPanning: false,
@@ -77,10 +82,16 @@ export default class Panorama extends React.PureComponent {
 
   getPositionProperties(x, y) {
     const normalX = Math.min(-20, Math.max(-75, -1 * x)) + '%';
+    const median = 50;
+
+    const scale = Math.min(this.props.maxScale,
+      Math.max(1, this.props.maxScale * (median - ((Math.max(median, x) - Math.min(median, x)) / 2)) / median)		
+    );
 
     return {
       x: normalX,
-      anchor: x + '%'
+      anchor: x + '%',
+      scale,
     };
   }
 
@@ -116,8 +127,9 @@ export default class Panorama extends React.PureComponent {
 
     this.resetTimeout = setTimeout(() => {
       this.setState({
-        backgroundPositionX: null,
-        objectPositionX: null
+        x: '-50%',
+        scale: this.props.maxScale,
+        anchor: null
       });
     }, 10 * 1000);
   }
@@ -143,13 +155,14 @@ export default class Panorama extends React.PureComponent {
     const { children, className } = this.props;
     const {
       anchor,
-      x
+      x,
+      scale
     } = this.state;
 
     const src = this.state.src || this.props.preloadSrc || this.props.src;
 
     const imgStyle = {
-      transform: `translateX(${x})`
+      transform: `translateY(-50%) translateX(${x}) scale(${scale})`
     };
 
     const anchorStyle = {

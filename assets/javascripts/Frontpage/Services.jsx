@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 
 import Flex from '../Components/Flex';
@@ -14,12 +15,19 @@ export default class FrontpageServices extends React.Component {
   }
 
   render() {
-    const { title, services } = this.props;
+    const { title, body, services } = this.props;
 
     return (
       <View className="services">
         <View className="container">
           <H2>{title}</H2>
+          
+          {body &&
+            <ReactMarkdown
+              className="markdown"
+              source={body}  />
+          }
+
           <Flex className="service-list">
             {services.map(({ icon, name, description }, index) => {
               return (
