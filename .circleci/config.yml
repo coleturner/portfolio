@@ -12,13 +12,11 @@ jobs:
       - restore_cache:
           key: portfolio-{{ checksum "yarn.lock" }}
       - run:
-        name: Install Packages
-        command: yarn
-
+          name: Install Packages
+          command: yarn
       - run:
-        name: Run Tests
-        command: yarn run test
-
+          name: Run Tests
+          command: yarn run test
       - run:
           name: Docker Login
           command: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
