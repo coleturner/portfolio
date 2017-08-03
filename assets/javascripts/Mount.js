@@ -14,7 +14,7 @@ export default class Mount {
       const resolve = './' + mount.getAttribute('data-component');
       const resolution = Mount.resolve(resolve);
 
-      const propChild = mount.querySelector('script[type=\'application/json\']');
+      const propChild = document.getElementById('props-' + mount.id);
       const props = propChild ? JSON.parse(propChild.innerHTML) : {};
 
       render(createElement(resolution.default, props), mount);
@@ -33,6 +33,7 @@ export default class Mount {
 assignResolver();
 
 if (module.hot) {
+  module.hot.accept();
   module.hot.accept(resolver.id, () => {
     assignResolver();
     Mount.init();
