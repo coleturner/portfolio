@@ -9,8 +9,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-#      - run: echo 'export PATH=${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:$PATH' >> $BASH_ENV
-
       - restore_cache:
           key: portfolio-{{ checksum "yarn.lock" }}
       - run:
