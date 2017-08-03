@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:7.7.2
+      - image: circleci/node:7.7
     services:
       - docker
     steps:
@@ -11,7 +11,7 @@ jobs:
 #      - run: echo 'export PATH=${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:$PATH' >> $BASH_ENV
 
       - restore_cache:
-          keys: portfolio-{{ checksum "yarn.lock" }}
+          key: portfolio-{{ checksum "yarn.lock" }}
       - run: yarn
 
       - run:
