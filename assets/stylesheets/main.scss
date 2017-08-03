@@ -395,29 +395,34 @@ hr {
   }
 
   .project-list {
-    display: grid;
-    grid-column-gap: 2px;
-    grid-row-gap: 2px;
-    justify-items: center;
-    align-items: center;
-    grid-auto-flow: row;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas:
-      "feature feature"
-      "leftside rightside"
-      "subfeature subfeature"
-      "standard1 standard2";
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-    @media screen and (min-width: 700px) {
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(3, 1fr);
+    @supports (display: grid) {
+      display: grid;
+      grid-column-gap: 2px;
+      grid-row-gap: 2px;
+      justify-items: center;
+      align-items: center;
+      grid-auto-flow: row;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       grid-template-areas:
-        "standard1 feature feature standard2"
-        "leftside feature feature rightside"
-        "leftside subfeature subfeature rightside";
-    }
+        "feature feature"
+        "leftside rightside"
+        "subfeature subfeature"
+        "standard1 standard2";
 
+      @media screen and (min-width: 700px) {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas:
+          "standard1 feature feature standard2"
+          "leftside feature feature rightside"
+          "leftside subfeature subfeature rightside";
+      }
+    }
   }
 
   .glance {
@@ -428,12 +433,17 @@ hr {
     display: block;
     width: 100%;
     align-self: stretch;
-    height: 20em;
     outline: none;
+    min-height: 21em;
+
+    @supports not (display: grid) {
+      flex-basis: 30%;
+      flex-basis: calc(100% / 3 - 4px);
+      margin: 2px;
+    }
 
     &.feature {
       grid-area: feature;
-      height: 40em;
       .card h3 {
         font-size: 3em;
       }
@@ -441,7 +451,6 @@ hr {
 
     &.subfeature {
       grid-area: subfeature;
-      height: 15.85em;
 
       .card h3 {
         font-size: 2em;
@@ -450,7 +459,6 @@ hr {
 
     &.leftside,
     &.rightside {
-      height: 36em;
       .card h3 {
         font-size: 1.75em;
       }
