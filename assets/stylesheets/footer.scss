@@ -101,6 +101,14 @@ footer {
     z-index: 2;
     transform: translateX(-50%);
     white-space: nowrap;
+    transition: transform 150ms ease-out;
+    will-change: transform;   
+
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+      transform: translateX(-50%) scale(1.1);
+    }
 
     svg.icon {
       margin-right: 0.5em;
