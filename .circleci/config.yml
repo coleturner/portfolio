@@ -18,7 +18,7 @@ jobs:
           command: yarn run test
       - run:
           name: Docker Login
-          command: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build Docker Image
           command: docker build -f Dockerfile.prod --rm=false -t colept/portfolio:compiled .
