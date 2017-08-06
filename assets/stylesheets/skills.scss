@@ -81,6 +81,7 @@
 
       .skill {
         max-width: calc((100% / 2) - 2em);
+        flex-basis: calc((100% / 2) - 2em);
       }
     }
   }
