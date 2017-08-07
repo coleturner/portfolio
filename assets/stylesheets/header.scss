@@ -101,9 +101,15 @@
       *display: inline;
       color: inherit;
       letter-spacing: 1px;
+        border-bottom: 2px solid transparent;
 
       &:hover {
         opacity: 0.85;
+      }
+
+      &.active {
+        font-weight: 600;
+        border-bottom: 2px solid $primary-color;
       }
     }
   }

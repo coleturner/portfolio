@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const getHref = (props) => {
   if (!('path' in props) && !('href' in props)) {
@@ -23,7 +24,7 @@ const getHref = (props) => {
 };
 
 export const Hyperlink = (props) => {
-  const { children, path, ...otherProps } = props;
+  const { activeClassName, children, path, ...otherProps } = props;
 
   const href = getHref(props);
 
@@ -34,9 +35,11 @@ export const Hyperlink = (props) => {
         otherProps.target = '_blank';
         otherProps.rel = 'nofollow';
       }
-    } catch (e) {
 
-    }
+      if (!!activeClassName && window.location.pathname === url.pathname) {
+        otherProps.className = classNames(activeClassName, otherProps.className);
+      }
+    } catch (e) {}
   }
 
   return (
@@ -47,6 +50,7 @@ export const Hyperlink = (props) => {
 };
 
 Hyperlink.propTypes = {
+  activeClassName: PropTypes.string,
   children: PropTypes.node,
   href: PropTypes.string,
   path: PropTypes.string

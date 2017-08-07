@@ -65,9 +65,24 @@ export default class HeaderView extends React.PureComponent {
             {this.logo()}
             <nav id="navigation">
               <View className="navigation-main">
-                <Hyperlink path="/">Portfolio</Hyperlink>
-                <Hyperlink path="resume">Resume</Hyperlink>
-                <Hyperlink href="https://medium.com/@colecodes">Blog</Hyperlink>
+                <Hyperlink
+                  path="/"
+                  activeClassName="active"
+                >
+                  Portfolio
+                </Hyperlink>
+                <Hyperlink
+                  path="resume"
+                  activeClassName="active"
+                >
+                  Resume
+                </Hyperlink>
+                <Hyperlink
+                  href="https://medium.com/@colecodes"
+                  activeClassName="active"
+                >
+                  Blog
+                </Hyperlink>
               </View>
             </nav>
           </View>
