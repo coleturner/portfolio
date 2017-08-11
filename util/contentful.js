@@ -34,6 +34,14 @@ client.normalize = async (props) => {
     typeof props === 'object' &&
     'sys' in props &&
     'type' in props.sys &&
+    props.sys.type === 'Array'
+  ) {
+    return await Promise.all(props.items.map(async (item) => await client.normalize(item)));
+  } else if (
+    props &&
+    typeof props === 'object' &&
+    'sys' in props &&
+    'type' in props.sys &&
     props.sys.type === 'Link'
   ) {
     const resolved = await resolveLink(props);
@@ -50,6 +58,28 @@ client.normalize = async (props) => {
   }, {});
 
   return result;
-}
+};
+
+client.getAppMeta = async (url) => {
+  try {
+    const meta = await client.getEntries({
+      content_type: 'meta',
+      'fields.page[in]': `any,${url}`,
+      include: 10
+    });
+
+    const normalized = await client.normalize(meta);
+
+    const hash = normalized.map(data => {
+      delete data.page;
+      delete data.$type;
+      return data;
+    });
+
+    return hash;
+  } catch (e) {
+    return null;
+  }
+};
 
 module.exports = client;

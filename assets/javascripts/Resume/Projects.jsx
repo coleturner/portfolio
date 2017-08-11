@@ -68,6 +68,15 @@ export default class ResumeProjects extends React.Component {
     body: PropTypes.string
   }
 
+  componentDidMount() {
+    if (window.location.hash.indexOf('#project-') !== -1) {
+      const el = document.getElementById(window.location.hash.substring(1));
+      setTimeout(() => {
+        window.scrollTop = document.body.scrollTop = el.offsetTop - 80;
+      }, 20);
+    }
+  }
+
   render() {
     const { title, body, projects } = this.props;
 
@@ -122,6 +131,7 @@ export default class ResumeProjects extends React.Component {
 
               return (
                 <View
+                  id={`project-${name.replace(/[^a-zA-Z0-9]+/g, '').toLowerCase()}`}
                   className={classNames('project', classes)}
                   key={index}>
                   <H3>{name}</H3>

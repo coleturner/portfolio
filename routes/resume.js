@@ -3,26 +3,30 @@ const router = express.Router();
 const contentful = require('../util/contentful');
 
 
-router.get('/resume', (req, res, next) => {
+router.get('/resume', async (req, res, next) => {
 
-  contentful.getEntries({
-    content_type: 'page',
-    'fields.url': '/resume',
-    include: 10
-  })
-  .then(async function resolve(entries) {
+  try {
+    const metaData = await contentful.getAppMeta('resume');
+    const entries = await contentful.getEntries({
+      content_type: 'page',
+      'fields.url': '/resume',
+      include: 10
+    });
+
     const page = entries.items[0];
     const fields = page.fields;
     const contents = await contentful.normalize(fields.contents);
 
     res.render('resume', {
+      metaData,
       contents,
       bodyClass: 'resume',
       title: fields.title,
       description: fields.seoDescription
     });
-  }).catch(next);
-
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;

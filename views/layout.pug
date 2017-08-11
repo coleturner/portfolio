@@ -7,6 +7,10 @@ html(lang="en")
     meta(content='width=device-width, initial-scale=1.0', name='viewport')
     meta(content=description, name='description')
 
+    if metaData && metaData.length
+      each data in metaData
+        meta&attributes(data)
+
     if process.env.NODE_ENV === 'production'
       link(rel='stylesheet' type='text/css' href=manifestAsset('main.css'))
 

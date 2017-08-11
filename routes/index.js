@@ -3,25 +3,29 @@ const router = express.Router();
 const contentful = require('../util/contentful');
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  try {
+    const metaData = await contentful.getAppMeta('home');
+    const entries = await contentful.getEntries({
+      content_type: 'page',
+      'fields.url': '/',
+      include: 10
+    });
 
-  contentful.getEntries({
-    content_type: 'page',
-    'fields.url': '/',
-    include: 10
-  })
-  .then(async function resolve(entries) {
     const page = entries.items[0];
     const fields = page.fields;
     const contents = await contentful.normalize(fields.contents);
 
     res.render('index', {
+      metaData,
       contents,
       bodyClass: 'index',
       title: fields.title,
       description: fields.seoDescription
     });
-  }).catch(next);
+  } catch (e) {
+    next(e);
+  }
 
 });
 
