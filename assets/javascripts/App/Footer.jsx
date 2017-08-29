@@ -14,10 +14,6 @@ export const Footer = () => {
 			<View className="container">
         <View className="portrait">
           <Picture src={PORTRAIT_IMAGE} />
-          <Hyperlink href="http://www.linkedin.com/in/colept" className="availability">
-            <Icon id={Icon.LIST.CHECKMARK} />
-            Available For Hire
-          </Hyperlink>
         </View>
         <H4>Here is where you reach me</H4>
         <nav>
