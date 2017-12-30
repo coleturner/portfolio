@@ -23,6 +23,7 @@ Icon.LIST = {
   DATABASE: require('../../icons/database.svg'),
   EDUCATION: require('../../icons/education.svg'),
   GITHUB: require('../../icons/github.svg'),
+  GRAPHQL: require('../../icons/graphql.svg'),
   JAVASCRIPT: require('../../icons/javascript.svg'),
   LINK: require('../../icons/link.svg'),
   LINKED_IN: require('../../icons/linked_in.svg'),
