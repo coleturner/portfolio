@@ -15,7 +15,7 @@ export const Footer = () => {
         <View className="portrait">
           <Picture src={PORTRAIT_IMAGE} />
         </View>
-        <H4>Here is where you reach me</H4>
+        <H4>Connect with me via</H4>
         <nav>
           <Hyperlink href="https://medium.com/@colecodes">
             <Icon id={Icon.LIST.MEDIUM} /> Blog
