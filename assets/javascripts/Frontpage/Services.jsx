@@ -28,19 +28,21 @@ export default class FrontpageServices extends React.Component {
               source={body}  />
           }
 
-          <Flex className="service-list">
-            {services.map(({ icon, name, description }, index) => {
-              return (
-                <View className="service" key={index}>
-                  {icon && <Icon id={icon} />}
-                  <H3>{name}</H3>
-                  <Paragraph>
-                    {description}
-                  </Paragraph>
-                </View>
-              );
-            })}
-          </Flex>
+          {services && services.length && (
+            <Flex className="service-list">
+              {services.map(({ icon, name, description }, index) => {
+                return (
+                  <View className="service" key={index}>
+                    {icon && <Icon id={icon} />}
+                    <H3>{name}</H3>
+                    <Paragraph>
+                      {description}
+                    </Paragraph>
+                  </View>
+                );
+              })}
+            </Flex>
+          )}
 
         </View>
       </View>

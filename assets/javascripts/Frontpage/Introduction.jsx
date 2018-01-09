@@ -2,7 +2,6 @@ import React from 'react';
 
 import Hyperlink from '../Components/Hyperlink';
 import Panorama from '../Components/Panorama';
-import Paragraph from '../Components/Paragraph';
 import View from '../Components/View';
 
 export default class FrontpageIntroduction extends React.Component {
@@ -38,7 +37,6 @@ export default class FrontpageIntroduction extends React.Component {
           <p  dangerouslySetInnerHTML={{ __html: text }} />
 
           <View className="actions">
-            <Hyperlink className="button" href="mailto:turner.cole@gmail.com?subject=You're Hired!">Hire Me</Hyperlink>
             <Hyperlink className="button" path="resume">Resumé</Hyperlink>
           </View>
 
