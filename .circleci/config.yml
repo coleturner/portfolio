@@ -26,12 +26,26 @@ jobs:
           name: Tag Images
           command: |
             docker tag colept/portfolio:compiled colept/portfolio:release-latest
-            docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_TAG
+            if $CIRCLE_TAG;
+            then
+              docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_TAG
+            fi
+            if $CIRCLE_BRANCH;
+            then
+              docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_BRANCH
+            fi
       - run: 
           name: Push Images
           command: |
             docker push colept/portfolio:release-latest
-            docker push colept/portfolio:$CIRCLE_TAG
+            if $CIRCLE_TAG;
+            then
+              docker push colept/portfolio:$CIRCLE_TAG
+            fi
+            if $CIRCLE_BRANCH;
+            then
+              docker push colept/portfolio:$CIRCLE_BRANCH
+            fi
       - save_cache:
           key: portfolio-{{ checksum "yarn.lock" }}
           paths:
