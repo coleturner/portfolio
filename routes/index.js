@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
-const contentful = require('../util/contentful');
+const { Router: expressRouter } = express;
+const router = expressRouter();
 
+const contentful = require('../util/contentful');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -26,7 +27,6 @@ router.get('/', async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-
 });
 
 module.exports = router;

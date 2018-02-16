@@ -25,11 +25,8 @@ export default class Panorama extends React.PureComponent {
     anchor: null
   }
 
-  componentWillMount() {
-    this.loadImage(this.props);
-  }
-
   componentDidMount() {
+    this.loadImage(this.props);
     document.addEventListener('touchstart', this.activatePanning, true);
     document.addEventListener('touchmove', this.onTouchMove, true);
     document.addEventListener('touchend', this.onTouchEnd, true);

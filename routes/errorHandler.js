@@ -1,4 +1,4 @@
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res) => {
   console.warn('\x1b[41m\x1b[37mError\x1b[0m', err.message);
 
   // set locals, only providing error in development

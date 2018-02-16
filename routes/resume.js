@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
+const { Router: expressRouter } = express;
+
+const router = expressRouter();
 const contentful = require('../util/contentful');
 
-
 router.get('/resume', async (req, res, next) => {
-
   try {
     const metaData = await contentful.getAppMeta('resume');
     const entries = await contentful.getEntries({

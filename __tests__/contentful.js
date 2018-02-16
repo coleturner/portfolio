@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 it('has valid credentials', () => {
   expect(process.env.CONTENTFUL_SPACE_ID).toBeDefined();
@@ -11,6 +11,9 @@ it('has valid credentials', () => {
   });
 
   client.getSpace().then(space => {
-    expect(space.sys).toBe({ type: 'Space', id: process.env.CONTENTFUL_SPACE_ID })
+    expect(space.sys).toBe({
+      type: 'Space',
+      id: process.env.CONTENTFUL_SPACE_ID
+    });
   });
 });

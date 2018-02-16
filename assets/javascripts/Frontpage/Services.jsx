@@ -10,9 +10,10 @@ import View from '../Components/View';
 
 export default class FrontpageServices extends React.Component {
   static propTypes = {
+    body: PropTypes.string,
     services: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired
-  }
+  };
 
   render() {
     const { title, body, services } = this.props;
@@ -21,29 +22,23 @@ export default class FrontpageServices extends React.Component {
       <View className="services">
         <View className="container">
           <H2>{title}</H2>
-          
-          {body &&
-            <ReactMarkdown
-              className="markdown"
-              source={body}  />
-          }
 
-          {services && services.length && (
-            <Flex className="service-list">
-              {services.map(({ icon, name, description }, index) => {
-                return (
-                  <View className="service" key={index}>
-                    {icon && <Icon id={icon} />}
-                    <H3>{name}</H3>
-                    <Paragraph>
-                      {description}
-                    </Paragraph>
-                  </View>
-                );
-              })}
-            </Flex>
-          )}
+          {body && <ReactMarkdown className="markdown" source={body} />}
 
+          {services &&
+            services.length && (
+              <Flex className="service-list">
+                {services.map(({ icon, name, description }, index) => {
+                  return (
+                    <View className="service" key={index}>
+                      {icon && <Icon id={icon} />}
+                      <H3>{name}</H3>
+                      <Paragraph>{description}</Paragraph>
+                    </View>
+                  );
+                })}
+              </Flex>
+            )}
         </View>
       </View>
     );

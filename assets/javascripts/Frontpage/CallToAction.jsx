@@ -6,7 +6,7 @@ import Hyperlink from '../Components/Hyperlink';
 import View from '../Components/View';
 
 export default class FrontpageCallToAction extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.maxHeight = screen.height || window.innerHeight;
   }
 

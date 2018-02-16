@@ -6,7 +6,7 @@ export default class Logo extends React.PureComponent {
     animateLogo: PropTypes.bool.isRequired
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener('mousemove', this.onMouseMove);
   }
 

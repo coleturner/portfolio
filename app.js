@@ -1,8 +1,7 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
 const logger = require('morgan');
-const favicon = require('serve-favicon')
+const favicon = require('serve-favicon');
 
 // App
 const app = express();
@@ -14,21 +13,25 @@ if (process.env.NODE_ENV !== 'production') {
   const webpack = require('webpack');
   const webpackConfig = require('./webpack.config');
   const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler, {
-    log: console.log
-  }));
+  app.use(
+    webpackDevMiddleware(compiler, {
+      log: console.log // eslint-disable-line
+    })
+  );
 
-  app.use(webpackHotMiddleware(compiler, {
-    log: console.log,
-    reload: true
-  }));
+  app.use(
+    webpackHotMiddleware(compiler, {
+      log: console.log,  // eslint-disable-line
+      reload: true
+    })
+  );
 }
 
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(logger('dev'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'assets/icons/', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, 'assets/icons/', 'favicon.ico')));
 
 app.use((req, res, next) => {
   res.locals = {
@@ -45,5 +48,7 @@ app.get('/resume', resumeRoute);
 
 // error handler
 app.use(require('./routes/errorHandler'));
+
+console.log(`Now running @ http://localhost:${process.env.PORT}`); // eslint-disable-line
 
 module.exports = app;

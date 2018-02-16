@@ -22,8 +22,10 @@ export default class Gallery extends React.PureComponent {
   state = { slideIndex: 0, srcLoaded: [], keepPreloading: false }
   srcTouched = []
 
-  componentWillMount() {
+  componentDidMount() {
+    // Preload the first and next items
     this.preload(this.props.images[0]);
+    this.preload(this.props.images[1]);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,12 +33,12 @@ export default class Gallery extends React.PureComponent {
   }
 
   toPrevious = () => {
-    this.setState(this.stateToPrevious, () => {
-      const previousIndex = this.state.slideIndex - 1;
-      if (this.state.keepPreloading && previousIndex > 0) {
-        this.preload(this.props.images[previousIndex]);
-      }
-    });
+    this.setState(this.stateToPrevious, this.preloadPrevious);
+  }
+
+  preloadPrevious = () => {
+    const prevImage = this.props.images[this.state.slideIndex - 1];
+    return prevImage && this.preload(prevImage);
   }
 
   stateToPrevious = (state) => {
@@ -46,12 +48,12 @@ export default class Gallery extends React.PureComponent {
   };
 
   toNext = () => {
-    this.setState(this.stateToNext, () => {
-      const previousIndex = this.state.slideIndex + 1;
-      if (this.state.keepPreloading && previousIndex > 0) {
-        this.preload(this.props.images[previousIndex]);
-      }
-    });
+    this.setState(this.stateToNext, () => this.preloadNext());
+  }
+
+  preloadNext = () => {
+    const nextImage = this.props.images[this.state.slideIndex + 1];
+    return nextImage && this.preload(nextImage);
   }
 
   stateToNext = (state) => {
@@ -90,36 +92,6 @@ export default class Gallery extends React.PureComponent {
     }
   }
 
-  preloadPrevious = () => {
-    const image = this.props.images[this.state.slideIndex - 1];
-
-    this.setState({
-      keepPreloading: true
-    });
-
-    if (image) {
-      this.preload(image);
-    }
-  }
-
-  preloadNext = () => {
-    const image = this.props.images[this.state.slideIndex + 1];
-
-    this.setState({
-      keepPreloading: true
-    });
-
-    if (image) {
-      this.preload(image);
-    }
-  }
-
-  stopPreloading = () => {
-    this.setState({
-      keepPreloading: false
-    });
-  }
-
   isSourceLoaded(src) {
     return this.state.srcLoaded.indexOf(src) !== -1;
   }
@@ -140,15 +112,9 @@ export default class Gallery extends React.PureComponent {
     return (
       <View className="gallery">
         <View
-          onMouseOver={this.preloadPrevious}
-          onMouseLeave={this.stopPreloading}
-          onTouchStart={this.preloadPreviou}
           onClick={this.toPrevious}
           className={`previous${this.state.slideIndex <= 0 ? ' disabled' : ''}`} />
         <View
-          onMouseOver={this.preloadNext}
-          onMouseLeave={this.stopPreloading}
-          onTouchStart={this.preloadNext}
           onClick={this.toNext}
           className={`next${this.state.slideIndex >= this.props.images.length - 1 ? ' disabled' : ''}`}
         />

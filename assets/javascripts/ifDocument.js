@@ -1,5 +1,5 @@
-export default (callback) => {
-  if (typeof document != 'undefined') {
+export default callback => {
+  if (typeof document !== 'undefined') {
     callback();
   }
 };

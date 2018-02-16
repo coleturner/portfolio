@@ -12,7 +12,7 @@ export default class HeaderView extends React.PureComponent {
 
   state = { sticky: false }
 
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener('scroll', this.onScroll);
   }
 

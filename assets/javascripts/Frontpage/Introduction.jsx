@@ -5,7 +5,7 @@ import Panorama from '../Components/Panorama';
 import View from '../Components/View';
 
 export default class FrontpageIntroduction extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.maxHeight = screen.height || window.innerHeight;
     document.addEventListener('mousemove', this.onMouseMove);
   }
