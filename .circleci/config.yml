@@ -26,11 +26,11 @@ jobs:
           name: Tag Images
           command: |
             docker tag colept/portfolio:compiled colept/portfolio:release-latest
-            if $CIRCLE_TAG;
+            if [[ $CIRCLE_TAG ]];
             then
               docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_TAG
             fi
-            if $CIRCLE_BRANCH;
+            if [[ $CIRCLE_BRANCH ]];
             then
               docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_BRANCH
             fi
@@ -38,11 +38,11 @@ jobs:
           name: Push Images
           command: |
             docker push colept/portfolio:release-latest
-            if $CIRCLE_TAG;
+            if [[ $CIRCLE_TAG ]];
             then
               docker push colept/portfolio:$CIRCLE_TAG
             fi
-            if $CIRCLE_BRANCH;
+            if [[ $CIRCLE_BRANCH ]];
             then
               docker push colept/portfolio:$CIRCLE_BRANCH
             fi
