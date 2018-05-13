@@ -75,7 +75,7 @@ export default class HeaderView extends React.PureComponent {
                   path="resume"
                   activeClassName="active"
                 >
-                  Resume
+                  Résumé
                 </Hyperlink>
                 <Hyperlink
                   href="https://medium.com/@colecodes"
