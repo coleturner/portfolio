@@ -29,7 +29,7 @@ export const Footer = () => {
           <Hyperlink href="http://www.linkedin.com/in/colept">
             <Icon id={Icon.LIST.LINKED_IN} /> LinkedIn
           </Hyperlink>
-          <Hyperlink href="https://github.com/colepatrickturner">
+          <Hyperlink href="https://github.com/coleturner">
             <Icon id={Icon.LIST.GITHUB} /> Github
           </Hyperlink>
         </nav>
