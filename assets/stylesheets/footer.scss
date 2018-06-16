@@ -18,7 +18,7 @@
 footer {
   $breakingPoint: 800px;
 
-  background: #333 url(../images/footer-map.jpg) no-repeat right center;
+  background: #333 url(../images/footer-map.jpg) no-repeat center center;
   background-size: cover;
 
 
@@ -27,7 +27,7 @@ footer {
 
   h4 {
     text-align: center;
-    margin-top: 2em;
+    margin-top: 0.75em;
     margin-bottom: 0;
     font-size: 2em;
     text-transform: uppercase;
