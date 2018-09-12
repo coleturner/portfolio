@@ -242,7 +242,7 @@ export default class Card extends React.Component {
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
               >
-                <Icon id={Icon.LIST[icon]} /> {text}
+                <Icon symbol={Icon.LIST[icon]} /> {text}
               </Link>
             );
           })}

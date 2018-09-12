@@ -40,7 +40,7 @@ export default class FrontpageTimeline extends React.Component {
               moreLink: event.url && {
                 url: event.url,
                 text: [
-                  <Icon key="icon" id={Icon.LIST.LINK} />,
+                  <Icon key="icon" symbol={Icon.LIST.LINK} />,
                   <span key="txt">{getDomain(event.url)}</span>
                 ]
               }

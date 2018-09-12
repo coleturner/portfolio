@@ -42,7 +42,7 @@ export default class SkillBar extends React.Component {
         <H5>{name}</H5>
         <View className="rating-bar">
           <div className="rating-fill" style={{ width: (rating / 5 * 100) + '%' }}>
-            {icon && <Icon id={icon} />}
+            {icon && <Icon symbol={icon} />}
           </div>
         </View>
         {notes && <Paragraph>{notes}</Paragraph>}

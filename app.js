@@ -11,7 +11,9 @@ if (process.env.NODE_ENV !== 'production') {
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const webpack = require('webpack');
-  const webpackConfig = require('./webpack.config');
+  const webpackConfig = require('./webpack.config')(null, {
+    mode: process.env.NODE_ENV
+  });
   const compiler = webpack(webpackConfig);
   app.use(
     webpackDevMiddleware(compiler, {
@@ -21,7 +23,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   app.use(
     webpackHotMiddleware(compiler, {
-      log: console.log,  // eslint-disable-line
+      log: console.log, // eslint-disable-line
       reload: true
     })
   );

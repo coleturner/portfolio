@@ -18,19 +18,19 @@ export const Footer = () => {
         <H4>Connect with me via</H4>
         <nav>
           <Hyperlink href="https://medium.com/@colecodes">
-            <Icon id={Icon.LIST.MEDIUM} /> Blog
+            <Icon symbol={Icon.LIST.MEDIUM} /> Blog
           </Hyperlink>
           <Hyperlink href="mailto:turner.cole@gmail.com">
-            <Icon id={Icon.LIST.MAIL} /> Email
+            <Icon symbol={Icon.LIST.MAIL} /> Email
           </Hyperlink>
           <Hyperlink href="http://twitter.com/colepatrickturner">
-            <Icon id={Icon.LIST.TWITTER} /> Twitter
+            <Icon symbol={Icon.LIST.TWITTER} /> Twitter
           </Hyperlink>
           <Hyperlink href="http://www.linkedin.com/in/colept">
-            <Icon id={Icon.LIST.LINKED_IN} /> LinkedIn
+            <Icon symbol={Icon.LIST.LINKED_IN} /> LinkedIn
           </Hyperlink>
           <Hyperlink href="https://github.com/coleturner">
-            <Icon id={Icon.LIST.GITHUB} /> Github
+            <Icon symbol={Icon.LIST.GITHUB} /> Github
           </Hyperlink>
         </nav>
       </View>

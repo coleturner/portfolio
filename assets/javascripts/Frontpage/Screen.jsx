@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Card from './Card';
-import CallToAction from './CallToAction';
-import Introduction from './Introduction';
-import RecentProjects from './RecentProjects';
-import Services from './Services';
-import Skills from './Skills';
-import View from '../Components/View';
-import Wrapper from '../App/Wrapper';
+import Card from "./Card";
+import CallToAction from "./CallToAction";
+import RecentProjects from "./RecentProjects";
+import Services from "./Services";
+import Skills from "./Skills";
+import View from "../Components/View";
+import Wrapper from "../App/Wrapper";
 
 export default class FrontpageScreen extends React.Component {
   static propTypes = {
@@ -26,20 +25,22 @@ export default class FrontpageScreen extends React.Component {
 
             try {
               switch ($type) {
-                case 'card':
+                case "card":
                   return <Card key={index} {...fields} flags={flags} />;
-                case 'introduction':
+                case "introduction":
                   return <Introduction key={index} {...fields} flags={flags} />;
-                case 'servicesContainer':
+                case "servicesContainer":
                   return <Services key={index} {...fields} flags={flags} />;
-                case 'recentProjects':
-                  return <RecentProjects key={index} {...fields} flags={flags} />;
-                case 'skillsContainer':
+                case "recentProjects":
+                  return (
+                    <RecentProjects key={index} {...fields} flags={flags} />
+                  );
+                case "skillsContainer":
                   return <Skills key={index} {...fields} flags={flags} />;
-                case 'callToAction':
+                case "callToAction":
                   return <CallToAction key={index} {...fields} flags={flags} />;
                 default:
-                  console.warn('Content type not supported', $type);
+                  console.warn("Content type not supported", $type);
                   return null;
               }
             } catch (e) {
@@ -50,15 +51,15 @@ export default class FrontpageScreen extends React.Component {
       </View>
     );
   }
-  
+
   render() {
     const { flags = {} } = this.props;
 
     const contents = this.getContents();
     console.log(contents);
-    
+
     if (flags.wrapper) {
-      return <Wrapper>{contents}</Wrapper>
+      return <Wrapper>{contents}</Wrapper>;
     }
 
     return contents;

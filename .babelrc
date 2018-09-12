@@ -1,4 +1,27 @@
 {
-  "plugins": ["react-hot-loader/babel", "emotion", "transform-runtime", "transform-decorators-legacy", "transform-class-properties", ["babel-plugin-transform-builtin-extend", { "globals": ["Error", "Array"], "approximate": true }]],
-  "presets": [["es2015", { "modules": false }], "stage-0", "react"]
+  "plugins": [
+    "react-hot-loader/babel",
+    "emotion",
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "debug": false,
+        "loose": true,
+        "modules": false,
+        "useBuiltIns": "usage"
+      }
+    ],
+    "@babel/preset-react"
+  ],
+
+  "env": {
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"],
+      "presets": ["minify"]
+    }
+  }
 }

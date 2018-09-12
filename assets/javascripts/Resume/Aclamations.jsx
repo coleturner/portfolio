@@ -13,7 +13,7 @@ export default class FrontpageAclamations extends React.Component {
         <View className="container">
           <Flex>
             <View className="awards">
-              <Icon id={Icon.LIST.TROPHY} />
+              <Icon symbol={Icon.LIST.TROPHY} />
               <Paragraph>
                 <strong>
                   <Hyperlink href="https://techcrunch.com/2010/01/08/crunchies-winner/">Crunchie: Best Bootstrapped StartUp</Hyperlink>
@@ -22,7 +22,7 @@ export default class FrontpageAclamations extends React.Component {
               </Paragraph>
             </View>
             <View className="education">
-              <Icon id={Icon.LIST.EDUCATION} />
+              <Icon symbol={Icon.LIST.EDUCATION} />
               <Paragraph>
                 <strong>
                   <Hyperlink href="http://catalog.csun.edu/academics/coms/programs/ba-communication-studies/">B.A., Communication Studies</Hyperlink>

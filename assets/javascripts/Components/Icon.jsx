@@ -4,6 +4,30 @@ import classNames from 'classnames';
 
 import styled from 'react-emotion';
 
+
+import CHECKMARK from '../../icons/checkmark.svg';
+import COG from '../../icons/cog.svg';
+import DATABASE from '../../icons/database.svg';
+import EDUCATION from '../../icons/education.svg';
+import FOLDER from '../../icons/folder.svg';
+import GITHUB from '../../icons/github.svg';
+import GRAPHQL from '../../icons/graphql.svg';
+import JAVASCRIPT from '../../icons/javascript.svg';
+import LINK from '../../icons/link.svg';
+import LINKED_IN from '../../icons/linked_in.svg';
+import MAIL from '../../icons/mail.svg';
+import MEDIUM from '../../icons/medium.svg';
+import MICROSCOPE from '../../icons/microscope.svg';
+import NODE from '../../icons/node.svg';
+import PYTHON from '../../icons/python.svg';
+import REACT from '../../icons/react.svg';
+import RESPONSIVE from '../../icons/responsive.svg';
+import RUBY from '../../icons/ruby.svg';
+import STACK from '../../icons/stack.svg';
+import TROPHY from '../../icons/trophy.svg';
+import TWITTER from '../../icons/twitter.svg';
+import USER from '../../icons/user.svg';
+
 const SVG = styled.svg`
   max-width: 1.15em;
   max-height: 1.15em;
@@ -15,45 +39,45 @@ const SVG = styled.svg`
 `;
 
 export const Icon = props => {
-  const { className, id: idProp, ...otherProps } = props;
-
-  const id = idProp.indexOf('#') !== -1 ? idProp : Icon.LIST[idProp];
-
+  const { className, symbol: { viewBox, id }, ...otherProps } = props;
   return (
     <SVG className={classNames('icon', className)} {...otherProps}>
-      <use xlinkHref={id} />
+      <use xlinkHref={`#${id}`} />
     </SVG>
   );
 };
 
 Icon.propTypes = {
   className: PropTypes.any,
-  id: PropTypes.string.isRequired
+  symbol: PropTypes.shape({
+    viewBox: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
+  }).isRequired
 };
 
 Icon.LIST = {
-  CHECKMARK: require('../../icons/checkmark.svg'),
-  COG: require('../../icons/cog.svg'),
-  DATABASE: require('../../icons/database.svg'),
-  EDUCATION: require('../../icons/education.svg'),
-  FOLDER: require('../../icons/folder.svg'),
-  GITHUB: require('../../icons/github.svg'),
-  GRAPHQL: require('../../icons/graphql.svg'),
-  JAVASCRIPT: require('../../icons/javascript.svg'),
-  LINK: require('../../icons/link.svg'),
-  LINKED_IN: require('../../icons/linked_in.svg'),
-  MAIL: require('../../icons/mail.svg'),
-  MEDIUM: require('../../icons/medium.svg'),
-  MICROSCOPE: require('../../icons/microscope.svg'),
-  NODE: require('../../icons/node.svg'),
-  PYTHON: require('../../icons/python.svg'),
-  REACT: require('../../icons/react.svg'),
-  RESPONSIVE: require('../../icons/responsive.svg'),
-  RUBY: require('../../icons/ruby.svg'),
-  STACK: require('../../icons/stack.svg'),
-  TROPHY: require('../../icons/trophy.svg'),
-  TWITTER: require('../../icons/twitter.svg'),
-  USER: require('../../icons/user.svg')
+  CHECKMARK,
+  COG,
+  DATABASE,
+  EDUCATION,
+  FOLDER,
+  GITHUB,
+  GRAPHQL,
+  JAVASCRIPT,
+  LINK,
+  LINKED_IN,
+  MAIL,
+  MEDIUM,
+  MICROSCOPE,
+  NODE,
+  PYTHON,
+  REACT,
+  RESPONSIVE,
+  RUBY,
+  STACK,
+  TROPHY,
+  TWITTER,
+  USER
 };
 
 export default Icon;

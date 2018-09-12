@@ -147,7 +147,7 @@ export default class ResumeProjects extends React.Component {
                 const moreLink = url && {
                   url,
                   text: [
-                    <Icon key="icon" id={Icon.LIST.LINK} />,
+                    <Icon symbol={Icon.LIST.LINK} key="icon" />,
                     <span key="txt">{getDomain(url)}</span>
                   ]
                 };

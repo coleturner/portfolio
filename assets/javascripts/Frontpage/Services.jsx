@@ -31,7 +31,7 @@ export default class FrontpageServices extends React.Component {
                 {services.map(({ icon, name, description }, index) => {
                   return (
                     <View className="service" key={index}>
-                      {icon && <Icon id={icon} />}
+                      {icon && <Icon symbol={icon} />}
                       <H3>{name}</H3>
                       <Paragraph>{description}</Paragraph>
                     </View>
