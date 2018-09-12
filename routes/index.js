@@ -16,10 +16,14 @@ router.get('/', async (req, res, next) => {
     const page = entries.items[0];
     const fields = page.fields;
     const contents = await contentful.normalize(fields.contents);
+    const { flags } = fields;
 
     res.render('index', {
+      props: {
+        contents,
+        flags
+      },
       metaData,
-      contents,
       bodyClass: 'index',
       title: fields.title,
       description: fields.seoDescription

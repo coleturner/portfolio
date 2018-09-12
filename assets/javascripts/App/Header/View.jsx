@@ -69,7 +69,7 @@ export default class HeaderView extends React.PureComponent {
                   path="/"
                   activeClassName="active"
                 >
-                  Portfolio
+                  Home
                 </Hyperlink>
                 <Hyperlink
                   path="resume"

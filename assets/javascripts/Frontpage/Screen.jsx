@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Card from './Card';
 import CallToAction from './CallToAction';
 import Introduction from './Introduction';
 import RecentProjects from './RecentProjects';
@@ -12,43 +13,54 @@ import Wrapper from '../App/Wrapper';
 export default class FrontpageScreen extends React.Component {
   static propTypes = {
     contents: PropTypes.array.isRequired
-  }
+  };
 
-  view() {
-    const { contents } = this.props;
+  getContents() {
+    const { contents, flags } = this.props;
 
     return (
       <View id="frontpage">
-        {contents.map((content, index) => {
-          const { $type, ...fields } = content;
+        {contents &&
+          contents.map((content, index) => {
+            const { $type, ...fields } = content;
 
-          try {
-
-            switch ($type) {
-              case 'introduction':
-                return <Introduction key={index} {...fields} />;
-              case 'servicesContainer':
-                return <Services key={index} {...fields} />;
-              case 'recentProjects':
-                return <RecentProjects key={index} {...fields} />;
-              case 'skillsContainer':
-                return <Skills key={index} {...fields} />;
-              case 'callToAction':
-                return <CallToAction key={index} {...fields} />;
-              default:
-                console.warn('Content type not supported', $type);
-                return null;
+            try {
+              switch ($type) {
+                case 'card':
+                  return <Card key={index} {...fields} flags={flags} />;
+                case 'introduction':
+                  return <Introduction key={index} {...fields} flags={flags} />;
+                case 'servicesContainer':
+                  return <Services key={index} {...fields} flags={flags} />;
+                case 'recentProjects':
+                  return <RecentProjects key={index} {...fields} flags={flags} />;
+                case 'skillsContainer':
+                  return <Skills key={index} {...fields} flags={flags} />;
+                case 'callToAction':
+                  return <CallToAction key={index} {...fields} flags={flags} />;
+                default:
+                  console.warn('Content type not supported', $type);
+                  return null;
+              }
+            } catch (e) {
+              console.warn(e);
+              return null;
             }
-          } catch (e) {
-            console.warn(e);
-            return null;
-          }
-        })}
+          })}
       </View>
     );
   }
-
+  
   render() {
-    return <Wrapper>{this.view()}</Wrapper>;
+    const { flags = {} } = this.props;
+
+    const contents = this.getContents();
+    console.log(contents);
+    
+    if (flags.wrapper) {
+      return <Wrapper>{contents}</Wrapper>
+    }
+
+    return contents;
   }
 }

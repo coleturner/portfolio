@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const getHref = (props) => {
-  if (!('path' in props) && !('href' in props)) {
+  if (!(props.path) && !(props.href)) {
     throw new Error('Must specify either `path` or `href` to Hyperlink');
   }
 
-  if ('path' in props) {
+  if (props.path) {
     if (typeof location !== 'undefined') {
       try {
-        const url = new URL(location.protocol + '//' + location.host);
+        const url = new URL(window.location.href);
+        url.search = '';
         url.pathname = props.path;
-
         return url.toString();
-      } catch (e) { }
+      } catch (e) { 
+        return `/${path.replace(/^\//, '')}`;
+      }
     }
 
     return props.path;
@@ -43,7 +45,7 @@ export const Hyperlink = (props) => {
   }
 
   return (
-    <a href={href} {...otherProps}>
+    <a {...otherProps} href={href}>
       {children || href}
     </a>
   );

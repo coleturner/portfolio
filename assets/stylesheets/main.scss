@@ -1,13 +1,12 @@
-@import 'reset';
-@import 'presets';
-@import 'animations';
-@import 'fonts';
-@import 'buttons';
-@import 'header';
-@import 'footer';
-@import 'skills';
-@import 'resume';
-
+@import "reset";
+@import "presets";
+@import "animations";
+@import "fonts";
+@import "buttons";
+@import "header";
+@import "footer";
+@import "skills";
+@import "resume";
 
 html {
   height: 100%;
@@ -42,14 +41,6 @@ svg,
 time {
   display: inline-block;
   vertical-align: middle;
-}
-
-svg {
-  &.icon {
-    max-width: 1em;
-    max-height: 1em;
-    margin-top: -0.15em;
-  }
 }
 
 body {
@@ -91,10 +82,11 @@ main {
 
 a {
   color: $primary-color;
-  transition: all .15s ease-out;
+  transition: all 0.15s ease-out;
   text-decoration: none;
 
-  transition-property: color, height, width, background-color, font-size, opacity;
+  transition-property: color, height, width, background-color, font-size,
+    opacity;
   &:hover {
     color: shade($primary-color, 30);
     text-decoration: underline;
@@ -103,7 +95,6 @@ a {
   /* IE10  */
   touch-action: manipulation;
 }
-
 
 .flex-row {
   display: flex;
@@ -148,7 +139,6 @@ body {
 .loading-element {
   margin: 1em auto;
 }
-
 
 h1,
 h2,
@@ -217,7 +207,7 @@ hr {
   }
 }
 
-.cover-picture  {
+.cover-picture {
   img {
     object-fit: cover;
     object-position: center center;
@@ -244,7 +234,9 @@ hr {
   max-height: 100vw;
   position: relative;
 
-  .container { max-width: 730px; }
+  .container {
+    max-width: 730px;
+  }
 
   h1 {
     color: #fff;
@@ -259,12 +251,12 @@ hr {
   p {
     font-size: 2em;
     font-weight: 300;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0, 0, 0, 0.65);
     mix-blend-mode: luminosity;
     white-space: pre-line;
 
     strong {
-      color: rgba(0,0,0,0.75);
+      color: rgba(0, 0, 0, 0.75);
       font-weight: 700;
     }
 
@@ -283,12 +275,11 @@ hr {
       padding: 0.45em 1.5em;
     }
   }
-
 }
 
 .services {
   $breakingPoint: 900px;
-  background: linear-gradient(to bottom,#ffffff 10%,#eeeeee 90%);
+  background: linear-gradient(to bottom, #ffffff 10%, #eeeeee 90%);
   padding: 12em 0 9em;
 
   &:first-child {
@@ -323,7 +314,7 @@ hr {
       color: #464f54;
       margin: 1.5em auto;
       text-align: center;
-      box-shadow: 0 3px 0.15em rgba(0,0,0,0.2);
+      box-shadow: 0 3px 0.15em rgba(0, 0, 0, 0.2);
       padding: 1.5em;
       max-width: 30em;
 
@@ -359,7 +350,6 @@ hr {
         flex-basis: calc(100% / 3);
       }
     }
-
   }
 }
 
@@ -493,7 +483,7 @@ hr {
     }
 
     &::before {
-      background: rgba(0,0,0,0.35);
+      background: rgba(0, 0, 0, 0.35);
       mix-blend-mode: multiply;
       opacity: 0.65;
       position: absolute;
@@ -506,9 +496,9 @@ hr {
       transition: all 150ms ease;
     }
 
-    &:nth-child(4n+1) {
+    &:nth-child(4n + 1) {
       &::before {
-        background: #FF571D;
+        background: #ff571d;
         background: linear-gradient(90deg, #d64759 10%, #da7352 90%);
       }
 
@@ -517,9 +507,9 @@ hr {
       }
     }
 
-    &:nth-child(4n+2) {
+    &:nth-child(4n + 2) {
       &::before {
-        background: #19DD7F;
+        background: #19dd7f;
         background: linear-gradient(90deg, #7bbbb0 10%, #8dc35c 90%);
       }
 
@@ -528,9 +518,9 @@ hr {
       }
     }
 
-    &:nth-child(4n+3) {
+    &:nth-child(4n + 3) {
       &::before {
-        background: #2390D7;
+        background: #2390d7;
         background: linear-gradient(90deg, #38aecc 10%, #347fb9 90%);
       }
 
@@ -541,12 +531,12 @@ hr {
 
     &:nth-child(4n) {
       &::before {
-        background: #FF9B1D;
-        background: linear-gradient(90deg, #FD6F46 10%, #FB9832 90%);
+        background: #ff9b1d;
+        background: linear-gradient(90deg, #fd6f46 10%, #fb9832 90%);
       }
 
       .tags {
-        color: #FF9B1D;
+        color: #ff9b1d;
       }
     }
 
@@ -565,7 +555,9 @@ hr {
     }
 
     &:hover {
-      h3 { opacity: 1; }
+      h3 {
+        opacity: 1;
+      }
 
       img {
         transform: scale(1.2);
@@ -575,12 +567,11 @@ hr {
         opacity: 1;
       }
     }
-
   }
 
   .see-more {
     margin-top: 3em;
-    border-top: 1px solid rgba(0,0,0,0.09);
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
     padding-top: 3em;
     text-align: center;
 
@@ -591,7 +582,6 @@ hr {
       font-weight: 300;
     }
   }
-
 
   @media screen and (min-width: $breakingPoint) {
     background: #fafafa;
@@ -604,13 +594,11 @@ hr {
   }
 
   @media screen and (max-width: $breakingPoint) {
-
     h2 {
       padding: 2vh 0;
       background: #555;
-      background: linear-gradient(90deg,#00537E 10%,#3AA17E 90%);
+      background: linear-gradient(90deg, #00537e 10%, #3aa17e 90%);
       color: #fff;
-
 
       &::after,
       &::before {
@@ -636,24 +624,11 @@ hr {
   }
 }
 
-
 .experience {
   padding: 6em 0;
-  background:
-  	linear-gradient(
-  		limegreen,
-  		transparent
-  	),
-  	linear-gradient(
-  		90deg,
-  		skyblue,
-  		transparent
-  	),
-  	linear-gradient(
-  		-90deg,
-  		coral,
-  		transparent
-  	);
+  background: linear-gradient(limegreen, transparent),
+    linear-gradient(90deg, skyblue, transparent),
+    linear-gradient(-90deg, coral, transparent);
 
   background-blend-mode: screen;
 
@@ -670,10 +645,9 @@ hr {
 
   h2 + p {
     font-size: 1.45em;
-    color: rgba(0,0,0,0.45);
+    color: rgba(0, 0, 0, 0.45);
   }
 }
-
 
 .aclamations {
   background-blend-mode: screen;
@@ -709,7 +683,7 @@ hr {
     h2 {
       font-weight: 200;
       letter-spacing: -0.03em;
-      text-shadow: 0 1px 5px rgba(0,0,0,0.12);
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
     }
 
     strong {
