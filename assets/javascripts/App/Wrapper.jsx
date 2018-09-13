@@ -1,19 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
-import View from '../Components/View';
+
+const Wrapper = styled.div`
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: center;
+  flex-direction: column;
+
+  > * {
+    width: 100%;
+  }
+`;
 
 export const AppWrapper = ({ animateLogo, children }) => (
-  <View className="application-wrapper">
+  <Wrapper>
     <Header animateLogo={animateLogo} />
     <Main>
       {children}
     </Main>
     <Footer />
-  </View>
+  </Wrapper>
 );
 
 AppWrapper.propTypes = {

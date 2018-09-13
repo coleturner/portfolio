@@ -1,5 +1,9 @@
+import React from 'react';
+import { ThemeProvider } from 'emotion-theming'
 import { createElement } from 'react';
 import { render } from 'react-dom';
+
+import Theme from './Theme';
 
 let resolver = null;
 
@@ -17,7 +21,15 @@ export default class Mount {
       const propChild = document.getElementById('props-' + mount.id);
       const props = propChild ? JSON.parse(propChild.innerHTML) : {};
 
-      render(createElement(resolution.default, props), mount);
+      const Component = resolution.default;
+      const context = (
+        <ThemeProvider theme={Theme}>
+          <Component {...props} />
+        </ThemeProvider>
+      );
+      
+      render(
+        context, mount);
     }
   }
 

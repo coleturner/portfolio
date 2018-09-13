@@ -1,6 +1,9 @@
-import createElement from '../Components/createElement';
+import styled from 'react-emotion';
 
-export const Main = createElement.bind(null, 'main');
+const Main = styled.main`
+  flex: 1;
+`;
+
 Main.defaultProps = { role: 'main' };
 
 export default Main;

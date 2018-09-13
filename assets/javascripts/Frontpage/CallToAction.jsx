@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { H2 } from '../Components/Heading';
 import Hyperlink from '../Components/Hyperlink';
 import View from '../Components/View';
+import Container from '../Components/Container';
 
 export default class FrontpageCallToAction extends React.Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ export default class FrontpageCallToAction extends React.Component {
     return (
       <View className="call-to-action">
         <H2>{title}</H2>
-        <View className="container">
+        <Container>
           <ReactMarkdown
             className="markdown"
             source={text}
@@ -28,7 +29,7 @@ export default class FrontpageCallToAction extends React.Component {
             <Hyperlink className="button" href={url}>{action}</Hyperlink>
           </View>
 
-        </View>
+        </Container>
       </View>
     );
   }

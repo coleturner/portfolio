@@ -1,5 +1,5 @@
-$body-font: 'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
-$header-font: 'Roboto',Helvetica,Arial,sans-serif;
+$body-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$header-font: "Roboto", Helvetica, Arial, sans-serif;
 $btn-font: $body-font;
 
 $body-color: #222;
@@ -10,9 +10,8 @@ $warning-color: rgb(200, 195, 80);
 $focus-color: #2e89c4;
 $error-color: rgb(189, 59, 59);
 $danger-color: rgb(189, 59, 59);
-$shopping-color: rgb(189, 59, 59);
+$shopping-color: #bd3b3b;
 $input-color: #888;
-
 
 @function tint($color, $percentage) {
   @return mix(white, $color, $percentage);

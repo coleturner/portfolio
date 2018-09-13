@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import styled from 'react-emotion';
 
-
 import CHECKMARK from '../../icons/checkmark.svg';
 import COG from '../../icons/cog.svg';
 import DATABASE from '../../icons/database.svg';
@@ -28,7 +27,16 @@ import TROPHY from '../../icons/trophy.svg';
 import TWITTER from '../../icons/twitter.svg';
 import USER from '../../icons/user.svg';
 
-const SVG = styled.svg`
+const IconComponent = props => {
+  const { className, symbol: { viewBox, id }, ...otherProps } = props;
+  return (
+    <svg className={classNames('icon', className)} {...otherProps}>
+      <use xlinkHref={`#${id}`} />
+    </svg>
+  );
+};
+
+export const Icon = styled(IconComponent)`
   max-width: 1.15em;
   max-height: 1.15em;
 
@@ -37,15 +45,6 @@ const SVG = styled.svg`
     transition: all 0.15s ease-out;
   }
 `;
-
-export const Icon = props => {
-  const { className, symbol: { viewBox, id }, ...otherProps } = props;
-  return (
-    <SVG className={classNames('icon', className)} {...otherProps}>
-      <use xlinkHref={`#${id}`} />
-    </SVG>
-  );
-};
 
 Icon.propTypes = {
   className: PropTypes.any,

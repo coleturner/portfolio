@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Image from '../Image';
+import styled from 'react-emotion';
 
-export default class Picture extends React.PureComponent {
+export class Picture extends React.PureComponent {
 
   static propTypes = {
     backupSrc: PropTypes.string,
@@ -46,7 +46,9 @@ export default class Picture extends React.PureComponent {
     const { onAlreadyLoaded, onError, backupSrc, src, ...otherProps } = props;
 
     return (
-      <Image onError={this.boundOnError} ref={this.boundSetRef} src={src || backupSrc} {...otherProps} />
+      <img onError={this.boundOnError} ref={this.boundSetRef} src={src || backupSrc} {...otherProps} />
     );
   }
 }
+
+export default styled(Picture)``;

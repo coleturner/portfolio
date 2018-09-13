@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import styled, {cx} from 'react-emotion';
 
 const getHref = (props) => {
   if (!(props.path) && !(props.href)) {
@@ -25,8 +25,8 @@ const getHref = (props) => {
   return props.href;
 };
 
-export const Hyperlink = (props) => {
-  const { activeClassName, children, path, ...otherProps } = props;
+const HyperlinkComponent = (props) => {
+  const { activeClassName, children, path, innerRef, ...otherProps } = props;
 
   const href = getHref(props);
 
@@ -39,17 +39,19 @@ export const Hyperlink = (props) => {
       }
 
       if (!!activeClassName && window.location.pathname === url.pathname) {
-        otherProps.className = classNames(activeClassName, otherProps.className);
+        otherProps.className = cx(activeClassName, otherProps.className);
       }
     } catch (e) {}
   }
 
   return (
-    <a {...otherProps} href={href}>
+    <a {...otherProps} href={href} ref={innerRef}>
       {children || href}
     </a>
   );
 };
+
+export const Hyperlink = styled(HyperlinkComponent)``;
 
 Hyperlink.propTypes = {
   activeClassName: PropTypes.string,

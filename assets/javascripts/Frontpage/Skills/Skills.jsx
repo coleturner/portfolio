@@ -1,10 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 
 import Flex from '../../Components/Flex';
-import { H2, H6 } from '../../Components/Heading';
-import SkillBar from './SkillBar';
+import { H6 } from '../../Components/Heading';
+import Skill from './Skill';
 import View from '../../Components/View';
+import Container from '../../Components/Container';
+
+const BREAKING_POINT = '700px';
+
+const Skills = styled('div')`
+  padding: 6em 0;
+  hr { margin: 3em auto; }
+`;
+
+const Title = styled.h2`
+  text-align: center;
+  color: rgba(0,0,0,0.75);
+  font-weight: 500;
+
+  strong {
+    font-weight: 900;
+  }
+`;
+
+const SkillList = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media screen and (min-width: ${BREAKING_POINT}) {
+    justify-content: space-between;
+  }
+
+  ${Skill} {
+    flex: 1;
+  }
+`;
+
+const Misc = styled.div`
+    font-size: 1.15em;
+`;
+
+const MiscTitle = styled.h6`
+  font-weight: 500;
+`;
+
+const SkillLabel = styled.span`
+  background: #eee;
+  color: #666;
+  padding: .45em 1em;
+  line-height: 1;
+  border-radius: 10em;
+  display: inline-block;
+  margin-right: 0.45em;
+  margin-bottom: 0.45em;
+`;
 
 export default class FrontpageSkills extends React.Component {
   static propTypes = {
@@ -43,33 +96,32 @@ export default class FrontpageSkills extends React.Component {
     const skillsWithRating = skills.filter(s => s.rating);
     const skillsWithoutRating = skills.filter(s => !!!s.rating);
 
-
     return (
-      <div ref={this.onReference} className="skills">
-        <View className="container">
-          <H2>I <strong>enjoy</strong> working with</H2>
+      <Skills ref={this.onReference}>
+        <Container>
+          <Title>I <strong>enjoy</strong> working with</Title>
 
-          <Flex className="skill-list">
+          <SkillList>
             {skillsWithRating.map((skill, index) => {
               return (
-                <SkillBar
+                <Skill
                   key={index}
                   skill={skill}
                   isAnimated={this.state.animatedIndexes.indexOf(index) !== -1}
                 />
               );
             })}
-          </Flex>
+          </SkillList>
 
           {skillsWithoutRating && (
-            <View className="other-skills">
-              <H6>Miscellaneous skills</H6>
-              {skillsWithoutRating.map(skill => <span className="tag" key={skill.name}>{skill.name}</span>)}
-            </View>
+            <Misc>
+              <MiscTitle>Miscellaneous skills</MiscTitle>
+              {skillsWithoutRating.map(skill => <SkillLabel key={skill.name}>{skill.name}</SkillLabel>)}
+            </Misc>
           )}
 
-        </View>
-      </div>
+        </Container>
+      </Skills>
     );
   }
 }

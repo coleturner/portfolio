@@ -2,15 +2,15 @@ import React from 'react';
 
 import { H1 } from '../Components/Heading';
 import Paragraph from '../Components/Paragraph';
-import View from '../Components/View';
+import Container from '../Components/Container';
 
 const Page404 = (props) => (
-<View className="single-page container">
+<Container isSinglePage={true}>
   <H1>Oops!</H1>
   <Paragraph>
     What you are looking for cannot be found.
   </Paragraph>
-</View>
+</Container>
 );
 
 export default Page404;

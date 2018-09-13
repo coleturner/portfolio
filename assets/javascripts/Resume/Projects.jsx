@@ -10,6 +10,7 @@ import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
 import Time from '../Components/Time';
 import View from '../Components/View';
+import Container from '../Components/Container';
 
 export const ProjectHeading = props => {
   const { level, children } = props;
@@ -85,6 +86,99 @@ export default class ResumeProjects extends React.Component {
     }
   }
 
+  renderProjects(projects) {
+    return projects.map(
+      (
+        {
+          images,
+          abstract,
+          name,
+          started,
+          ended,
+          emphasize,
+          tags,
+          url
+        },
+        index
+      ) => {
+        const classes = [];
+        if (!ended) {
+          classes.push('active');
+        }
+
+        const startTime = started && dayjs(started);
+        const endTime = ended && dayjs(ended);
+        const startTimestamp =
+          startTime && startTime.format('MMMM YYYY');
+        const endTimestamp = endTime && endTime.format('MMMM YYYY');
+
+        if (!emphasize) {
+          classes.push('short-term');
+        }
+
+        const imageArray = (images && images.length ? images : []).map(
+          image => {
+            const width = !emphasize ? 620 : 1000;
+            return {
+              src: `${image.file.url}?w=${width}`,
+              preloadSrc: `${image.file.url}?w=30&h=30`,
+              ...image.file.details.image
+            };
+          }
+        );
+
+        const moreLink = url && {
+          url,
+          text: [
+            <Icon symbol={Icon.LIST.LINK} key="icon" />,
+            <span key="txt">{getDomain(url)}</span>
+          ]
+        };
+
+        return (
+          <View
+            id={`project-${name
+              .replace(/[^a-zA-Z0-9]+/g, '')
+              .toLowerCase()}`}
+            className={classNames('project', classes)}
+            key={index}
+          >
+            <H3>{name}</H3>
+            <View className="duration">
+              {startTimestamp && <Time>{startTimestamp}</Time>}
+              {' - '}
+              {endTimestamp ? <Time>{endTimestamp}</Time> : 'Present'}
+            </View>
+            <View className="card">
+              <Gallery images={imageArray} />
+              <View className="details">
+                <ReactMarkdown
+                  className="markdown"
+                  source={abstract}
+                  renderers={{
+                    heading: ProjectHeading,
+                    link: ProjectLink
+                  }}
+                />
+                <View className="tags">
+                  {tags.map(tag => <span key={tag}>{tag}</span>)}
+                </View>
+                {moreLink && (
+                  <Hyperlink
+                    className="external-link"
+                    href={moreLink.url}
+                  >
+                    {moreLink.text}
+                  </Hyperlink>
+                )}
+              </View>
+            </View>
+          </View>
+        );
+      }
+    )
+  }
+
   render() {
     const { title, body, projects } = this.props;
 
@@ -102,101 +196,11 @@ export default class ResumeProjects extends React.Component {
             />
           )}
         </View>
-        <View className="container">
+        <Container>
           <View className="project-list">
-            {projects.map(
-              (
-                {
-                  images,
-                  abstract,
-                  name,
-                  started,
-                  ended,
-                  emphasize,
-                  tags,
-                  url
-                },
-                index
-              ) => {
-                const classes = [];
-                if (!ended) {
-                  classes.push('active');
-                }
-
-                console.log('started', started, ended);
-                const startTime = started && dayjs(started);
-                const endTime = ended && dayjs(ended);
-                const startTimestamp =
-                  startTime && startTime.format('MMMM YYYY');
-                const endTimestamp = endTime && endTime.format('MMMM YYYY');
-
-                if (!emphasize) {
-                  classes.push('short-term');
-                }
-
-                const imageArray = (images && images.length ? images : []).map(
-                  image => {
-                    const width = !emphasize ? 620 : 1000;
-                    return {
-                      src: `${image.file.url}?w=${width}`,
-                      preloadSrc: `${image.file.url}?w=30&h=30`,
-                      ...image.file.details.image
-                    };
-                  }
-                );
-
-                const moreLink = url && {
-                  url,
-                  text: [
-                    <Icon symbol={Icon.LIST.LINK} key="icon" />,
-                    <span key="txt">{getDomain(url)}</span>
-                  ]
-                };
-
-                return (
-                  <View
-                    id={`project-${name
-                      .replace(/[^a-zA-Z0-9]+/g, '')
-                      .toLowerCase()}`}
-                    className={classNames('project', classes)}
-                    key={index}
-                  >
-                    <H3>{name}</H3>
-                    <View className="duration">
-                      {startTimestamp && <Time>{startTimestamp}</Time>}
-                      {' - '}
-                      {endTimestamp ? <Time>{endTimestamp}</Time> : 'Present'}
-                    </View>
-                    <View className="card">
-                      <Gallery images={imageArray} />
-                      <View className="details">
-                        <ReactMarkdown
-                          className="markdown"
-                          source={abstract}
-                          renderers={{
-                            heading: ProjectHeading,
-                            link: ProjectLink
-                          }}
-                        />
-                        <View className="tags">
-                          {tags.map(tag => <span key={tag}>{tag}</span>)}
-                        </View>
-                        {moreLink && (
-                          <Hyperlink
-                            className="external-link"
-                            href={moreLink.url}
-                          >
-                            {moreLink.text}
-                          </Hyperlink>
-                        )}
-                      </View>
-                    </View>
-                  </View>
-                );
-              }
-            )}
+            {this.renderProjects(projects)}
           </View>
-        </View>
+        </Container>
       </View>
     );
   }

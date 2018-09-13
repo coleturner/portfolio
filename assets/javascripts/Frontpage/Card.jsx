@@ -100,6 +100,8 @@ const Heading = styled.h1`
 `;
 
 const Subtitle = styled.h2`
+  ${({ theme: { heading2 } }) => `${heading2}`}
+
   margin: 0;
   font-size: 1em;
   font-size: calc(1em + 1.3vh);
