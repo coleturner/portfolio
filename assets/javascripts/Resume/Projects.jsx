@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import moment from 'moment-mini';
+import dayjs from 'dayjs';
 import ReactMarkdown from 'react-markdown';
 
 import Gallery from '../Components/Gallery';
@@ -97,7 +97,7 @@ export default class ResumeProjects extends React.Component {
               className="markdown"
               source={body}
               renderers={{
-                Link: ProjectLink
+                link: ProjectLink
               }}
             />
           )}
@@ -123,8 +123,9 @@ export default class ResumeProjects extends React.Component {
                   classes.push('active');
                 }
 
-                const startTime = started && moment(started);
-                const endTime = ended && moment(ended);
+                console.log('started', started, ended);
+                const startTime = started && dayjs(started);
+                const endTime = ended && dayjs(ended);
                 const startTimestamp =
                   startTime && startTime.format('MMMM YYYY');
                 const endTimestamp = endTime && endTime.format('MMMM YYYY');
@@ -173,8 +174,8 @@ export default class ResumeProjects extends React.Component {
                           className="markdown"
                           source={abstract}
                           renderers={{
-                            Heading: ProjectHeading,
-                            Link: ProjectLink
+                            heading: ProjectHeading,
+                            link: ProjectLink
                           }}
                         />
                         <View className="tags">

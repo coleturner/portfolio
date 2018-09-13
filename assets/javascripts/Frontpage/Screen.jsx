@@ -56,7 +56,6 @@ export default class FrontpageScreen extends React.Component {
     const { flags = {} } = this.props;
 
     const contents = this.getContents();
-    console.log(contents);
 
     if (flags.wrapper) {
       return <Wrapper>{contents}</Wrapper>;

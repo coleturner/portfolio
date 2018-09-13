@@ -1,4 +1,7 @@
 const webpack = require('webpack');
+const Visualizer = require('webpack-visualizer-plugin');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -11,34 +14,16 @@ module.exports = (env, args) => {
     args.mode === 'production' || process.env.NODE_ENV === 'production';
   console.log('Using', isProduction ? 'production' : 'development', 'config'); // eslint-disable-line
 
-  const jsxRules = [
-    {
-      loader: 'babel-loader',
-      options: {
-        env: {
-          production: {
-            comments: false,
-            minified: true
-          },
-          development: {
-            comments: true,
-            minified: false
-          }
-        }
-      }
-    }
-  ];
-
-  return {
+  const config = {
+    mode: isProduction ? 'production' : 'development',
     context: path.resolve(__dirname, './assets/'),
     entry: {
       main: [
-        '@babel/polyfill',
-        'react-hot-loader/patch',
+        !isProduction && 'react-hot-loader/patch',
         './javascripts/main.js'
-      ]
+      ].filter(n => n)
     },
-    devtool: isProduction ? 'source-map' : 'eval-source-map',
+    devtool: isProduction ? false : 'eval-source-map',
     output: {
       filename: '[name]' + (isProduction ? '.[hash]' : '') + '.js',
       path: path.resolve(__dirname, './public/'),
@@ -49,7 +34,23 @@ module.exports = (env, args) => {
         {
           test: /\.jsx?$/i,
           exclude: [/node_modules/],
-          use: jsxRules
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                env: {
+                  production: {
+                    comments: false,
+                    minified: true
+                  },
+                  development: {
+                    comments: true,
+                    minified: false
+                  }
+                }
+              }
+            }
+          ]
         },
         {
           test: /\.(scss|css)$/i,
@@ -160,6 +161,8 @@ module.exports = (env, args) => {
       fs: 'empty'
     },
     plugins: [
+      new CleanWebpackPlugin(['./public']),
+      new Visualizer(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
           isProduction ? 'production' : 'development'
@@ -183,11 +186,21 @@ module.exports = (env, args) => {
       })
     ],
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
+      alias:
+        isProduction || true
+          ? {
+            react: 'preact-compat',
+            'react-dom': 'preact-compat',
+            'preact-compat': 'preact-compat/dist/preact-compat'
+          }
+          : {}
     }
   };
 
-  if (!isProduction) {
+  if (isProduction) {
+    config.plugins.push(new MinifyPlugin(null, { test: /\.jsx?$/i }));
+  } else {
     config.devServer = {
       hot: true,
       disableHostCheck: true,
@@ -226,4 +239,6 @@ module.exports = (env, args) => {
       }
     }
   }
+
+  return config;
 };

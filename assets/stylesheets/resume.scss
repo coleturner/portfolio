@@ -8,7 +8,7 @@
     padding: 2em 0;
     text-align: center;
     color: rgba(0, 0, 0, 0.65);
-    text-shadow: 0 1px 0 rgba(255,255,255,0.45);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
     letter-spacing: -0.03em;
     font-size: 1.25em;
 
@@ -19,6 +19,8 @@
   }
 
   .project-list {
+    max-width: 100vmin;
+    min-width: 40vmax;
     margin: 0 auto;
 
     @media screen and (min-width: $breakingPoint) {
@@ -44,7 +46,7 @@
       .card {
         background: #fff;
         border-radius: 0.5em;
-        box-shadow: 0 0.15em 0.45em rgba(0,0,0,0.15);
+        box-shadow: 0 0.15em 0.45em rgba(0, 0, 0, 0.15);
         padding: 0.5em;
         margin-top: 1em;
         color: #717171;
@@ -58,7 +60,7 @@
 
           .previous,
           .next {
-            background: rgba(0,0,0, 0.35);
+            background: rgba(0, 0, 0, 0.35);
             border-radius: 10em;
             width: 3em;
             height: 3em;
@@ -72,7 +74,7 @@
             transition: all 150ms ease;
 
             &:hover {
-              background: rgba(0,0,0,0.65);
+              background: rgba(0, 0, 0, 0.65);
 
               &::before {
                 opacity: 0.85;
@@ -131,7 +133,7 @@
               z-index: 3;
               border-radius: 0.35em;
               content: " ";
-              box-shadow: inset 0 0 3em rgba(0,0,0,0.15);
+              box-shadow: inset 0 0 3em rgba(0, 0, 0, 0.15);
             }
 
             img {
@@ -159,6 +161,7 @@
             position: relative;
             min-height: 15em;
             max-height: 60vh;
+            max-height: 60vmax;
           }
 
           .blips {
@@ -214,7 +217,12 @@
             padding: 1.5em 3em 3em;
           }
 
-          h1, h2, h3, h4, h5, h6 {
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
             color: #333;
           }
 
@@ -251,12 +259,16 @@
 
           svg.icon {
             margin-right: 0.5em;
-            use { fill: #aaa; }
+            use {
+              fill: #aaa;
+            }
           }
 
           &:hover {
             color: $primary-color;
-            svg use { fill: $primary-color; }
+            svg use {
+              fill: $primary-color;
+            }
           }
         }
       }
@@ -265,13 +277,11 @@
         color: #aaa;
       }
 
-
       time {
         font-size: inherit;
         display: inline;
         vertical-align: baseline;
       }
-
 
       @media screen and (min-width: $breakingPoint) {
         &::before {

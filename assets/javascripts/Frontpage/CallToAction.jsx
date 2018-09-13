@@ -21,7 +21,7 @@ export default class FrontpageCallToAction extends React.Component {
             className="markdown"
             source={text}
             renderers={{
-              'Link': Hyperlink
+              link: Hyperlink
             }} />
 
           <View className="actions">

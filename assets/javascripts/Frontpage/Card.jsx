@@ -227,7 +227,7 @@ export default class Card extends React.Component {
               className="markdown"
               source={subtitle}
               renderers={{
-                'Link': Hyperlink
+                link: Hyperlink
             }} />
           </Subtitle>
         }
