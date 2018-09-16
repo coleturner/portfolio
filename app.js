@@ -48,6 +48,10 @@ const resumeRoute = require('./routes/resume');
 app.get('/', indexRoute);
 app.get('/resume', resumeRoute);
 
+app.get('*', (req, res) => {
+  res.send(404);
+});
+
 // error handler
 app.use(require('./routes/errorHandler'));
 

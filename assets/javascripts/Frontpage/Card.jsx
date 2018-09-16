@@ -36,18 +36,6 @@ const Portrait = styled.div`
   background: #000;
   border: 6px solid #000;
   position: relative;
-
-  &::before {
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 100%);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    content: " ";
-    z-index: 2;
-    border-radius: inherit;
-  }
 `;
 
 const Image = styled.img`
@@ -58,9 +46,13 @@ const Image = styled.img`
   height: 100%;
 
   ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === -1 && prevDirectionIndex <= 2 ? 'transform: scale3d(-1, 1, 1) rotate(0deg);' : null}
+    directionIndex === -1 && prevDirectionIndex <= 2
+      ? 'transform: scale3d(-1, 1, 1) rotate(0deg);'
+      : null}
   ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === -1 && prevDirectionIndex > 2 ? 'transform: scale3d(1, 1, 1) rotate(0deg) ;' : null}
+    directionIndex === -1 && prevDirectionIndex > 2
+      ? 'transform: scale3d(1, 1, 1) rotate(0deg) ;'
+      : null}
   ${({ directionIndex }) =>
     directionIndex === 0 ? 'transform: scale3d(-1, 1, 1) rotate(15deg);' : null}
   ${({ directionIndex }) =>
@@ -78,13 +70,10 @@ const Image = styled.img`
   ${({ directionIndex }) =>
     directionIndex === 4 ? 'transform: rotate(15deg);' : null}
   ${({ directionIndex, prevDirectionIndex }) =>
-  (
-    !['32', '12'].includes(`${directionIndex}${prevDirectionIndex}`)
-  ) &&
-    Math.abs(directionIndex - prevDirectionIndex) === 1 ? 
-      'transition-duration: 150ms;' :
-      null
-    }
+    !['32', '12'].includes(`${directionIndex}${prevDirectionIndex}`) &&
+    Math.abs(directionIndex - prevDirectionIndex) === 1
+      ? 'transition-duration: 150ms;'
+      : null}
 `;
 
 Image.defaultProps = {
@@ -100,9 +89,7 @@ const Heading = styled.h1`
 `;
 
 const Subtitle = styled.h2`
-  ${({ theme: { heading2 } }) => `${heading2}`}
-
-  margin: 0;
+  ${({ theme: { heading2 } }) => `${heading2}`} margin: 0;
   font-size: 1em;
   font-size: calc(1em + 1.3vh);
   @media (min-width: 500px) {
@@ -169,7 +156,7 @@ export default class Card extends React.Component {
     }
 
     return window.innerWidth >= 500;
-  }
+  };
 
   outTimeoutMs = 500;
   onMouseOver = e => {
@@ -181,7 +168,10 @@ export default class Card extends React.Component {
       clearTimeout(this.outTimeout);
     }
 
-    const prevMouseOverIndex = this.state.mouseOverIndex == -1 ? this.state.prevMouseOverIndex : this.state.mouseOverIndex;
+    const prevMouseOverIndex =
+      this.state.mouseOverIndex == -1
+        ? this.state.prevMouseOverIndex
+        : this.state.mouseOverIndex;
     const mouseOverIndex = Array.from(
       e.currentTarget.parentNode.children
     ).indexOf(e.currentTarget);
@@ -202,7 +192,11 @@ export default class Card extends React.Component {
     }
 
     this.outTimeout = setTimeout(
-      () => this.setState({ mouseOverIndex: -1, prevMouseOverIndex: this.state.mouseOverIndex }),
+      () =>
+        this.setState({
+          mouseOverIndex: -1,
+          prevMouseOverIndex: this.state.mouseOverIndex
+        }),
       this.outTimeoutMs
     );
   };
@@ -214,25 +208,26 @@ export default class Card extends React.Component {
 
     return (
       <Container>
-          <Portrait>
-            <Image
-              src={imageUrl || PORTRAIT_IMAGE} 
-              directionIndex={this.state.mouseOverIndex}
-              prevDirectionIndex={this.state.prevMouseOverIndex}
-            />
-          </Portrait>
+        <Portrait>
+          <Image
+            src={imageUrl || PORTRAIT_IMAGE}
+            directionIndex={this.state.mouseOverIndex}
+            prevDirectionIndex={this.state.prevMouseOverIndex}
+          />
+        </Portrait>
 
         <Heading>{title}</Heading>
-        {subtitle &&
+        {subtitle && (
           <Subtitle>
             <ReactMarkdown
               className="markdown"
               source={subtitle}
               renderers={{
                 link: Hyperlink
-            }} />
+              }}
+            />
           </Subtitle>
-        }
+        )}
 
         <Menu>
           {links.map(({ text, icon, path, url }) => {

@@ -6,7 +6,7 @@ const manifestData =
 
 const manifestAsset = name => {
   const resolved = manifestData[name] || name;
-  return `/public/${resolved}`;
+  return resolved;
 };
 
 module.exports = manifestAsset;

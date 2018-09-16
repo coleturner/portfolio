@@ -1,4 +1,4 @@
-import '../stylesheets/main.scss';
+import 'ress/dist/ress.min.css';
 import Mount from './Mount';
 
 (() => {
