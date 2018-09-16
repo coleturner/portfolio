@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'react-emotion';
 
-import Flex from '../Components/Flex';
 import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
-import Paragraph from '../Components/Paragraph';
-import View from '../Components/View';
 import Container from '../Components/Container';
 
 const Aclamations = styled.div`
@@ -34,7 +31,11 @@ const AclamationItem = styled.div`
     margin-bottom: 1em;
 
     use {
-      fill: ${({ theme: { COLORS: { PRIMARY } } }) => PRIMARY};
+      fill: ${({
+        theme: {
+          COLORS: { PRIMARY }
+        }
+      }) => PRIMARY};
     }
   }
 
@@ -43,7 +44,6 @@ const AclamationItem = styled.div`
     letter-spacing: -0.03em;
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
   }
-
 `;
 
 const Text = styled.p`
@@ -76,7 +76,9 @@ export default class FrontpageAclamations extends React.Component {
               <Icon symbol={Icon.LIST.TROPHY} />
               <Text>
                 <Title>
-                  <Hyperlink href="https://techcrunch.com/2010/01/08/crunchies-winner/">Crunchie: Best Bootstrapped StartUp</Hyperlink>
+                  <Hyperlink href="https://techcrunch.com/2010/01/08/crunchies-winner/">
+                    Crunchie: Best Bootstrapped StartUp
+                  </Hyperlink>
                 </Title>
                 Tinychat (2010)
               </Text>
@@ -85,7 +87,9 @@ export default class FrontpageAclamations extends React.Component {
               <Icon symbol={Icon.LIST.EDUCATION} />
               <Text>
                 <Title>
-                  <Hyperlink href="http://catalog.csun.edu/academics/coms/programs/ba-communication-studies/">B.A., Communication Studies</Hyperlink>
+                  <Hyperlink href="http://catalog.csun.edu/academics/coms/programs/ba-communication-studies/">
+                    B.A., Communication Studies
+                  </Hyperlink>
                 </Title>
                 California State University Northridge (2009-2013)
               </Text>

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { cx } from 'react-emotion';
+import styled, { css, cx } from 'react-emotion';
 
 import Hyperlink from '../Components/Hyperlink';
 import Picture from '../Components/Picture';
-import View from '../Components/View';
 
 const BREAKING_POINT = '1200px';
 
@@ -58,7 +57,7 @@ const STYLE_PROJECT = css`
     right: 0;
     bottom: 0;
     z-index: 3;
-    content: " ";
+    content: ' ';
     transition: all 150ms ease;
   }
 
@@ -106,7 +105,6 @@ const STYLE_PROJECT = css`
     }
   }
 
-
   &:hover {
     h3 {
       opacity: 1;
@@ -139,7 +137,7 @@ const Title = styled.h2`
       position: absolute;
       left: 50%;
       top: 100%;
-      content: " ";
+      content: ' ';
       border: 15px solid transparent;
       transform: translateX(-50%);
     }
@@ -172,26 +170,25 @@ const ProjectList = styled.div`
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-template-areas:
-      "feature feature"
-      "leftside rightside"
-      "subfeature subfeature"
-      "standard1 standard2";
+      'feature feature'
+      'leftside rightside'
+      'subfeature subfeature'
+      'standard1 standard2';
 
     @media screen and (min-width: 700px) {
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(3, 1fr);
       grid-template-areas:
-        "standard1 feature feature standard2"
-        "leftside feature feature rightside"
-        "leftside subfeature subfeature rightside";
+        'standard1 feature feature standard2'
+        'leftside feature feature rightside'
+        'leftside subfeature subfeature rightside';
     }
   }
 
   @media screen and (min-width: ${BREAKING_POINT}) {
-      max-width: (#{${BREAKING_POINT} - 100px});
-      margin: 3em auto 0;
+    max-width: (#{${BREAKING_POINT} - 100px});
+    margin: 3em auto 0;
   }
-
 `;
 
 const ProjectContent = styled.div`
@@ -208,7 +205,6 @@ const ProjectContent = styled.div`
   ${STYLE_PROJECT}:hover & {
     opacity: 1;
   }
-
 `;
 
 const ProjectTitle = styled.h3`
@@ -266,8 +262,8 @@ export default class FrontpageRecentProjects extends React.Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired
-  }
-  
+  };
+
   render() {
     const { title, projects } = this.props;
 
@@ -296,18 +292,19 @@ export default class FrontpageRecentProjects extends React.Component {
               image += '?h=600';
             }
 
-
             return (
-              <Component
-                key={index}
-                {...props}
-                className={cx(STYLE_PROJECT)}>
-                <Picture className="preload" src={previewImage.file.url + '?w=30'} />
+              <Component key={index} {...props} className={cx(STYLE_PROJECT)}>
+                <Picture
+                  src={previewImage.file.url + '?w=30'}
+                  isPreload={true}
+                />
                 <Picture src={image} />
                 <ProjectContent className={cx(projectClasses)}>
                   <ProjectTitle>{name}</ProjectTitle>
                   <Tags>
-                    {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+                    {tags.map(tag => (
+                      <Tag key={tag}>{tag}</Tag>
+                    ))}
                   </Tags>
                 </ProjectContent>
               </Component>

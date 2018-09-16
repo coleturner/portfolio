@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 
 export class Picture extends React.PureComponent {
-
   static propTypes = {
     backupSrc: PropTypes.string,
     onAlreadyLoaded: PropTypes.func,
@@ -13,14 +12,14 @@ export class Picture extends React.PureComponent {
 
   static defaultProps = {
     backupSrc: null,
-    onAlreadyLoaded: () => { },
-    onError: () => { }
+    onAlreadyLoaded: () => {},
+    onError: () => {}
   };
 
   constructor(...args) {
     super(...args);
 
-    this.boundSetRef = (ref) => {
+    this.boundSetRef = ref => {
       if (ref && ref.complete) {
         this.props.onAlreadyLoaded(ref);
       }
@@ -28,7 +27,7 @@ export class Picture extends React.PureComponent {
       this.element = ref;
     };
 
-    this.boundOnError = (evt) => this.onError(evt);
+    this.boundOnError = evt => this.onError(evt);
   }
 
   element = null;
@@ -36,7 +35,11 @@ export class Picture extends React.PureComponent {
   onError(evt) {
     this.props.onError(evt);
 
-    if (this.element && this.props.backupSrc && this.props.src !== this.props.backupSrc) {
+    if (
+      this.element &&
+      this.props.backupSrc &&
+      this.props.src !== this.props.backupSrc
+    ) {
       this.element.src = this.props.backupSrc;
     }
   }
@@ -46,7 +49,12 @@ export class Picture extends React.PureComponent {
     const { onAlreadyLoaded, onError, backupSrc, src, ...otherProps } = props;
 
     return (
-      <img onError={this.boundOnError} ref={this.boundSetRef} src={src || backupSrc} {...otherProps} />
+      <img
+        onError={this.boundOnError}
+        ref={this.boundSetRef}
+        src={src || backupSrc}
+        {...otherProps}
+      />
     );
   }
 }

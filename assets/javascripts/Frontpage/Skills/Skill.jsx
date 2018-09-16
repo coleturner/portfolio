@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import styled from 'react-emotion';
 
-import Hyperlink from '../../Components/Hyperlink';
 import Icon from '../../Components/Icon';
+
+const BREAKING_POINT = '700px';
 
 const Title = styled.h5`
   font-weight: 500;
@@ -14,11 +15,15 @@ const Rating = styled.div`
   padding: 2px;
   margin-top: 0.25em;
   border-radius: 1em;
-  width:  ${({ rating }) => (rating / 5 * 100) + '%'}
+  width: ${({ rating }) => (rating / 5) * 100 + '%'};
 `;
 
 const RatingSpan = styled.div`
-  background: ${({ theme: { COLORS: { SUCCESS } } }) => SUCCESS};
+  background: ${({
+    theme: {
+      COLORS: { SUCCESS }
+    }
+  }) => SUCCESS};
   height: 1em;
   border-radius: 1em;
   position: relative;
@@ -31,18 +36,20 @@ const Skill = styled.div`
   margin: 1.5em 0;
   font-size: 1.15em;
   position: relative;
-  
-  ${({ isAnimated, theme: { ANIMATIONS: { FILL } } }) => 
+
+  ${({
+    isAnimated,
+    theme: {
+      ANIMATIONS: { FILL }
+    }
+  }) =>
     `${RatingSpan} {
       max-width: 0%;
       animation: ${FILL} 1s;
       animation-fill-mode: forwards;
     }
 
-    &:nth-child(2n) ${RatingSpan} { animation-delay: 150ms; }`
-  }
-
-  ${Icon} {
+    &:nth-child(2n) ${RatingSpan} { animation-delay: 150ms; }`} ${Icon} {
     max-width: 3em;
     max-height: 3em;
     position: absolute;
@@ -63,7 +70,6 @@ const SkillText = styled.p`
   color: #666;
 `;
 
-
 export default class SkillItem extends React.Component {
   static propTypes = {
     skill: PropTypes.shape({
@@ -73,17 +79,11 @@ export default class SkillItem extends React.Component {
       rating: PropTypes.number.isRequired
     }).isRequired,
     isAnimated: PropTypes.bool.isRequired
-  }
+  };
 
   render() {
     const { skill, isAnimated } = this.props;
-    const {
-      name,
-      rating,
-      icon,
-      demos = [],
-      notes
-    } = skill;
+    const { name, rating, icon, demos = [], notes } = skill;
 
     return (
       <Skill isAnimated={isAnimated}>

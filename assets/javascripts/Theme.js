@@ -147,6 +147,15 @@ export const ANIMATIONS = {
     to {
       top: 0;
     }
+  `,
+
+  FADE_IN: keyframes`
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   `
 }
 

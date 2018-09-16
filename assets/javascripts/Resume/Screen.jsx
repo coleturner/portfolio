@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 
 import Aclamations from './Aclamations';
 import Projects from './Projects';
-import View from '../Components/View';
 import Wrapper from '../App/Wrapper';
+
+const Resume = styled.div``;
 
 export default class ResumeScreen extends React.Component {
   static propTypes = {
     contents: PropTypes.array.isRequired
-  }
+  };
 
   view() {
     const { contents } = this.props;
 
     return (
-      <View id="resume">
+      <Resume>
         {contents.map((content, index) => {
           const { $type, ...fields } = content;
 
           try {
-
             switch ($type) {
               case 'projectsContainer':
                 return <Projects key={index} {...fields} />;
@@ -35,7 +36,7 @@ export default class ResumeScreen extends React.Component {
         })}
 
         <Aclamations />
-      </View>
+      </Resume>
     );
   }
 

@@ -5,7 +5,6 @@ import Container from '../Components/Container';
 import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
 import Picture from '../Components/Picture';
-import View from '../Components/View';
 
 import PORTRAIT_IMAGE from '../../images/portrait.jpg';
 import FOOTER_MAP from '../../images/footer-map.jpg';
@@ -103,7 +102,7 @@ const Menu = styled.nav`
 export const AppFooter = () => {
   return (
     <Footer>
-			<Container>
+      <Container>
         <Portrait>
           <Picture src={PORTRAIT_IMAGE} />
         </Portrait>
@@ -115,7 +114,7 @@ export const AppFooter = () => {
           <Hyperlink href="mailto:turner.cole@gmail.com">
             <Icon symbol={Icon.LIST.MAIL} /> Email
           </Hyperlink>
-          <Hyperlink href="http://twitter.com/colepatrickturner">
+          <Hyperlink href="http://twitter.com/coleturner">
             <Icon symbol={Icon.LIST.TWITTER} /> Twitter
           </Hyperlink>
           <Hyperlink href="http://www.linkedin.com/in/colept">
@@ -126,7 +125,7 @@ export const AppFooter = () => {
           </Hyperlink>
         </Menu>
       </Container>
-		</Footer>
+    </Footer>
   );
 };
 

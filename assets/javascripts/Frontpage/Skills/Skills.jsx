@@ -2,22 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 
-import Flex from '../../Components/Flex';
-import { H6 } from '../../Components/Heading';
 import Skill from './Skill';
-import View from '../../Components/View';
 import Container from '../../Components/Container';
 
 const BREAKING_POINT = '700px';
 
 const Skills = styled('div')`
   padding: 6em 0;
-  hr { margin: 3em auto; }
+  hr {
+    margin: 3em auto;
+  }
 `;
 
 const Title = styled.h2`
   text-align: center;
-  color: rgba(0,0,0,0.75);
+  color: rgba(0, 0, 0, 0.75);
   font-weight: 500;
 
   strong {
@@ -41,7 +40,7 @@ const SkillList = styled.div`
 `;
 
 const Misc = styled.div`
-    font-size: 1.15em;
+  font-size: 1.15em;
 `;
 
 const MiscTitle = styled.h6`
@@ -51,7 +50,7 @@ const MiscTitle = styled.h6`
 const SkillLabel = styled.span`
   background: #eee;
   color: #666;
-  padding: .45em 1em;
+  padding: 0.45em 1em;
   line-height: 1;
   border-radius: 10em;
   display: inline-block;
@@ -62,9 +61,9 @@ const SkillLabel = styled.span`
 export default class FrontpageSkills extends React.Component {
   static propTypes = {
     skills: PropTypes.array.isRequired
-  }
+  };
 
-  state = { animatedIndexes: [] }
+  state = { animatedIndexes: [] };
 
   componentDidMount() {
     document.addEventListener('scroll', this.onScroll);
@@ -74,9 +73,9 @@ export default class FrontpageSkills extends React.Component {
     document.removeEventListener('scroll', this.onScroll);
   }
 
-  onReference = (node) => {
+  onReference = node => {
     this.node = node;
-  }
+  };
 
   onScroll = () => {
     const elements = Array.from(this.node.querySelectorAll('.skill'));
@@ -89,7 +88,7 @@ export default class FrontpageSkills extends React.Component {
         return acc;
       }, [])
     });
-  }
+  };
 
   render() {
     const { skills } = this.props;
@@ -99,7 +98,9 @@ export default class FrontpageSkills extends React.Component {
     return (
       <Skills ref={this.onReference}>
         <Container>
-          <Title>I <strong>enjoy</strong> working with</Title>
+          <Title>
+            I <strong>enjoy</strong> working with
+          </Title>
 
           <SkillList>
             {skillsWithRating.map((skill, index) => {
@@ -116,10 +117,11 @@ export default class FrontpageSkills extends React.Component {
           {skillsWithoutRating && (
             <Misc>
               <MiscTitle>Miscellaneous skills</MiscTitle>
-              {skillsWithoutRating.map(skill => <SkillLabel key={skill.name}>{skill.name}</SkillLabel>)}
+              {skillsWithoutRating.map(skill => (
+                <SkillLabel key={skill.name}>{skill.name}</SkillLabel>
+              ))}
             </Misc>
           )}
-
         </Container>
       </Skills>
     );

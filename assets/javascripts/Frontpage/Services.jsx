@@ -3,11 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 
-import Flex from '../Components/Flex';
-import { H2, H3 } from '../Components/Heading';
 import Icon from '../Components/Icon';
-import Paragraph from '../Components/Paragraph';
-import View from '../Components/View';
 import Container from '../Components/Container';
 
 const BREAKING_POINT = '900px';
@@ -40,7 +36,6 @@ const Services = styled.div`
 `;
 
 const Service = styled.div`
-
   background: #fff;
   border-radius: 3px;
   color: #464f54;
@@ -65,12 +60,12 @@ const Service = styled.div`
 `;
 
 const Title = styled.h2`
-    text-align: center;
-    white-space: pre-line;
+  text-align: center;
+  white-space: pre-line;
 
-    ${Services}:first-child & {
-      font-weight: 800;
-    }
+  ${Services}:first-child & {
+    font-weight: 800;
+  }
 `;
 
 const ServiceList = styled.div`
@@ -82,8 +77,8 @@ const ServiceList = styled.div`
 `;
 
 const ServiceTitle = styled.h3`
-    font-size: 1.25em;
-    color: #4488b4;
+  font-size: 1.25em;
+  color: #4488b4;
 `;
 
 const ServiceText = styled.p`

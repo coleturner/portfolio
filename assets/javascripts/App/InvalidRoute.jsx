@@ -1,14 +1,16 @@
 import React from 'react';
+import styled from 'react-emotion';
 
-import { H1 } from '../Components/Heading';
-import Paragraph from '../Components/Paragraph';
-import View from '../Components/View';
+import Container from '../Components/Container';
 
-const Page404 = (props) => (
-<View>
-  <H1>Page Not Found</H1>
-  <Paragraph>You have reached a page that does not exist.</Paragraph>
-</View>
+const Title = styled.h1``;
+const Text = styled.p``;
+
+const Page404 = props => (
+  <Container>
+    <Title>Page Not Found</Title>
+    <Text>You have reached a page that does not exist.</Text>
+  </Container>
 );
 
 export default Page404;

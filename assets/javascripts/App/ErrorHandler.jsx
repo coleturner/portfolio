@@ -1,20 +1,20 @@
 import React from 'react';
+import styled from 'react-emotion';
 
-import { H1 } from '../Components/Heading';
-import Paragraph from '../Components/Paragraph';
 import Container from '../Components/Container';
 
-export const ErrorHandler = (props) => {
+const Title = styled.h1``;
+const Text = styled.p``;
+
+export const ErrorHandler = props => {
   if (props.error) {
     console.warn('Encoutered error', props.error);
   }
 
   return (
     <Container isSinglePage={true}>
-      <H1>Oops!</H1>
-      <Paragraph>
-        An unknown error has occurred. Please go back and try again.
-      </Paragraph>
+      <Title>Oops!</Title>
+      <Text>An unknown error has occurred. Please go back and try again.</Text>
     </Container>
   );
 };

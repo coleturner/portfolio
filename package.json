@@ -5,13 +5,13 @@
   "browserslist": "> 0.25%, not dead",
   "repository": {
     "type": "git",
-    "url": "git://github.com/colepatrickturner/portfolio.git"
+    "url": "git://github.com/coleturner/portfolio.git"
   },
   "author": "Cole Turner",
   "bugs": {
-    "url": "https://github.com/colepatrickturner/portfolio/issues"
+    "url": "https://github.com/coleturner/portfolio/issues"
   },
-  "homepage": "https://github.com/colepatrickturner/portfolio#readme",
+  "homepage": "https://github.com/coleturner/portfolio#readme",
   "scripts": {
     "build": "NODE_ENV=production webpack --mode production",
     "start": "node ./bin/www",
@@ -42,13 +42,9 @@
     "pug": "^2.0.0-rc.2",
     "react": "^15.3.2",
     "react-dom": "^15.4.2",
-    "react-embedly": "^0.3.5",
     "react-emotion": "^9.2.8",
-    "react-image-magnify": "^1.4.8",
     "react-markdown": "^3.6.0",
     "react-modal": "^1.6.5",
-    "react-relay": "^1.0.0",
-    "react-select": "^1.0.0-rc.4",
     "ress": "^1.2.2",
     "serve-favicon": "^2.4.3",
     "url-polyfill": "^1.0.3",
