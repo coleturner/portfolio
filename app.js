@@ -6,8 +6,9 @@ const favicon = require('serve-favicon');
 // App
 const app = express();
 
-// webpack
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+  app.use(require('compression')());
+} else {
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const webpack = require('webpack');
