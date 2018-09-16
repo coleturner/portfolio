@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7
+      - image: circleci/node:8.9.0
     services:
       - docker
     steps:
@@ -34,7 +34,7 @@ jobs:
             then
               docker tag colept/portfolio:compiled colept/portfolio:$CIRCLE_BRANCH
             fi
-      - run: 
+      - run:
           name: Push Images
           command: |
             docker push colept/portfolio:release-latest
