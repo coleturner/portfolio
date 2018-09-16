@@ -14,6 +14,7 @@ RUN chown $USER --recursive /home/$USER
 USER $USER
 
 RUN yarn install && npm rebuild node-sass
+RUN apt-get update && apt-get install nasm
 
 
 ENV NODE_ENV production

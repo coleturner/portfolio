@@ -15,6 +15,7 @@ RUN chown $USER --recursive /home/$USER
 USER $USER
 
 RUN yarn install && npm rebuild node-sass
+RUN apt-get update && apt-get install nasm
 
 EXPOSE $PORT
 CMD yarn run pm2-dev start processes.json -- --ignore public;
