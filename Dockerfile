@@ -6,6 +6,8 @@ ENV SASS_BINARY_NAME linux-x64-51_binding.node
 ENV PORT 7000
 ENV PATH="/usr/local/bin:$PATH"
 
+RUN apt-get update && apt-get install nasm
+
 COPY ["./package.json", "/home/$USER/"]
 
 ADD . /home/$USER
