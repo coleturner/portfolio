@@ -204,7 +204,11 @@ export default class Card extends React.Component {
   render() {
     const { links, title, subtitle, image } = this.props;
 
-    const imageUrl = image.file.url;
+    const widthBasedMax = (screen ? screen.width : window.innerWidth) * 0.6;
+    const heightBasedMax = (screen ? screen.width : window.innerWidth) * 0.4;
+    const w = Math.round(Math.min(widthBasedMax, heightBasedMax));
+
+    const imageUrl = `${image.file.url}?w=${w}`;
 
     return (
       <Container>
