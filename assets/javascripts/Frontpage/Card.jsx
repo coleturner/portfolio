@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled, { css } from 'react-emotion';
 
 import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
@@ -31,8 +31,6 @@ const Portrait = styled.div`
   max-height: 60vw;
   border-radius: 21em;
   margin-bottom: 2em;
-  transition: transform 0ms ease-in;
-  transform-origin: center center;
   background: #000;
   border: 6px solid #000;
   position: relative;
@@ -44,41 +42,37 @@ const Image = styled.img`
   object-position: center center;
   width: 100%;
   height: 100%;
-
-  ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === -1 && prevDirectionIndex <= 2
-      ? 'transform: scale3d(-1, 1, 1) rotate(0deg);'
-      : null}
-  ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === -1 && prevDirectionIndex > 2
-      ? 'transform: scale3d(1, 1, 1) rotate(0deg) ;'
-      : null}
-  ${({ directionIndex }) =>
-    directionIndex === 0 ? 'transform: scale3d(-1, 1, 1) rotate(15deg);' : null}
-  ${({ directionIndex }) =>
-    directionIndex === 1 ? 'transform: scale3d(-1, 1, 1) rotate(45deg);' : null}
-  ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === 2 && prevDirectionIndex < directionIndex
-      ? 'transform: scale3d(-1, 1, 1) rotate(90deg);'
-      : null}
-  ${({ directionIndex, prevDirectionIndex }) =>
-    directionIndex === 2 && prevDirectionIndex >= directionIndex
-      ? 'transform: rotate(90deg);'
-      : null}
-  ${({ directionIndex }) =>
-    directionIndex === 3 ? 'transform: rotate(45deg);' : null}
-  ${({ directionIndex }) =>
-    directionIndex === 4 ? 'transform: rotate(15deg);' : null}
-  ${({ directionIndex, prevDirectionIndex }) =>
-    !['32', '12'].includes(`${directionIndex}${prevDirectionIndex}`) &&
-    Math.abs(directionIndex - prevDirectionIndex) === 1
-      ? 'transition-duration: 150ms;'
-      : null}
+  transition: transform 150ms ease-in;
+  transform-origin: center center;
 `;
 
 Image.defaultProps = {
   alt: 'Yours Truly'
 };
+
+const CSS_STATES = [
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 0deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 15deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 45deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 90deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 120deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 140deg);
+  `,
+  css`
+    transform: scale3d(-1, 1, 1) rotate3d(0, 0, 1, 160deg);
+  `
+];
 
 const Heading = styled.h1`
   margin: 0;
@@ -146,8 +140,7 @@ export default class Card extends React.Component {
   }
 
   state = {
-    mouseOverIndex: -1,
-    prevMouseOverIndex: -1
+    mouseOverIndex: -1
   };
 
   shouldAnimate = () => {
@@ -168,21 +161,12 @@ export default class Card extends React.Component {
       clearTimeout(this.outTimeout);
     }
 
-    const prevMouseOverIndex =
-      this.state.mouseOverIndex == -1
-        ? this.state.prevMouseOverIndex
-        : this.state.mouseOverIndex;
     const mouseOverIndex = Array.from(
       e.currentTarget.parentNode.children
     ).indexOf(e.currentTarget);
 
-    if (mouseOverIndex === prevMouseOverIndex) {
-      return;
-    }
-
     this.setState({
-      mouseOverIndex,
-      prevMouseOverIndex
+      mouseOverIndex
     });
   };
 
@@ -194,8 +178,7 @@ export default class Card extends React.Component {
     this.outTimeout = setTimeout(
       () =>
         this.setState({
-          mouseOverIndex: -1,
-          prevMouseOverIndex: this.state.mouseOverIndex
+          mouseOverIndex: -1
         }),
       this.outTimeoutMs
     );
@@ -208,11 +191,11 @@ export default class Card extends React.Component {
 
     return (
       <Container>
-        <Portrait>
+        <Portrait key="the-portrait">
           <Image
+            key="the-image"
             src={imageUrl || PORTRAIT_IMAGE}
-            directionIndex={this.state.mouseOverIndex}
-            prevDirectionIndex={this.state.prevMouseOverIndex}
+            className={CSS_STATES[this.state.mouseOverIndex + 1]}
           />
         </Portrait>
 
