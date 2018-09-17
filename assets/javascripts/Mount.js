@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from 'emotion-theming';
 import { createElement } from 'react';
 import { render } from 'react-dom';
 
@@ -27,15 +27,19 @@ export default class Mount {
           <Component {...props} />
         </ThemeProvider>
       );
-      
-      render(
-        context, mount);
+
+      render(context, mount);
     }
   }
 
   static resolve(request) {
     const keys = resolver.keys();
-    const tests = [request + '.jsx', request + '.js', request + '/index.jsx', request + '/index.js'];
+    const tests = [
+      request + '.jsx',
+      request + '.js',
+      request + '/index.jsx',
+      request + '/index.js'
+    ];
     const match = tests.find(test => keys.includes(test)) || request;
 
     return resolver(match);
@@ -44,10 +48,12 @@ export default class Mount {
 
 assignResolver();
 
-if (module.hot) {
-  module.hot.accept();
-  module.hot.accept(resolver.id, () => {
-    assignResolver();
-    Mount.init();
-  });
+if (process.env.NODE_ENV !== 'production') {
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.accept(resolver.id, () => {
+      assignResolver();
+      Mount.init();
+    });
+  }
 }

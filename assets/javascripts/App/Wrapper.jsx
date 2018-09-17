@@ -21,15 +21,15 @@ const Wrapper = styled.div`
   }
 `;
 
-export const AppWrapper = ({ animateLogo, children }) => (
-  <Wrapper>
-    <Header animateLogo={animateLogo} />
-    <Main>
-      {children}
-    </Main>
-    <Footer />
-  </Wrapper>
-);
+export const AppWrapper = ({ animateLogo, children }) => {
+  return (
+    <Wrapper>
+      <Header animateLogo={animateLogo} />
+      <Main>{children}</Main>
+      <Footer />
+    </Wrapper>
+  );
+};
 
 AppWrapper.propTypes = {
   animateLogo: PropTypes.bool.isRequired,

@@ -15,3 +15,4 @@ node_modules/
 public/uploads/
 .pm2
 .pm2-dev
+yarn-error.log

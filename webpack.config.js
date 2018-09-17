@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 
@@ -186,20 +187,34 @@ module.exports = (env, args) => {
       })
     ],
     resolve: {
-      extensions: ['.js', '.jsx'],
-      alias:
-        isProduction || true
+      extensions: ['.js', '.jsx']
+      /* alias:
+        isProduction
           ? {
             react: 'preact-compat',
             'react-dom': 'preact-compat',
-            'preact-compat': 'preact-compat/dist/preact-compat'
+            'preact-compat': 'preact-compat/dist/preact-compat',
+            'react-emotion': 'preact-emotion'
           }
-          : {}
+          : {}*/
     }
   };
 
   if (isProduction) {
     config.plugins.push(new MinifyPlugin(null, { test: /\.jsx?$/i }));
+    // config.optimization = {
+    //   minimizer: [
+    //     new UglifyJsPlugin({
+    //       parallel: true,
+
+    //       uglifyOptions: {
+    //         compress: {
+    //           dead_code: true
+    //         }
+    //       }
+    //     })
+    //   ]
+    // };
   } else {
     config.devServer = {
       hot: true,
