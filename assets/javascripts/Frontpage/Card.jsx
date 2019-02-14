@@ -31,9 +31,15 @@ const Portrait = styled.div`
   max-height: 60vw;
   border-radius: 21em;
   margin-bottom: 2em;
-  background: #000;
-  border: 6px solid #000;
   position: relative;
+
+  ${({ useBorder }) =>
+    useBorder &&
+    `
+
+    background: #000;
+    border: 6px solid #000;
+  `}
 `;
 
 const Image = styled.img`
@@ -191,7 +197,7 @@ export default class Card extends React.Component {
 
     return (
       <Container>
-        <Portrait key="the-portrait">
+        <Portrait key="the-portrait" useBorder={this.props.flags.useBorder}>
           <Image
             key="the-image"
             src={imageUrl || PORTRAIT_IMAGE}
