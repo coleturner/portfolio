@@ -191,7 +191,9 @@ export default class Card extends React.Component {
   };
 
   render() {
-    const { links, title, subtitle, image } = this.props;
+    const { links, title, subtitle, image, flags } = this.props;
+
+    const { useBorder, animatePortrait } = flags;
 
     const widthBasedMax = (screen ? screen.width : window.innerWidth) * 0.6;
     const heightBasedMax = (screen ? screen.width : window.innerWidth) * 0.4;
@@ -201,11 +203,13 @@ export default class Card extends React.Component {
 
     return (
       <Container>
-        <Portrait key="the-portrait" useBorder={this.props.flags.useBorder}>
+        <Portrait key="the-portrait" useBorder={useBorder}>
           <Image
             key="the-image"
             src={imageUrl || PORTRAIT_IMAGE}
-            className={CSS_STATES[this.state.mouseOverIndex + 1]}
+            className={
+              animatePortrait && CSS_STATES[this.state.mouseOverIndex + 1]
+            }
           />
         </Portrait>
 
