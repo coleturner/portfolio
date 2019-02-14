@@ -141,13 +141,17 @@ const Link = styled(Hyperlink)`
 `;
 
 export default class Card extends React.Component {
-  componentDidMount() {
-    this.maxHeight = screen.height || window.innerHeight;
-  }
-
   state = {
     mouseOverIndex: -1
   };
+
+  componentDidMount() {
+    window.addEventListener('orientationchange', this.forceUpdate);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('orientationchange', this.forceUpdate);
+  }
 
   shouldAnimate = () => {
     if (!this.props.flags.animatePortrait) {
@@ -196,7 +200,7 @@ export default class Card extends React.Component {
     const { useBorder, animatePortrait } = flags;
 
     const widthBasedMax = (screen ? screen.width : window.innerWidth) * 0.6;
-    const heightBasedMax = (screen ? screen.width : window.innerWidth) * 0.4;
+    const heightBasedMax = (screen ? screen.width : window.innerWidth) * 0.6;
     const w = Math.round(Math.min(widthBasedMax, heightBasedMax));
 
     const imageUrl = `${image.file.url}?w=${w}`;
