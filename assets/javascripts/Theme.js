@@ -3,6 +3,7 @@ import { css, keyframes, injectGlobal } from 'react-emotion';
 export const COLORS = {
   BODY: '#222',
   PRIMARY: '#4488b4',
+  PRIMARY_ALT: '#105a93',
   SUCCESS: 'rgb(87, 173, 85)'
 };
 
@@ -29,6 +30,12 @@ injectGlobal`
     > #content,
     > footer {
       width: 100%;
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      background: #000;
+      color: #fff;
+      color: rgba(255,255,255,0.85);
     }
   }
 
@@ -157,8 +164,7 @@ export const ANIMATIONS = {
       opacity: 1;
     }
   `
-}
-
+};
 
 export default {
   FONTS,

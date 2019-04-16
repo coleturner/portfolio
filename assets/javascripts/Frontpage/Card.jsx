@@ -123,8 +123,12 @@ const Link = styled(Hyperlink)`
     text-decoration: none;
     color: #000;
 
+    @media screen and (prefers-color-scheme: dark) {
+      color: #fff;
+    }
+
     svg use {
-      fill: #000;
+      fill: currentColor;
     }
   }
 

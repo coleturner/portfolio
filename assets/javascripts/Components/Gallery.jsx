@@ -170,6 +170,14 @@ const SlidePickerOption = styled.div`
   }
 
   ${({ isActive }) => isActive && 'background: #333;'};
+
+  @media screen and (prefers-color-scheme: dark) {
+    background: ${({ isActive }) => (isActive ? '#68ade2' : '#23323d')};
+
+    &:hover {
+      background: #37546b;
+    }
+  }
 `;
 
 export default class Gallery extends React.PureComponent {

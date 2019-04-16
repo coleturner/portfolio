@@ -35,6 +35,9 @@ const LogoContainer = styled.div`
     transition-property: font-size, letter-spacing, text-shadow, transform;
   }
 
+  @media screen and (prefers-color-scheme: dark) {
+    color: #8fbfea;
+  }
 `;
 
 const stickyStyle = css`
@@ -74,7 +77,14 @@ const Header = styled.header`
   }
 
   ${({ sticky }) => sticky && stickyStyle}
-  ${({ sticky, theme: { ANIMATIONS: { SLIDE_DOWN }} }) => sticky && `
+  ${({
+    sticky,
+    theme: {
+      ANIMATIONS: { SLIDE_DOWN }
+    }
+  }) =>
+    sticky &&
+    `
     animation: ${SLIDE_DOWN} 500ms;
   `}
 `;
@@ -109,6 +119,10 @@ const Navigation = styled.nav`
   mix-blend-mode: multiply;
   white-space: nowrap;
 
+  @media screen and (prefers-color-scheme: dark) {
+    color: #ddd;
+  }
+
   ${Hyperlink} {
     margin: 0 1.25em;
     display: inline-block;
@@ -118,14 +132,20 @@ const Navigation = styled.nav`
     color: inherit;
     letter-spacing: 1px;
     border-bottom: 2px solid transparent;
-
-    &:hover {
-      opacity: 0.85;
-    }
+    text-decoration: none;
 
     &.active {
       font-weight: 600;
-      border-bottom: 2px solid ${({ theme: { COLORS: { PRIMARY }} }) => PRIMARY};
+    }
+
+    &.active,
+    &:hover {
+      border-bottom: 2px solid
+        ${({
+          theme: {
+            COLORS: { PRIMARY }
+          }
+        }) => PRIMARY};
     }
   }
 `;
@@ -135,9 +155,9 @@ const Menu = styled.div``;
 export default class HeaderView extends React.PureComponent {
   static propTypes = {
     animateLogo: PropTypes.bool.isRequired
-  }
+  };
 
-  state = { sticky: false }
+  state = { sticky: false };
 
   componentDidMount() {
     document.addEventListener('scroll', this.onScroll);
@@ -159,7 +179,7 @@ export default class HeaderView extends React.PureComponent {
     } else if (this.state.sticky) {
       this.setState({ sticky: false });
     }
-  }
+  };
 
   logo() {
     if (document.body.className.indexOf('index') === -1) {
@@ -179,30 +199,22 @@ export default class HeaderView extends React.PureComponent {
     );
   }
 
-  onReference = (node) => {
+  onReference = node => {
     this.node = node;
-  }
+  };
 
   render() {
     return (
-      <Header
-        ref={this.onReference}
-        sticky={this.state.sticky}>
+      <Header ref={this.onReference} sticky={this.state.sticky}>
         <HeaderContent>
           <Container>
             {this.logo()}
             <Navigation>
               <Menu>
-                <Hyperlink
-                  path="/"
-                  activeClassName="active"
-                >
+                <Hyperlink path="/" activeClassName="active">
                   Home
                 </Hyperlink>
-                <Hyperlink
-                  path="resume"
-                  activeClassName="active"
-                >
+                <Hyperlink path="resume" activeClassName="active">
                   Résumé
                 </Hyperlink>
                 <Hyperlink

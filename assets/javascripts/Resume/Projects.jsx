@@ -9,6 +9,7 @@ import Gallery from '../Components/Gallery';
 import Hyperlink from '../Components/Hyperlink';
 import Icon from '../Components/Icon';
 import Container from '../Components/Container';
+import { COLORS } from '../Theme';
 
 const ResumeProjects = styled.div``;
 
@@ -19,9 +20,17 @@ const ResumeHeader = styled.div`
   padding: 2em 0;
   text-align: center;
   color: rgba(0, 0, 0, 0.65);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
   letter-spacing: -0.03em;
   font-size: 1.25em;
+
+  @media screen and (prefers-color-scheme: dark) {
+    background: #092947;
+    color: #e8f1f9;
+
+    a:not(:hover) {
+      color: #8fbfea;
+    }
+  }
 `;
 
 const Heading = styled.h1`
@@ -38,6 +47,10 @@ const ProjectList = styled.div`
 
   @media screen and (min-width: ${BREAKING_POINT}) {
     border-left: 3px solid #eee;
+
+    @media screen and (prefers-color-scheme: dark) {
+      border-left-color: #355b7c;
+    }
   }
 `;
 
@@ -63,6 +76,10 @@ const Project = styled.div`
       background: #ccc;
       border: 2px solid transparent;
       transform: translate(-50%, -50%);
+
+      @media screen and (prefers-color-scheme: dark) {
+        background: #68ade2;
+      }
     }
   }
 
@@ -74,6 +91,11 @@ const Project = styled.div`
       border-color: #ccc;
       width: 1.35em;
       height: 1.35em;
+
+      @media screen and (prefers-color-scheme: dark) {
+      background: #000;
+        border-color: #68ade2;
+      }
     }
   `};
 `;
@@ -82,10 +104,18 @@ const ProjectTitle = styled.h3`
   font-size: 1.5em;
   letter-spacing: -0.03em;
   margin: 0;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: #8fbfea;
+  }
 `;
 
 const Duration = styled.div`
   color: #aaa;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: #c0cdd8;
+  }
 `;
 
 const ProjectContent = styled.div`
@@ -96,6 +126,12 @@ const ProjectContent = styled.div`
   margin-top: 1em;
   color: #717171;
   ${({ emphasize }) => !emphasize && 'max-width: 730px;'};
+
+  @media screen and (prefers-color-scheme: dark) {
+    background: #091119;
+    color: #8ba3b2;
+    box-shadow: 0 0.35em 0 0.075em #172430;
+  }
 `;
 
 const Time = styled.time`
@@ -118,6 +154,10 @@ const ProjectDetails = styled.div`
   h5,
   h6 {
     color: #333;
+
+    @media screen and (prefers-color-scheme: dark) {
+      color: #d7e6ef;
+    }
   }
 
   h4 {
@@ -143,33 +183,30 @@ const Tag = styled.span`
   margin-bottom: 0.3em;
   padding: 0.2em 0.65em;
   color: #999;
+
+  @media screen and (prefers-color-scheme: dark) {
+    background: #012c44;
+    color: #ccdfea;
+  }
 `;
 
 const ProjectLink = styled(Hyperlink)`
   display: inline-block;
   margin-top: 1.5em;
   font-size: 1em;
-  color: #aaa;
+  color: ${COLORS.PRIMARY};
 
   svg.icon {
     margin-right: 0.5em;
     use {
-      fill: #aaa;
+      fill: currentColor;
     }
   }
 
   &:hover {
-    color: ${({
-      theme: {
-        COLORS: { PRIMARY }
-      }
-    }) => PRIMARY};
+    color: ${COLORS.PRIMARY_ALT};
     svg use {
-      fill: ${({
-        theme: {
-          COLORS: { PRIMARY }
-        }
-      }) => PRIMARY};
+      fill: currentColor;
     }
   }
 `;

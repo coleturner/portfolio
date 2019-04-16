@@ -58,6 +58,10 @@ const Title = styled.strong`
   color: #333;
   margin-bottom: 0.3em;
 
+  @media screen and (prefers-color-scheme: dark) {
+    color: #ccc;
+  }
+
   ${Hyperlink} {
     color: inherit;
     &:hover {
