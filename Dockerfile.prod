@@ -1,4 +1,4 @@
-FROM node:8.9.0
+FROM node:10
 
 ENV USER node
 ENV SASS_BINARY_NAME linux-x64-51_binding.node
