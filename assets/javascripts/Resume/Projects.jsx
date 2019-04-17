@@ -333,7 +333,7 @@ export default class ResumeProjectsView extends React.Component {
                   {endTimestamp ? <Time>{endTimestamp}</Time> : 'Present'}
                 </Duration>
                 <ProjectContent>
-                  <Gallery images={imageArray} />
+                  {imageArray.length ? <Gallery images={imageArray} /> : null}
                   <ProjectDetails>
                     <ReactMarkdown
                       className="markdown"
