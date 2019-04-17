@@ -304,9 +304,6 @@ export default class Card extends React.Component {
 
     let imageUrl = `${image.file.url}?w=${w}`;
 
-    setInterval(() => {
-      this.forceUpdate();
-    }, 100);
 
           /*
           <Image
