@@ -1462,6 +1462,12 @@ export default class Card extends React.Component {
     );
   };
 
+  sendEggEvent = (action) => {
+    if (typeof ga !== 'undefined' ) {
+      ga('send', 'event', 'Easter Egg', action, 'Prefers Theme', this.state.isDarkMode ? 'Dark Mode' : 'Light Mode');
+    }
+  }
+
   render() {
     const { links, title, subtitle, image, flags } = this.props;
 
@@ -1568,11 +1574,13 @@ export default class Card extends React.Component {
                   <path fill='#000' fillRule='nonzero' d='M530.04 397.04c-1.59.42 61.71-21.33 91 6.85-.04 0-37.65-21-91-6.85zM375.11 412.68l15.07-4.43s-32.47-28-81.75 0l-9.43 2.67s27.43-23.14 61.28-18c11.15 1.72 42.43 14 36 17.29-6.43 3.29-21.17 2.47-21.17 2.47z'
                   />
                   <path
-                    onClick={() => 
+                    onClick={() =>  {
                       this.setState({ forceEasterEgg: true })
-                    }
+                      this.sendEggEvent('activate');
+                    }}
                     onMouseOver={() => {
                       this.setState({ indicateEasterEgg: true })
+                      this.sendEggEvent('notice');
                     }}
                     onMouseOut={() => {
                       this.setState({ indicateEasterEgg: false })
