@@ -53,7 +53,7 @@ const Image = styled.img`
 `;
 
 const EYES_BLINK = keyframes`
-  5%, 15% {
+  0%, 5%, 15%, 100% {
     transform: translate(299px, 392px) scaleY(1);
   }
 
@@ -63,7 +63,7 @@ const EYES_BLINK = keyframes`
 `;
 
 const EYES_NOSE_BRIDGE_BLINK = keyframes`
-  5%, 15% {
+  0%, 5%, 15%, 100% {
     transform: translateY(0px) scaleY(1);
   }
 
@@ -73,7 +73,7 @@ const EYES_NOSE_BRIDGE_BLINK = keyframes`
 `;
 
 const EYE_LIDS_BLINK = keyframes`
-  5%, 15% {
+  0%, 5%, 15%, 100% {
     transform: translateY(0px) scaleX(1);
   }
 
@@ -118,17 +118,17 @@ const SVG = styled.svg`
           fill: #ffcdc4;
         }
 
-        #Eyes {
-          animation: ${EYES_BLINK} 3s ease-in 0s infinite;
-        }
-
         #Eye-Nose-Bridge,
         #Eyebrows {
-          animation: ${EYES_NOSE_BRIDGE_BLINK} 3s ease-in 0s infinite;
+          animation: ${EYES_NOSE_BRIDGE_BLINK} 3s ease-in 0s infinite forwards;
         }
 
         #Eye-Lid-Lines {
-          animation: ${EYE_LIDS_BLINK} 3s ease-in 0s infinite;
+          animation: ${EYE_LIDS_BLINK} 3s ease-in 0s infinite forwards;
+        }
+
+        #Eyes {
+          animation: ${EYES_BLINK} 3s ease-in 0s infinite forwards;
         }
       }
     `}
