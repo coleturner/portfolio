@@ -52,9 +52,13 @@ const Image = styled.img`
   transform-origin: center center;
 `;
 
+const defaultEyesTransform = 'translate(299px, 392px) scaleY(1)';
+const defaultEyesNoseBridgeTransform = 'translateY(0px) scaleY(1)';
+const defaultEyeLidLinesTransform = 'translateY(0px) scaleY(1)';
+
 const EYES_BLINK = keyframes`
   0%, 5%, 15%, 100% {
-    transform: translate(299px, 392px) scaleY(1);
+    transform: ${defaultEyesTransform};
   }
 
   10% {
@@ -64,7 +68,7 @@ const EYES_BLINK = keyframes`
 
 const EYES_NOSE_BRIDGE_BLINK = keyframes`
   0%, 5%, 15%, 100% {
-    transform: translateY(0px) scaleY(1);
+    transform: ${defaultEyesNoseBridgeTransform};
   }
 
   10% {
@@ -74,7 +78,7 @@ const EYES_NOSE_BRIDGE_BLINK = keyframes`
 
 const EYE_LIDS_BLINK = keyframes`
   0%, 5%, 15%, 100% {
-    transform: translateY(0px) scaleX(1);
+    transform:${defaultEyeLidLinesTransform};
   }
 
   10% {
@@ -104,6 +108,18 @@ const SVG = styled.svg`
     transform-origin: center center;
   }
 
+  #Eyes {
+    transform: ${defaultEyesTransform};
+  }
+
+  #Eyes-Nose-Bridge {
+    transform: ${defaultEyesNoseBridgeTransform};
+  }
+
+  #Eye-Lid-Lines {
+    transform: ${defaultEyeLidLinesTransform};
+  }
+
   ${({ indicateEasterEgg, showEasterEgg }) =>
     indicateEasterEgg &&
     !showEasterEgg &&
@@ -120,15 +136,15 @@ const SVG = styled.svg`
 
         #Eye-Nose-Bridge,
         #Eyebrows {
-          animation: ${EYES_NOSE_BRIDGE_BLINK} 3s ease-in 0s infinite forwards;
+          animation: ${EYES_NOSE_BRIDGE_BLINK} 3s ease-in 0s infinite backwards;
         }
 
         #Eye-Lid-Lines {
-          animation: ${EYE_LIDS_BLINK} 3s ease-in 0s infinite forwards;
+          animation: ${EYE_LIDS_BLINK} 3s ease-in 0s infinite backwards;
         }
 
         #Eyes {
-          animation: ${EYES_BLINK} 3s ease-in 0s infinite forwards;
+          animation: ${EYES_BLINK} 3s ease-in 0s infinite backwards;
         }
       }
     `}
