@@ -136,7 +136,11 @@ const SVG = styled.svg`
   ${({ showEasterEgg }) =>
     showEasterEgg &&
     css`
-      linearGradient#b stop {
+      linearGradient stop[stop-color='#273141'] {
+        stop-color: ##82dfe5;
+      }
+
+      linearGradient stop[stop-color='#466287'] {
         stop-color: #a4f7fc;
       }
 
