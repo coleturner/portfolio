@@ -41,11 +41,8 @@ injectGlobal`
 
   a {
     color: ${COLORS.PRIMARY};
-    transition: all 0.15s ease-out;
     text-decoration: none;
 
-    transition-property: color, height, width, background-color, font-size,
-      opacity;
     &:hover {
       color: shade($primary-color, 30);
       text-decoration: underline;

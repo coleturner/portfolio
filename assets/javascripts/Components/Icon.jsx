@@ -28,7 +28,11 @@ import TWITTER from '../../icons/twitter.svg';
 import USER from '../../icons/user.svg';
 
 const IconComponent = props => {
-  const { className, symbol: { viewBox, id }, ...otherProps } = props;
+  const {
+    className,
+    symbol: { viewBox, id },
+    ...otherProps
+  } = props;
   return (
     <svg className={classNames('icon', className)} {...otherProps}>
       <use xlinkHref={`#${id}`} />
@@ -42,7 +46,6 @@ export const Icon = styled(IconComponent)`
 
   use {
     fill: #aaa;
-    transition: all 0.15s ease-out;
   }
 `;
 

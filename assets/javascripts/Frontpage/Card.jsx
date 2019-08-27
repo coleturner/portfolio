@@ -285,7 +285,7 @@ const Menu = styled('nav')`
   font-size: 1.5em;
   margin-top: 1em;
 
-  @media (min-width: 500px) {
+  @media (min-width: 600px) {
     display: flex;
     flex-direction: row;
     justify-content: center;
