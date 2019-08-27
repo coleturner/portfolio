@@ -7,37 +7,28 @@ import Icon from '../Components/Icon';
 import Picture from '../Components/Picture';
 
 import PORTRAIT_IMAGE from '../../images/portrait.jpg';
-import FOOTER_MAP from '../../images/footer-map.jpg';
 
 const Footer = styled.footer`
-  background: #333 url(${FOOTER_MAP}) no-repeat center center;
-  background-size: cover;
+  background: #d3dbe6;
   color: #aaa;
   margin: 0;
-`;
+  padding: 2em 0;
 
-const Title = styled.h4`
-  text-align: center;
-  margin-top: 0.75em;
-  margin-bottom: 0;
-  font-size: 2em;
-  text-transform: uppercase;
-  color: #ddd;
-  font-weight: 900;
+  @media screen and (prefers-color-scheme: dark) {
+    background: #111f33;
+  }
 `;
 
 const Portrait = styled.div`
   padding: 3px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: -3.5em;
+  margin-top: -7em;
   text-align: center;
   position: relative;
   z-index: 2;
 
   ${Picture} {
-    background: #333;
-    border: 0.65em solid #333;
     margin-bottom: 1em;
     height: 12em;
     width: 12em;
@@ -48,52 +39,29 @@ const Portrait = styled.div`
   }
 `;
 
-const Availability = styled.div`
-  padding: 0.5em 1em;
-  border-radius: 10em;
-  background: $success-color;
-  font-size: 1.35em;
-  font-weight: 300;
-  color: #fff;
-  display: inline-block;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  z-index: 2;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  transition: transform 150ms ease-out;
-  will-change: transform;
-
-  &:hover {
-    text-decoration: none;
-    color: #fff;
-    transform: translateX(-50%) scale(1.1);
-  }
-
-  ${Icon} {
-    margin-right: 0.5em;
-    use {
-      fill: #fff;
-    }
-  }
-`;
-
 const Menu = styled.nav`
-  padding: 1.5em 0;
   font-size: 1.5em;
   text-align: center;
+  color: #3f4f66;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: #6f8bb3;
+  }
 
   ${Hyperlink} {
     margin: 0 0.75em;
     color: inherit;
 
+    ${Icon} use {
+      fill: currentColor;
+    }
+
     &:hover {
-      color: #fff;
+      color: #10141a;
       text-decoration: none;
 
-      ${Icon} use {
-        fill: #fff;
+      @media screen and (prefers-color-scheme: dark) {
+        color: #fff;
       }
     }
   }
@@ -106,13 +74,9 @@ export const AppFooter = () => {
         <Portrait>
           <Picture src={PORTRAIT_IMAGE} />
         </Portrait>
-        <Title>Connect with me via</Title>
         <Menu>
           <Hyperlink href="https://medium.com/@colecodes">
             <Icon symbol={Icon.LIST.MEDIUM} /> Blog
-          </Hyperlink>
-          <Hyperlink href="mailto:turner.cole@gmail.com">
-            <Icon symbol={Icon.LIST.MAIL} /> Email
           </Hyperlink>
           <Hyperlink href="http://twitter.com/coleturner">
             <Icon symbol={Icon.LIST.TWITTER} /> Twitter

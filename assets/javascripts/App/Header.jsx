@@ -5,19 +5,18 @@ import styled, { css } from 'react-emotion';
 import Container from '../Components/Container';
 import Logo from './Logo';
 import Hyperlink from '../Components/Hyperlink';
-import { ANIMATIONS } from '../Theme';
 
 const BREAKING_POINT = '800px';
 
 const LogoContainer = styled.div`
   margin: 0;
   font-size: 1.5em;
-  letter-spacing: -0.1em;
+  letter-spacing: -0.05em;
   line-height: 1.4;
   color: #333;
   transition: all 0.2s ease-out;
 
-  font-weight: 900;
+  font-weight: 600;
   display: inline-block;
   vertical-align: middle;
   position: relative;
@@ -29,7 +28,6 @@ const LogoContainer = styled.div`
     -webkit-font-smoothing: subpixel-antialiased;
     color: inherit;
     font-size: 2.5em;
-    text-transform: uppercase;
     text-decoration: none !important;
     transition: all 0.15s ease-out;
     transition-property: font-size, letter-spacing, text-shadow, transform;

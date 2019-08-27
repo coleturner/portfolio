@@ -128,9 +128,11 @@ const ProjectContent = styled.div`
   ${({ emphasize }) => !emphasize && 'max-width: 730px;'};
 
   @media screen and (prefers-color-scheme: dark) {
-    background: #091119;
+    background: transparent;
     color: #8ba3b2;
-    box-shadow: 0 0.35em 0 0.075em #172430;
+    box-shadow: none;
+    border: 3px solid #365d80;
+    padding: 1em;
   }
 `;
 

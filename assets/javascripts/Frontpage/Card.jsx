@@ -276,6 +276,8 @@ const Subtitle = styled.h2`
   ${({ theme: { heading2 } }) => `${heading2}`} margin: 0;
   font-size: 1em;
   font-size: calc(1em + 1.3vh);
+  max-width: 700px;
+
   @media (min-width: 500px) {
     font-size: calc(1em + 1.5vh);
   }
