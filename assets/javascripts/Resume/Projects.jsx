@@ -17,7 +17,7 @@ const ResumeHeader = styled.div`
   background: #eee;
   background-blend-mode: screen;
   margin: 0 0 3em 0;
-  padding: 2em 0;
+  padding: 2em 0.5em;
   text-align: center;
   color: rgba(0, 0, 0, 0.65);
   letter-spacing: -0.03em;

@@ -49,7 +49,9 @@ const Menu = styled.nav`
   }
 
   ${Hyperlink} {
-    margin: 0 0.75em;
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0.5em 0.75em;
     color: inherit;
 
     ${Icon} use {

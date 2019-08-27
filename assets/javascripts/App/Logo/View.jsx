@@ -11,6 +11,12 @@ const Portrait = styled.img`
   object-fit: cover;
   object-position: center center;
   margin-right: 0.3em;
+
+  @media screen and (max-width: 500px) {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.3em;
+  }
 `;
 
 export default class Logo extends React.PureComponent {
