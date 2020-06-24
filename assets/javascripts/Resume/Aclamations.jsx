@@ -33,9 +33,13 @@ const AclamationItem = styled.div`
     use {
       fill: ${({
         theme: {
-          COLORS: { PRIMARY }
-        }
+          COLORS: { PRIMARY },
+        },
       }) => PRIMARY};
+
+      @media screen and (prefers-color-scheme: dark) {
+        fill: #2ff3f9;
+      }
     }
   }
 

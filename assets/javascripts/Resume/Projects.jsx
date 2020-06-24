@@ -28,7 +28,7 @@ const ResumeHeader = styled.div`
     color: #e8f1f9;
 
     a:not(:hover) {
-      color: #8fbfea;
+      color: #2ff3f9;
     }
   }
 `;
@@ -45,11 +45,33 @@ const ProjectList = styled.div`
   min-width: 40vmax;
   margin: 0 auto;
 
-  @media screen and (min-width: ${BREAKING_POINT}) {
-    border-left: 3px solid #eee;
+  &::before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 1em;
+    bottom: 0;
+
+    @media screen and (min-width: ${BREAKING_POINT}) {
+      border-left: 3px solid #eee;
+
+      @media screen and (prefers-color-scheme: dark) {
+        border-left-color: #355b7c;
+      }
+    }
+  }
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 10em;
+    width: 5px;
+    background: linear-gradient(to top, #fff 0%, rgba(255, 255, 255, 0) 100%);
 
     @media screen and (prefers-color-scheme: dark) {
-      border-left-color: #355b7c;
+      background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0) 100%);
     }
   }
 `;
@@ -67,7 +89,7 @@ const Project = styled.div`
   @media screen and (min-width: ${BREAKING_POINT}) {
     &::before {
       position: absolute;
-      left: -1px;
+      left: 1px;
       top: 1.5em;
       width: 1em;
       height: 1em;
@@ -78,7 +100,7 @@ const Project = styled.div`
       transform: translate(-50%, -50%);
 
       @media screen and (prefers-color-scheme: dark) {
-        background: #68ade2;
+        background: #2ff3f9;
       }
     }
   }
@@ -93,20 +115,21 @@ const Project = styled.div`
       height: 1.35em;
 
       @media screen and (prefers-color-scheme: dark) {
-      background: #000;
-        border-color: #68ade2;
+        background: #000;
+        border-color: #2ff3f9;
       }
     }
   `};
 `;
 
 const ProjectTitle = styled.h3`
-  font-size: 1.5em;
-  letter-spacing: -0.03em;
+  font-size: 2em;
+  font-weight: 900;
+  letter-spacing: -0.005em;
   margin: 0;
 
   @media screen and (prefers-color-scheme: dark) {
-    color: #8fbfea;
+    color: #2ff3f9;
   }
 `;
 
@@ -213,7 +236,7 @@ const ProjectLink = styled(Hyperlink)`
   }
 `;
 
-export const MarkdownHeading = props => {
+export const MarkdownHeading = (props) => {
   const { level, children } = props;
 
   const Component = `H${Math.min(6, level + 3)}`;
@@ -223,10 +246,10 @@ export const MarkdownHeading = props => {
 
 MarkdownHeading.propTypes = {
   children: PropTypes.node,
-  level: PropTypes.number.isRequired
+  level: PropTypes.number.isRequired,
 };
 
-export const MarkdownLink = props => {
+export const MarkdownLink = (props) => {
   const { className, href, title, children } = props;
 
   let rel;
@@ -259,10 +282,10 @@ MarkdownLink.propTypes = {
   className: PropTypes.any,
   href: PropTypes.string,
   title: PropTypes.string,
-  children: PropTypes.any
+  children: PropTypes.any,
 };
 
-export const getDomain = url => {
+export const getDomain = (url) => {
   try {
     const constructed = new URL(url);
     return constructed.hostname;
@@ -275,7 +298,7 @@ export default class ResumeProjectsView extends React.Component {
   static propTypes = {
     projects: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    body: PropTypes.string
+    body: PropTypes.string,
   };
 
   componentDidMount() {
@@ -301,12 +324,12 @@ export default class ResumeProjectsView extends React.Component {
             const endTimestamp = endTime && endTime.format('MMMM YYYY');
 
             const imageArray = (images && images.length ? images : []).map(
-              image => {
+              (image) => {
                 const width = !emphasize ? 620 : 1000;
                 return {
                   src: `${image.file.url}?w=${width}`,
                   preloadSrc: `${image.file.url}?w=30&h=30`,
-                  ...image.file.details.image
+                  ...image.file.details.image,
                 };
               }
             );
@@ -315,8 +338,8 @@ export default class ResumeProjectsView extends React.Component {
               url,
               text: [
                 <Icon symbol={Icon.LIST.LINK} key="icon" />,
-                <span key="txt">{getDomain(url)}</span>
-              ]
+                <span key="txt">{getDomain(url)}</span>,
+              ],
             };
 
             return (
@@ -342,11 +365,11 @@ export default class ResumeProjectsView extends React.Component {
                       source={abstract}
                       renderers={{
                         heading: MarkdownHeading,
-                        link: MarkdownLink
+                        link: MarkdownLink,
                       }}
                     />
                     <Tags>
-                      {tags.map(tag => (
+                      {tags.map((tag) => (
                         <Tag key={tag}>{tag}</Tag>
                       ))}
                     </Tags>
@@ -377,7 +400,7 @@ export default class ResumeProjectsView extends React.Component {
               className="markdown"
               source={body}
               renderers={{
-                link: MarkdownLink
+                link: MarkdownLink,
               }}
             />
           )}

@@ -21,14 +21,14 @@ module.exports = (env, args) => {
     entry: {
       main: [
         !isProduction && 'react-hot-loader/patch',
-        './javascripts/main.js'
-      ].filter(n => n)
+        './javascripts/main.js',
+      ].filter((n) => n),
     },
     devtool: isProduction ? false : 'eval-source-map',
     output: {
       filename: '[name]' + (isProduction ? '.[hash]' : '') + '.js',
       path: path.resolve(__dirname, './public/'),
-      publicPath: '/public/'
+      publicPath: '/public/',
     },
     module: {
       rules: [
@@ -42,19 +42,19 @@ module.exports = (env, args) => {
                 env: {
                   production: {
                     comments: false,
-                    minified: true
+                    minified: true,
                   },
                   development: {
                     comments: true,
-                    minified: false
-                  }
-                }
-              }
-            }
-          ]
+                    minified: false,
+                  },
+                },
+              },
+            },
+          ],
         },
         {
-          test: /\.(scss|css)$/i,
+          test: /\.(css)$/i,
           use: [
             isProduction
               ? MiniCssExtractPlugin.loader
@@ -62,40 +62,24 @@ module.exports = (env, args) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: true
-              }
+                sourceMap: true,
+              },
             },
             {
               loader: 'resolve-url-loader',
               options: {
-                sourceMap: true
-              }
+                sourceMap: true,
+              },
             },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'postcss-loader?sourceMap',
-              options: {
-                plugins: () => {
-                  return [
-                    autoprefixer({ browsers: ['last 3 version', '> 5%'] })
-                  ];
-                }
-              }
-            }
-          ]
+          ],
         },
         {
           test: /\.(ttf|eot|woff|woff2)$/i,
           use: [
             {
-              loader: 'file-loader'
-            }
-          ]
+              loader: 'file-loader',
+            },
+          ],
         },
         {
           test: /\.(jpe?g|png|gif)$/i,
@@ -106,30 +90,30 @@ module.exports = (env, args) => {
                 hash: 'sha512',
                 digest: 'hex',
                 name:
-                  '[path][name]' + (isProduction ? '.[hash]' : '') + '.[ext]'
-              }
+                  '[path][name]' + (isProduction ? '.[hash]' : '') + '.[ext]',
+              },
             },
             {
               loader: 'image-webpack-loader',
               options: {
                 mozjpeg: {
                   progressive: true,
-                  quality: 65
+                  quality: 65,
                 },
                 // optipng.enabled: false will disable optipng
                 optipng: {
-                  enabled: false
+                  enabled: false,
                 },
                 pngquant: {
                   quality: '65-90',
-                  speed: 4
+                  speed: 4,
                 },
                 gifsicle: {
-                  interlaced: false
-                }
-              }
-            }
-          ]
+                  interlaced: false,
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.svg$/,
@@ -138,28 +122,28 @@ module.exports = (env, args) => {
             {
               loader: 'svg-sprite-loader',
               options: {
-                symbolId: '[name]_[hash]'
-              }
+                symbolId: '[name]_[hash]',
+              },
             },
 
             {
-              loader: 'image-webpack-loader'
-            }
-          ]
+              loader: 'image-webpack-loader',
+            },
+          ],
         },
         {
           test: /\.svg$/i,
           issuer: /\.s?css$/,
           use: [
             {
-              loader: 'file-loader'
-            }
-          ]
-        }
-      ]
+              loader: 'file-loader',
+            },
+          ],
+        },
+      ],
     },
     node: {
-      fs: 'empty'
+      fs: 'empty',
     },
     plugins: [
       new CleanWebpackPlugin(['./public']),
@@ -167,11 +151,11 @@ module.exports = (env, args) => {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
           isProduction ? 'production' : 'development'
-        )
+        ),
       }),
       new webpack.LoaderOptionsPlugin({
         minimize: true,
-        debug: false
+        debug: false,
       }),
       new CopyWebpackPlugin([{ from: '**/*.{gif,png,jpe?g,svg,ico}' }]),
       new ManifestPlugin(),
@@ -179,15 +163,15 @@ module.exports = (env, args) => {
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: '[name]' + (isProduction ? '.[hash]' : '') + '.css',
-        chunkFilename: '[id]' + (isProduction ? '.[hash]' : '') + '.css'
+        chunkFilename: '[id]' + (isProduction ? '.[hash]' : '') + '.css',
       }),
       new WriteFilePlugin({
         force: true,
-        log: false
-      })
+        log: false,
+      }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
       /* alias:
         isProduction
           ? {
@@ -197,7 +181,7 @@ module.exports = (env, args) => {
             'react-emotion': 'preact-emotion'
           }
           : {}*/
-    }
+    },
   };
 
   if (isProduction) {
@@ -223,7 +207,7 @@ module.exports = (env, args) => {
       port: process.env.SERVER_PORT,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true'
+        'Access-Control-Allow-Credentials': 'true',
       },
       stats: {
         assets: true,
@@ -235,13 +219,13 @@ module.exports = (env, args) => {
         reasons: true,
         timings: true,
         version: true,
-        warnings: true
-      }
+        warnings: true,
+      },
     };
 
     config.plugins = [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
     ].concat(config.plugins);
 
     config.watch = true;
@@ -249,7 +233,7 @@ module.exports = (env, args) => {
     for (let key in config.entry) {
       if (config.entry.hasOwnProperty(key)) {
         config.entry[key] = config.entry[key].concat([
-          'webpack-hot-middleware/client'
+          'webpack-hot-middleware/client',
         ]);
       }
     }

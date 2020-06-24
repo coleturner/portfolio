@@ -19,8 +19,8 @@ const GalleryImage = styled(Picture)`
   ${({
     isPreload,
     theme: {
-      ANIMATIONS: { FADE_IN }
-    }
+      ANIMATIONS: { FADE_IN },
+    },
   }) =>
     !isPreload &&
     `
@@ -172,7 +172,7 @@ const SlidePickerOption = styled.div`
   ${({ isActive }) => isActive && 'background: #333;'};
 
   @media screen and (prefers-color-scheme: dark) {
-    background: ${({ isActive }) => (isActive ? '#68ade2' : '#23323d')};
+    background: ${({ isActive }) => (isActive ? '#2ff3f9' : '#23323d')};
 
     &:hover {
       background: #37546b;
@@ -187,10 +187,10 @@ export default class Gallery extends React.PureComponent {
         PropTypes.string,
         PropTypes.shape({
           src: PropTypes.string.isRequired,
-          preloadSrc: PropTypes.string
-        })
+          preloadSrc: PropTypes.string,
+        }),
       ])
-    ).isRequired
+    ).isRequired,
   };
 
   state = { slideIndex: 0, srcLoaded: [], keepPreloading: false };
@@ -215,9 +215,9 @@ export default class Gallery extends React.PureComponent {
     return prevImage && this.preload(prevImage);
   };
 
-  stateToPrevious = state => {
+  stateToPrevious = (state) => {
     return {
-      slideIndex: Math.max(0, state.slideIndex - 1)
+      slideIndex: Math.max(0, state.slideIndex - 1),
     };
   };
 
@@ -230,15 +230,15 @@ export default class Gallery extends React.PureComponent {
     return nextImage && this.preload(nextImage);
   };
 
-  stateToNext = state => {
+  stateToNext = (state) => {
     return {
-      slideIndex: Math.min(this.props.images.length - 1, state.slideIndex + 1)
+      slideIndex: Math.min(this.props.images.length - 1, state.slideIndex + 1),
     };
   };
 
-  setSlideIndex = index => {
+  setSlideIndex = (index) => {
     this.setState({
-      slideIndex: index
+      slideIndex: index,
     });
   };
 

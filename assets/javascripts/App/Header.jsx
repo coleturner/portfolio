@@ -34,7 +34,7 @@ const LogoContainer = styled.div`
   }
 
   @media screen and (prefers-color-scheme: dark) {
-    color: #8fbfea;
+    color: #2ff3f9;
   }
 `;
 
@@ -78,8 +78,8 @@ const Header = styled.header`
   ${({
     sticky,
     theme: {
-      ANIMATIONS: { SLIDE_DOWN }
-    }
+      ANIMATIONS: { SLIDE_DOWN },
+    },
   }) =>
     sticky &&
     `
@@ -141,9 +141,13 @@ const Navigation = styled.nav`
       border-bottom: 2px solid
         ${({
           theme: {
-            COLORS: { PRIMARY }
-          }
+            COLORS: { PRIMARY },
+          },
         }) => PRIMARY};
+
+      @media screen and (prefers-color-scheme: dark) {
+        border-bottom-color: #2ff3f9;
+      }
     }
   }
 `;
@@ -152,7 +156,7 @@ const Menu = styled.div``;
 
 export default class HeaderView extends React.PureComponent {
   static propTypes = {
-    animateLogo: PropTypes.bool.isRequired
+    animateLogo: PropTypes.bool.isRequired,
   };
 
   state = { sticky: false };
@@ -197,7 +201,7 @@ export default class HeaderView extends React.PureComponent {
     );
   }
 
-  onReference = node => {
+  onReference = (node) => {
     this.node = node;
   };
 
