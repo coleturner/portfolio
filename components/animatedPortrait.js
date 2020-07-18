@@ -247,8 +247,10 @@ export default function AnimatedPortrait({
     }
   };
 
-  const preventDefault = (callback) => (event) =>
-    event.preventDefault() && callback();
+  const preventDefault = (callback) => (event) => {
+    event.preventDefault();
+    callback();
+  };
 
   const swoopHair = preventDefault(() => playTrigger('swoopHair'));
   const pokeLeftEyeBrow = preventDefault(() => playTrigger('pokeLeftEyebrow'));
@@ -262,8 +264,7 @@ export default function AnimatedPortrait({
   const pokeNose = preventDefault(() => playTrigger('sneeze'));
   const nowKiss = preventDefault(() => playTrigger('kiss'));
 
-  const showTriggers =
-    typeof window !== 'undefined' && window?.location?.hash === '#triggers';
+  const showTriggers = false;
 
   return (
     <Container border={border} showTriggers={showTriggers}>

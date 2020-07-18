@@ -7,8 +7,8 @@ const ContainerNode = styled.div(
   ({ flex, scale }) =>
     css`
       display: ${flex ? 'flex' : 'block'};
-      flex-direction: ${flex === 'column' ? 'column' : 'row'};
-      max-width: ${scale * 700};
+      ${flex && `flex-direction: ${flex === 'column' ? 'column' : 'row'}`};
+      max-width: ${scale * 700}px;
       width: 91%;
       margin: 0 auto;
     `

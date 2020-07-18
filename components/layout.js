@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 const Main = styled.main`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 `;
 

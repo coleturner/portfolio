@@ -47,7 +47,7 @@ const CoverImageElement = styled.div(({ imageURL, blurry, color }) => {
 
     &::after {
       background-color: ${backgroundColor};
-      background-mage: linear-gradient(
+      background-image: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0) 0%,
         rgba(0, 0, 0, 0.85) 100%

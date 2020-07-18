@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../../components/propTypes/postPropType';
+import postPropType from '../components/propTypes/postPropType';
 // todo:
 // buy a license: https://www.flaticon.com/profile/preagreement/getstarted
 // then download icons and save licenses
@@ -33,6 +33,7 @@ import Typewriter from '../components/typewriter';
 
 const CardList = styled.div`
   max-width: 100%;
+  width: 100%;
   overflow: hidden;
 `;
 
