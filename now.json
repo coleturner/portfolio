@@ -1,0 +1,15 @@
+{
+  "env": {
+    "CONTENTFUL_SPACE_ID": "@next_example_contentful_space_id",
+    "CONTENTFUL_ACCESS_TOKEN": "@contentful_access_token",
+    "CONTENTFUL_PREVIEW_ACCESS_TOKEN": "@contentful_preview_access_token",
+    "CONTENTFUL_PREVIEW_SECRET": "@contentful_preview_secret"
+  },
+  "build": {
+    "env": {
+      "CONTENTFUL_SPACE_ID": "@next_example_contentful_space_id",
+      "CONTENTFUL_ACCESS_TOKEN": "@contentful_access_token",
+      "CONTENTFUL_PREVIEW_ACCESS_TOKEN": "@contentful_preview_access_token"
+    }
+  }
+}
