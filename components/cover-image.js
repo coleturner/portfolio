@@ -22,7 +22,7 @@ const CoverImageContainer = styled.div(
   `
 );
 
-const CoverImageElement = styled.div(({ imageURL, blurry, color }) => {
+const CoverImageElement = styled.div(({ imageURL, blurry, color, shadow }) => {
   const backgroundColor = color && hexToRgba(color, 0.3);
   return css`
     background-color: ${backgroundColor};
@@ -47,11 +47,14 @@ const CoverImageElement = styled.div(({ imageURL, blurry, color }) => {
 
     &::after {
       background-color: ${backgroundColor};
-      background-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.85) 100%
-      );
+      ${shadow &&
+      css`
+        background-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
+      `};
       boxshadow: inset 0 0 100px #000;
       position: absolute;
       left: 0;
@@ -139,6 +142,7 @@ export default function CoverImage({
   style,
   size = 15,
   borderRadius = 0.75,
+  shadow = true,
   color,
 }) {
   const [imageURL, isLoaded] = useImage(url);
@@ -159,6 +163,7 @@ export default function CoverImage({
             imageURL={imageURL}
             blurry={true}
             color={color}
+            shadow={shadow}
           />
         )}
         {isLoaded && (
@@ -169,6 +174,7 @@ export default function CoverImage({
             imageURL={imageURL}
             blurry={false}
             color={color}
+            shadow={shadow}
           />
         )}
       </AnimatePresence>
@@ -189,6 +195,7 @@ CoverImage.propTypes = {
   children: PropTypes.node,
   style: PropTypes.object,
   size: PropTypes.number,
+  shadow: PropTypes.bool,
   borderRadius: PropTypes.number,
   color: PropTypes.string,
 };

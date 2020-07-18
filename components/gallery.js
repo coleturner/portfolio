@@ -259,7 +259,7 @@ export default class Gallery extends React.PureComponent {
               isActive={this.state.slideIndex === index && 'active'}
             >
               <ScrollerItemContent>
-                <CoverImage url={src} borderRadius={0} />
+                <CoverImage url={src} borderRadius={0} shadow={false} />
               </ScrollerItemContent>
             </ScrollerItem>
           );
