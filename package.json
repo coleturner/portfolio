@@ -22,7 +22,7 @@
     "emotion-server": "^10.0.27",
     "framer-motion": "^1.11.1",
     "hex-to-rgba": "^2.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "next": "9.3.6",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
