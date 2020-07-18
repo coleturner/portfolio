@@ -52,9 +52,9 @@ export default function Post({ post, morePosts, preview }) {
               </Container>
             </>
           )}
+          <ScrollUp color={post.color} />
         </>
       )}
-      <ScrollUp color={post.color} />
       <AppFooter />
     </Layout>
   );
