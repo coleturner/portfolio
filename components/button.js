@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import { SHADE, UI_COLORS, TINT } from '../styles/colors';
-import { em } from '../styles/units';
-import useColorScheme from '../hooks/useColorScheme';
 import { css } from 'emotion';
 
 const BUTTON_STYLE_TRANSPARENT = {
@@ -16,41 +14,39 @@ const BUTTON_STYLE_TRANSPARENT = {
 
 export const TransparentButton = styled.button(BUTTON_STYLE_TRANSPARENT);
 
-export const OutlineButton = styled.button(
-  ({ colorScheme = 'light' }) => css`
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    font-weight: 600;
-    color: ${SHADE[0.5]};
-    cursor: pointer;
-    background-color: ${UI_COLORS.OutlineButton};
-    padding: 0.5em 1em;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 1em;
-    outline: none;
+export const OutlineButton = styled.button`
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  color: ${SHADE[0.5]};
+  cursor: pointer;
+  background-color: ${UI_COLORS.OutlineButton};
+  padding: 0.5em 1em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 1em;
+  outline: none;
 
-    &:hover {
-      background-color: ${UI_COLORS.OutlineButtonHover};
-      color: inherit;
-    }
+  &:hover {
+    background-color: ${UI_COLORS.OutlineButtonHover};
+    color: inherit;
+  }
 
-    &:focus {
-      box-shadow: 0 0 5px ${UI_COLORS.OutlineButtonFocus};
-      border-color: ${UI_COLORS.OutlineButtonFocus};
-      color: ${UI_COLORS.OutlineButtonFocus};
-    }
+  &:focus {
+    box-shadow: 0 0 5px ${UI_COLORS.OutlineButtonFocus};
+    border-color: ${UI_COLORS.OutlineButtonFocus};
+    color: ${UI_COLORS.OutlineButtonFocus};
+  }
 
-    @media screen and (prefers-color-scheme: dark) {
-      color: ${TINT[0.5]};
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-  `
-);
+  @media screen and (prefers-color-scheme: dark) {
+    color: ${TINT[0.5]};
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+`;
 
 export const PillButton = styled.button(
-  ({ colorScheme = 'light', theme }) => css`
+  ({ colorScheme = 'light' }) => css`
     --light-background: ${UI_COLORS.PillButtonLightBackground};
     --light-color: ${UI_COLORS.PillButtonLightColor};
     --light-hover-background: ${UI_COLORS.PillButtonLightHoverBackground};

@@ -1,93 +1,85 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Avatar from './avatar';
 import Date from './date';
 import CoverImage from './cover-image';
 import styled from '@emotion/styled';
-import { em } from '../styles/units';
 import { panelBoxShadow } from '../styles/global';
-import { SHADE, UI_COLORS, POST_COLORS, TINT } from '../styles/colors';
-import { keyframes } from '@emotion/react';
-import { generateIndexHash } from '../lib/hash';
-import hexToRgba from 'hex-to-rgba';
+import { UI_COLORS, TINT } from '../styles/colors';
 
-const PostPreviewSection = styled.section(({ color }) => {
-  const shadowColor = color && hexToRgba(color, 0.5);
-  return {
-    display: 'block',
-    borderRadius: em(1),
-    boxShadow: panelBoxShadow(30),
-    cursor: 'pointer',
-    marginBottom: em(2),
-    transition: 'all 150ms ease-in',
-    position: 'relative',
-    willChange: 'box-shadow, transform',
-    textAlign: 'left',
+const PostPreviewSection = styled.section`
+  display: block;
+  border-radius: 1em;
+  box-shadow: ${panelBoxShadow(30)};
+  cursor: pointer;
+  margin-bottom: 2em;
+  transition: all 150ms ease-in;
+  position: relative;
+  will-change: box-shadow, transform;
+  text-align: left;
 
-    '&:hover': {
-      transform: 'scale(1.015)',
-    },
+  &:hover {
+    transform: scale(1.015);
+  }
 
-    '&:active, &:focus, &:focus-within': {
-      transitionDuration: '30ms',
-      outline: 'none',
-      transform: 'scale(1.035)',
-      padding: em(0.3),
-      boxShadow: panelBoxShadow(
-        30,
-        `var(--post-preview-shadow-color, ${TINT[0.15]})`
-      ),
-    },
-  };
-});
+  &:active,
+  &:focus,
+  &:focus-within {
+    transitionduration: 30ms;
+    outline: none;
+    transform: scale(1.035);
+    padding: 0.3em;
+    boxshadow: ${panelBoxShadow(
+      30,
+      `var(--post-preview-shadow-color, ${TINT[0.15]})`
+    )};
+  }
+`;
 
-const PostHighlight = styled.div({
-  padding: em(1.5, 2),
+const PostHighlight = styled.div`
+  padding: 1.5em 2em;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  color: ${UI_COLORS.POST_PREVIEW_HIGHLIGHT_TEXT};
+  time {
+    opacity: 0.75;
+  }
+`;
 
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 3,
+const PostTitle = styled.h3`
+  font-size: 1.5em;
+  margin: 0 0 0.5em 0;
 
-  color: UI_COLORS.POST_PREVIEW_HIGHLIGHT_TEXT,
+  a {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+  }
 
-  time: {
-    opacity: 0.75,
-  },
-});
+  a:hover {
+    color: inherit;
+  }
+`;
 
-const PostTitle = styled.h3({
-  fontSize: em(1.5),
-  margin: em(0, 0, 0.5, 0),
-
-  a: {
-    color: 'inherit',
-    textDecoration: 'none',
-    outline: 'none',
-  },
-
-  'a:hover': {
-    color: 'inherit',
-  },
-});
-
-const PostExcerpt = styled.p({
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
-  opacity: 0.75,
-  lineHeight: 1.6,
-  lineClamp: 3,
-  WebkitLineClamp: 3,
-  textOverflow: 'ellipsis',
-  overflow: 'hidden',
-});
+const PostExcerpt = styled.p`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  opacity: 0.75;
+  lineheight: 1.6;
+  lineclamp: 3;
+  -webkit-line-clamp: 3;
+  text-verflow: ellipsis;
+  overflow: hidden;
+`;
 
 export default function PostPreview({
   title,
   coverImage,
   date,
   excerpt,
-  author,
   slug,
   size = 80,
   color,
@@ -116,3 +108,13 @@ export default function PostPreview({
     </Link>
   );
 }
+
+PostPreview.propTypes = {
+  title: PropTypes.string,
+  coverImage: PropTypes.shape({ url: PropTypes.string }),
+  date: PropTypes.string,
+  excerpt: PropTypes.string,
+  slug: PropTypes.string,
+  size: PropTypes.number,
+  color: PropTypes.string,
+};

@@ -1,13 +1,18 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { percent } from '../styles/units';
+import { css } from '@emotion/react';
 
-const ContainerNode = styled.div(({ flex, scale }) => ({
-  display: flex ? 'flex' : 'block',
-  flexDirection: flex === 'column' ? 'column' : 'row',
-  maxWidth: 700 * scale,
-  width: percent(91),
-  margin: '0 auto',
-}));
+const ContainerNode = styled.div(
+  ({ flex, scale }) =>
+    css`
+      display: ${flex ? 'flex' : 'block'};
+      flex-direction: ${flex === 'column' ? 'column' : 'row'};
+      max-width: ${scale * 700};
+      width: 91%;
+      margin: 0 auto;
+    `
+);
 
 export default function Container({ children, flex, scale, style }) {
   return (
@@ -16,6 +21,13 @@ export default function Container({ children, flex, scale, style }) {
     </ContainerNode>
   );
 }
+
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+  flex: PropTypes.string,
+  scale: PropTypes.number,
+  style: PropTypes.object,
+};
 
 Container.defaultProps = {
   scale: 1,

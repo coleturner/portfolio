@@ -1,13 +1,14 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import PreviewAlert from '../components/previewAlert';
-import Footer from '../components/footer';
 import Meta from '../components/meta';
 import styled from '@emotion/styled';
 
-const Main = styled.main({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-});
+const Main = styled.main`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 export default function Layout({ preview, children }) {
   return (
@@ -18,3 +19,8 @@ export default function Layout({ preview, children }) {
     </>
   );
 }
+
+Layout.propTypes = {
+  preview: PropTypes.bool,
+  children: PropTypes.node,
+};

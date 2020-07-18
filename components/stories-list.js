@@ -1,38 +1,18 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import postPropType from './propTypes/postPropType';
 import PostPreview from './post-preview';
-import { em, px } from '../styles/units';
 import styled from '@emotion/styled';
 
-const Section = styled.section({});
+const Section = styled.section``;
+const List = styled.div``;
+const ListItem = styled.div``;
 
-const List = styled.div(
-  ({ row }) =>
-    row && {
-      display: 'grid',
-      gridGap: em(0.5),
-      gridTemplateColumns: `repeat(auto-fill, minmax(${px(300)}, 81%))`,
-      justifyContent: 'center',
-
-      '@media screen and (min-width: 640px)': {
-        gridTemplateColumns: `repeat(auto-fill, minmax(${px(300)}, 46%))`,
-      },
-
-      '@media screen and (min-width: 860px)': {
-        gridTemplateColumns: `repeat(auto-fill, minmax(${px(300)}, 31%))`,
-      },
-
-      '@media screen and (min-width: 1280px)': {
-        gridTemplateColumns: `repeat(auto-fill, minmax(${px(300)}, 24%))`,
-      },
-    }
-);
-
-const ListItem = styled.div({});
-
-export default function StoriesList({ title, posts, row = false }) {
+export default function StoriesList({ title, posts }) {
   return (
     <Section>
       {title && <h2>{title}</h2>}
-      <List row={row}>
+      <List>
         {posts.map((post) => (
           <ListItem key={post.slug}>
             <PostPreview
@@ -44,7 +24,7 @@ export default function StoriesList({ title, posts, row = false }) {
               slug={post.slug}
               excerpt={post.excerpt}
               color={post.color}
-              size={row ? 80 : 70}
+              size={70}
             />
           </ListItem>
         ))}
@@ -52,3 +32,8 @@ export default function StoriesList({ title, posts, row = false }) {
     </Section>
   );
 }
+
+StoriesList.propTypes = {
+  title: PropTypes.string,
+  posts: PropTypes.arrayOf(postPropType),
+};

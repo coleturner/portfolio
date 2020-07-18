@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import Container from './container';
 import cn from 'classnames';
 
@@ -24,3 +26,7 @@ export default function PreviewAlert({ preview }) {
     </div>
   );
 }
+
+PreviewAlert.propTypes = {
+  preview: PropTypes.bool,
+};

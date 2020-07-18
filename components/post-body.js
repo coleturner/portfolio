@@ -1,6 +1,8 @@
+/* eslint-disable react/display-name */
+import React from 'react';
+import PropTypes from 'prop-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
-import { rem, px, em, percent } from '../styles/units';
 import styled from '@emotion/styled';
 import {
   UI_COLORS,
@@ -50,63 +52,92 @@ const PostBodyContainer = styled.div(
   `
 );
 
-const Paragraph = styled.p({
-  marginBottom: em(1),
-});
+const Paragraph = styled.p`
+  margin-bottom: 1em;
+`;
 
-const Quote = styled.blockquote(({ color }) => ({
-  padding: em(1),
-  p: {
-    borderRadius: em(1),
-    fontSize: em(1),
-    fontStyle: 'italic',
-    padding: em(1, 2),
-    marginBottom: em(0.5),
-    backgroundColor: color || UI_COLORS.POST_TEXT_QUOTE_COLOR,
-    color: getColorContrast(color),
-    position: 'relative',
+const Quote = styled.blockquote(
+  ({ color }) =>
+    css`
+      padding: 1em;
+      p {
+        border-radius: 1em;
+        font-size: 1em;
+        font-style: italic;
+        padding: 1em 2em;
+        margin-bottom: 0.5em;
+        background-color: ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
+        color: ${getColorContrast(color)};
+        position: relative;
 
-    '&:before, &:after': {
-      content: '""',
-      position: 'absolute',
-      bottom: -2,
-      height: 30,
-    },
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          height: 30px;
+        }
 
-    '&:before': {
-      left: -7,
-      borderLeft: '20px solid ' + (color || UI_COLORS.POST_TEXT_QUOTE_COLOR),
-      borderBottomRightRadius: '16px 14px',
-      transform: 'translate(0, -2px)',
-    },
+        &::before {
+          left: -7px;
+          border-left: 20px solid ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
+          border-bottom-right-radius: 16px 14px;
+          transform: translate(0, -2px);
+        }
 
-    '&:after': {
-      left: 4,
-      width: 26,
-      background: ['white', 'var(--page-background-color)'],
-      borderBottomRightRadius: 10,
-      transform: 'translate(-30px, -2px)',
-    },
-  },
-}));
+        &::after {
+          left: 4px;
+          width: 26px;
+          background: white;
+          background: var(--page-background-color);
 
-const HR = styled.hr({ borderColor: SHADE[0.15], margin: em(3, 0) });
-const H1 = styled.h1({ fontSize: em(2), margin: rem(1, 0, 0.5, 0) });
-const H2 = styled.h2({ fontSize: em(2), margin: rem(1, 0, 0.5, 0) });
-const H3 = styled.h3({ fontSize: em(1.5), margin: rem(1, 0, 0.5, 0) });
-const H4 = styled.h4({ fontSize: em(1.25), margin: rem(1, 0, 0.5, 0) });
-const H5 = styled.h5({ fontSize: em(1.15), margin: rem(1, 0, 0.5, 0) });
-const H6 = styled.div(({ color }) => ({
-  fontWeight: 700,
-  fontSize: em(1.5),
-  margin: em(2, 0, 1, 0),
-  color: color || UI_COLORS.POST_TEXT_H6_TEXT,
-  lineHeight: 1.3,
-}));
+          border-bottom-right-radius: 10px;
+          transform: translate(-30px, -2px);
+        }
+      }
+    `
+);
 
-const VideoEmbed = styled.video({
-  width: percent(100),
-});
+const HR = styled.hr`
+  border-color: ${SHADE[0.15]};
+  margin: 3em 0;
+`;
+
+const H1 = styled.h1`
+  font-size: 2;
+  margin: 1em 0 0.5em 0;
+`;
+const H2 = styled.h2`
+  font-size: 2;
+  margin: 1em 0 0.5em 0;
+`;
+const H3 = styled.h3`
+  font-size: 1.5;
+  margin: 1em 0 0.5em 0;
+`;
+const H4 = styled.h4`
+  font-size: 1.25;
+  margin: 1em 0 0.5em 0;
+`;
+const H5 = styled.h5`
+  font-size: 1.15;
+  margin: 1em 0 0.5em 0;
+`;
+
+const H6 = styled.div(
+  ({ color }) =>
+    css`
+      font-weight: 700;
+      font-size: 1.5em;
+      margin: 2em 0 1em 0;
+      color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
+      line-height: 1.3;
+    `
+);
+
+const VideoEmbed = styled.video`
+  width: 100%;
+`;
 
 export default function PostBody({ content, color }) {
   const options = {
@@ -137,7 +168,7 @@ export default function PostBody({ content, color }) {
                 loop={true}
               >
                 <source src={file.url} type="video/mp4" />
-                <p>Your browser doesn't support HTML5 video.</p>
+                <p>Your browser doesn&apos;t support HTML5 video.</p>
               </VideoEmbed>
             );
           }
@@ -154,6 +185,8 @@ export default function PostBody({ content, color }) {
               throw new Error('Unrecognized mime type: ' + mimeType);
             }
         }
+
+        return null;
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
         const { sys, fields } = node.data.target;
@@ -168,6 +201,8 @@ export default function PostBody({ content, color }) {
             const { title, url } = fields;
             return <YoutubeVideo title={title} url={url} />;
           }
+          default:
+            break;
         }
 
         if (isDevelopment()) {
@@ -195,6 +230,9 @@ export default function PostBody({ content, color }) {
                 size={40}
               />
             );
+
+          default:
+            break;
         }
 
         if (isDevelopment()) {
@@ -204,8 +242,8 @@ export default function PostBody({ content, color }) {
         return null;
       },
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
-        const { sys, fields } = node.data.target;
-        const { title, slug } = fields;
+        const { fields } = node.data.target;
+        const { slug } = fields;
 
         return (
           <Link as={`/posts/${slug}`} href="/posts[slug]">
@@ -222,3 +260,8 @@ export default function PostBody({ content, color }) {
     </PostBodyContainer>
   );
 }
+
+PostBody.propTypes = {
+  color: PropTypes.string,
+  content: PropTypes.object,
+};

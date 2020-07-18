@@ -1,78 +1,83 @@
-import Link from 'next/link';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { percent, em } from '../styles/units';
 import Container from './container';
-import { UI_COLORS } from '../styles/colors';
 import hexToRgba from 'hex-to-rgba';
-import { generateIndexHash } from '../lib/hash';
-import { set } from 'lodash';
 import { useEffect, useState, useMemo } from 'react';
 import parse from 'url-parse';
 import { AnimatePresence, motion } from 'framer-motion';
+import { css } from '@emotion/react';
 
-const CoverImageContainer = styled.div(({ color, borderRadius }) => ({
-  borderRadius,
-  width: percent(100),
-  height: percent(100),
-  borderBottom: color && '6px solid ' + color,
-  position: 'relative',
-  overflow: 'hidden',
-}));
-
-const CoverImageElement = styled.div(
-  ({ imageURL, borderRadius, blurry, color }) => {
-    const backgroundColor = color && hexToRgba(color, 0.3);
-    return {
-      backgroundColor,
-      backgroundImage: `url(${imageURL})`,
-      backgroundPosition: [
-        'center center',
-        'var(--cover-image-background-position, center center)',
-      ],
-      backgroundSize: 'cover',
-      borderRadius: 'inherit',
-      width: percent(100),
-      height: percent(100),
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      filter: blurry && 'blur(10px)',
-      zIndex: blurry ? 2 : 1,
-
-      '&::after': {
-        backgroundColor,
-        backgroundImage:
-          'linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.85) 100%)',
-        boxShadow: 'inset 0 0 100px #000',
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        content: '""',
-      },
-    };
-  }
+const CoverImageContainer = styled.div(
+  ({ color, borderRadius }) => css`
+    border-radius: ${borderRadius}em;
+    width: 100%;
+    height: 100%;
+    ${color &&
+    css`
+      border-bottom: 6px solid ${color};
+    `};
+    position: relative;
+    overflow: hidden;
+  `
 );
 
-const Sizer = styled.div(({ size }) => {
-  return {
-    paddingTop: percent(size),
-    paddingBottom: percent(3),
-    position: 'relative',
-  };
+const CoverImageElement = styled.div(({ imageURL, blurry, color }) => {
+  const backgroundColor = color && hexToRgba(color, 0.3);
+  return css`
+    background-color: ${backgroundColor};
+    background-image: url(${imageURL});
+    background-position: center center;
+    background-position: var(--cover-image-background-position, center center);
+    background-size: cover;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: ${blurry ? '2' : '1'};
+
+    ${blurry &&
+    css`
+      filter: blur(10px);
+    `};
+
+    &::after {
+      background-color: ${backgroundColor};
+      background-mage: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.85) 100%
+      );
+      boxshadow: inset 0 0 100px #000;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      content: '';
+    }
+  `;
 });
 
-const CoverImageContent = styled.div(({ borderRadius }) => {
-  return {
-    minHeight: '10em',
-    color: '#fff',
-    zIndex: 3,
-    position: 'relative',
-  };
-});
+const Sizer = styled.div(
+  ({ size }) =>
+    css`
+      padding-top: ${size}%;
+      padding-bottom: 3%;
+      position: relative;
+    `
+);
+
+const CoverImageContent = styled.div`
+  min-height: 10em;
+  color: #fff;
+  z-index: 3;
+  position: relative;
+`;
 
 const CONTENTFUL_HOST = 'ctfassets.net';
 
@@ -104,7 +109,7 @@ function getFullURL(urlStr) {
   return url.toString();
 }
 
-function useImage(url, { updateThumb = false } = {}) {
+function useImage(url) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const thumbURL = useMemo(() => getThumbURL(url), [url]);
@@ -133,7 +138,7 @@ export default function CoverImage({
   children,
   style,
   size = 15,
-  borderRadius = em(0.75),
+  borderRadius = 0.75,
   color,
 }) {
   const [imageURL, isLoaded] = useImage(url);
@@ -178,3 +183,12 @@ export default function CoverImage({
     </CoverImageContainer>
   );
 }
+
+CoverImage.propTypes = {
+  url: PropTypes.string,
+  children: PropTypes.node,
+  style: PropTypes.object,
+  size: PropTypes.number,
+  borderRadius: PropTypes.number,
+  color: PropTypes.string,
+};

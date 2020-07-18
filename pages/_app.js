@@ -1,5 +1,5 @@
 import * as React from 'react';
-import NextApp from 'next/app';
+import PropTypes from 'prop-types';
 import { CacheProvider, Global } from '@emotion/core';
 import { cache } from 'emotion';
 import NormalizeCSSString from 'normalize.css/normalize.css';
@@ -54,3 +54,8 @@ export default function App({ Component, pageProps }) {
     </CacheProvider>
   );
 }
+
+App.propTypes = {
+  Component: PropTypes.any,
+  pageProps: PropTypes.object,
+};

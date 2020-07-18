@@ -1,3 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import postPropType from '../components/propTypes/postPropType';
 import Container from '../components/container';
 import MoreStories from '../components/stories-list';
 import Header from '../components/header';
@@ -55,6 +58,11 @@ export default function BlogIndex({ preview, allPosts }) {
     </Layout>
   );
 }
+
+BlogIndex.propTypes = {
+  preview: PropTypes.bool,
+  allPosts: PropTypes.arrayOf(postPropType),
+};
 
 export async function getStaticProps({ preview = false }) {
   const allPosts = await getAllPostsForHome(preview);

@@ -192,7 +192,9 @@ export default function AnimatedPortrait({
 
     try {
       boopRef.current.play();
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
   };
 
   const videos = ['subtle', 'happy'];
@@ -245,9 +247,8 @@ export default function AnimatedPortrait({
     }
   };
 
-  const preventDefault = (callback) => (event) => (
-    event.preventDefault(), callback()
-  );
+  const preventDefault = (callback) => (event) =>
+    event.preventDefault() && callback();
 
   const swoopHair = preventDefault(() => playTrigger('swoopHair'));
   const pokeLeftEyeBrow = preventDefault(() => playTrigger('pokeLeftEyebrow'));
@@ -302,3 +303,8 @@ export default function AnimatedPortrait({
     </Container>
   );
 }
+
+AnimatedPortrait.propTypes = {
+  border: PropTypes.bool,
+  interactable: PropTypes.bool,
+};

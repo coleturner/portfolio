@@ -4,29 +4,6 @@ import styled from '@emotion/styled';
 import { css } from 'emotion';
 import CoverImage from './cover-image';
 
-const GalleryImage = styled.img`
-  height: 100%;
-  width: 100%;
-  max-width: 100%;
-  object-fit: cover;
-  object-position: top center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
-
-  opacity: ${({ isPreload }) => (isPreload ? '1' : '0')};
-
-  ${({ isPreload }) =>
-    isPreload &&
-    `
-      z-index: 1;
-      filter: blur(30px);
-  `};
-`;
-
 const ARROW_WIDTH = '8px';
 
 const Container = styled.div`

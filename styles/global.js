@@ -1,7 +1,6 @@
 import React from 'react';
 import { Global, css, keyframes } from '@emotion/react';
 import { UI_COLORS, SHADE, changeColorBrightness } from './colors';
-import { px } from './units';
 
 const LOADING_BACKGROUND = keyframes`
   0% {
@@ -145,7 +144,7 @@ export const globalStyles = (
 
 export function panelBoxShadow(size = 30, color = SHADE[size / 200]) {
   return [
-    `${px(0, 3, size)} ${color}`,
-    `${px(0, Math.round(size / 2), size)} ${color}`,
+    `0 3px ${size}px ${color}`,
+    `0 ${Math.round(size / 2)}px ${size}px ${color}`,
   ].join(',');
 }

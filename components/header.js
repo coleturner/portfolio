@@ -1,16 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import { css, keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import Container from './container';
 import Navigation from './navigation';
 import { SHADE } from '../styles/colors';
 import AnimatedPortrait from './animatedPortrait';
-
-const BREAKING_POINT = '800px';
 
 const LOGO_TEXT_ANIMATE = keyframes`
   0% {

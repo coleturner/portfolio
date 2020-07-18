@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { extractCritical } from 'emotion-server';
-import Router, { useRouter } from 'next/router';
-import { keyframes } from '@emotion/react';
-import styled from '@emotion/styled';
 
 export default class MyDocument extends Document {
   static getInitialProps(context) {

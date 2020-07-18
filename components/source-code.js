@@ -1,25 +1,26 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   solarizedlight,
   xonokai,
 } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { rem, em } from '../styles/units';
 import styled from '@emotion/styled';
 import { OutlineButton } from './button';
 import { useCallback, useState } from 'react';
 import useColorScheme from '../hooks/useColorScheme';
 
-const CodeBlock = styled.div({
-  fontSize: rem(1),
-  position: 'relative',
-});
+const CodeBlock = styled.div`
+  font-size: 1rem;
+  position: relative;
+`;
 
-const CodeActions = styled.div({
-  position: 'absolute',
-  bottom: em(1),
-  right: em(1),
-  fontSize: em(0.75),
-});
+const CodeActions = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0.75em;
+`;
 
 export default function SourceCode({ title, code, language }) {
   const colorScheme = useColorScheme();
@@ -27,14 +28,14 @@ export default function SourceCode({ title, code, language }) {
   const [copyStatus, setCopyStatus] = useState(null);
 
   const copy = useCallback(() => {
-    const textSnippet = `// Cole Turner (cole.codes)\n// ${window.location.href}\n\n${code}`;
+    const textSnippet = `// Cole Turner (cole.codes)\n// ${window.location.href}\n// ${title}\n\n${code}`;
     navigator.permissions.query({ name: 'clipboard-write' }).then((result) => {
-      if (result.state == 'granted' || result.state == 'prompt') {
+      if (result.state === 'granted' || result.state === 'prompt') {
         navigator.clipboard.writeText(textSnippet).then(
-          function () {
+          () => {
             setCopyStatus('Copied!');
           },
-          function () {
+          () => {
             setCopyStatus('Failed to copy!');
           }
         );
@@ -45,11 +46,11 @@ export default function SourceCode({ title, code, language }) {
   return (
     <CodeBlock>
       <SyntaxHighlighter
-        language={'jsx'}
+        language={language}
         style={colorScheme === 'dark' ? xonokai : solarizedlight}
         customStyle={{
-          borderRadius: em(0.5),
-          padding: em(2),
+          borderRadius: '0.5em',
+          padding: '2em',
         }}
         useInlineStyles={true}
       >
@@ -61,3 +62,9 @@ export default function SourceCode({ title, code, language }) {
     </CodeBlock>
   );
 }
+
+SourceCode.propTypes = {
+  title: PropTypes.string,
+  code: PropTypes.string,
+  language: PropTypes.string,
+};

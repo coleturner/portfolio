@@ -140,13 +140,25 @@ export default function AppFooter() {
           <NavigationContainer>
             <Navigation />
             <SocialMenu>
-              <a target="_blank" href="http://twitter.com/coleturner">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="http://twitter.com/coleturner"
+              >
                 <TwitterIcon title="Twitter" />
               </a>
-              <a target="_blank" href="http://www.linkedin.com/in/colept">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="http://www.linkedin.com/in/colept"
+              >
                 <LinkedInIcon title="LinkedIn" />
               </a>
-              <a target="_blank" href="https://github.com/coleturner">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/coleturner"
+              >
                 <GithubIcon title="Github" />
               </a>
             </SocialMenu>

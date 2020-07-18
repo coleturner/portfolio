@@ -6,7 +6,8 @@
     "dev:inspect": "NODE_OPTIONS='--inspect' next",
     "build": "next build",
     "start": "next start",
-    "contentful:setup": "node ./scripts/contentful/setup.js $CONTENTFUL_SPACE_ID $CONTENTFUL_MANAGEMENT_TOKEN"
+    "contentful:setup": "node ./scripts/contentful/setup.js $CONTENTFUL_SPACE_ID $CONTENTFUL_MANAGEMENT_TOKEN",
+    "lint": "eslint ./"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "13.4.0",
@@ -24,6 +25,7 @@
     "lodash": "^4.17.15",
     "next": "9.3.6",
     "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-in-viewport": "^1.0.0-alpha.14",
@@ -33,7 +35,11 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "contentful-import": "^7.7.12",
-    "dotenv": "8.2.0"
+    "dotenv": "8.2.0",
+    "eslint": "^7.4.0",
+    "eslint-plugin-react": "^7.20.3",
+    "prettier": "^2.0.5"
   }
 }

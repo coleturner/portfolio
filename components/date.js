@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
 export default function DateTime({ dateString }) {
@@ -7,3 +9,7 @@ export default function DateTime({ dateString }) {
     </time>
   );
 }
+
+DateTime.propTypes = {
+  dateString: PropTypes.string,
+};

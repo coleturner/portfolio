@@ -1,3 +1,4 @@
+import React from 'react';
 export default function LinkIcon(props) {
   return (
     <svg viewBox="0 0 52 52" {...props}>

@@ -7,7 +7,6 @@ import ReactMarkdown from 'react-markdown';
 import Gallery from './gallery';
 import styled from '@emotion/styled';
 import LinkIcon from './icons/link-icon';
-import Container from './container';
 import { css } from 'emotion';
 
 const BREAKING_POINT = '700px';
@@ -289,11 +288,6 @@ export default function ProjectList({ projects }) {
             })
           );
 
-          const moreLink = url && {
-            url,
-            text: [<LinkIcon />, <span key="txt">{getDomain(url)}</span>],
-          };
-
           return (
             <Project
               id={`project-${name.replace(/[^a-zA-Z0-9]+/g, '').toLowerCase()}`}
@@ -324,13 +318,9 @@ export default function ProjectList({ projects }) {
                       <Tag key={tag}>{tag}</Tag>
                     ))}
                   </Tags>
-                  {moreLink && (
-                    <ProjectLink
-                      rel="nofollow"
-                      target="_blank"
-                      href={moreLink.url}
-                    >
-                      {moreLink.text}
+                  {url && (
+                    <ProjectLink rel="nofollow" target="_blank" href={url}>
+                      <LinkIcon /> <span>{getDomain(url)}</span>
                     </ProjectLink>
                   )}
                 </ProjectDetails>
@@ -342,3 +332,7 @@ export default function ProjectList({ projects }) {
     </ProjectListContainer>
   );
 }
+
+ProjectList.propTypes = {
+  projects: PropTypes.array,
+};

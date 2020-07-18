@@ -1,87 +1,82 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import Avatar from '../components/avatar';
 import Date from '../components/date';
 import CoverImage from '../components/cover-image';
 import PostTitle from '../components/post-title';
 import styled from '@emotion/styled';
-import { getColorContrast } from '../styles/colors';
-import { em } from '../styles/units';
-import {
-  UI_COLORS,
-  TINT,
-  POST_COLORS,
-  changeColorBrightness,
-} from '../styles/colors';
+import { UI_COLORS, changeColorBrightness } from '../styles/colors';
 import Container from './container';
-import { generateIndexHash } from '../lib/hash';
 import { useMemo } from 'react';
+import { css } from '@emotion/react';
 
 const PostHeaderContainer = styled.div`
   --cover-image-background-position: top center;
 `;
 
-const PostMetadata = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: em(2),
-});
+const PostMetadata = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2em;
+`;
 
-const Spacer = styled.div({
-  padding: em(1, 2),
-});
+const Spacer = styled.div`
+  padding: 1em 2em;
+`;
 
 const StickyHeader = styled.div(
-  ({ color, textColor, textShadowColor, darkenedColor }) => ({
-    alignItems: 'center',
+  ({ color, textColor, textShadowColor, darkenedColor }) =>
+    css`
+      align-items: center;
+      background: ${color || UI_COLORS.POST_STICKY_HEADER_BACKGROUND};
+      color: ${textColor || UI_COLORS.POST_STICKY_HEADER_TEXT};
+      text-shadow: 0 1px 0 ${textShadowColor};
+      padding: 1em;
+      line-height: 1;
+      border-bottom: 3px solid ${darkenedColor};
 
-    background: color || UI_COLORS.POST_STICKY_HEADER_BACKGROUND,
-    color: textColor || UI_COLORS.POST_STICKY_HEADER_TEXT,
-    textShadow: `0 1px 0 ${textShadowColor}`,
-    padding: em(1),
-    lineHeight: 1,
-    borderBottom: '3px solid ' + darkenedColor,
+      position: sticky;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
 
-    position: 'sticky',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1,
+      time {
+        display: block;
+        font-weight: 600;
+        margin-left: 1em;
+        padding: 0 1em;
+        white-space: nowrap;
+        position: relative;
+        opacity: 0.85;
 
-    time: {
-      display: 'block',
-      fontWeight: 600,
-      marginLeft: '1em',
-      padding: em(0, 1),
-      whiteSpace: 'nowrap',
-      position: 'relative',
-      opacity: 0.85,
-
-      '&::before': {
-        display: 'block',
-        content: '""',
-        borderLeft: '3px solid currentColor',
-        opacity: 0.45,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-      },
-    },
-  })
+        &::before {
+          display: block;
+          content: '';
+          border-left: 3px solid currentColor;
+          opacity: 0.45;
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+        }
+      }
+    `
 );
 
-const StickyHeaderTitle = styled.h3({
-  display: 'block',
-  alignItems: 'center',
-  fontSize: em(1),
-  fontWeight: 'bold',
-  margin: 0,
-  lineHeight: 'inherit',
-
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-});
+const StickyHeaderTitle = styled.h3`
+  display: block;
+  align-items: center;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  line-height: inherit;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 
 export default function PostHeader({ title, coverImage, date, author, color }) {
   const textColor = useMemo(() => changeColorBrightness(color, -70), [color]);
@@ -99,7 +94,7 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
       <CoverImage
         title={title}
         url={coverImage.url}
-        style={{ position: 'relative', zIndex: 2, marginBottom: em(-4) }}
+        style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
         borderRadius={0}
         color={color}
       >
@@ -125,3 +120,18 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
     </PostHeaderContainer>
   );
 }
+
+PostHeader.propTypes = {
+  title: PropTypes.string,
+  coverImage: PropTypes.shape({
+    url: PropTypes.string,
+  }),
+  date: PropTypes.string,
+  author: PropTypes.shape({
+    name: PropTypes.string,
+    picture: {
+      url: PropTypes.string,
+    },
+  }),
+  color: PropTypes.string,
+};

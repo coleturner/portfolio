@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Container from './container';
 import EducationIcon from './icons/education-icon';
 import TrophyIcon from './icons/trophy-icon';
 import styled from '@emotion/styled';
@@ -55,7 +54,7 @@ export default function Aclamations() {
         <Text>
           <Title>
             <a
-              target="_blank"
+              target="_blank noreferrer"
               rel="nofollow"
               href="https://techcrunch.com/2010/01/08/crunchies-winner/"
             >
@@ -70,7 +69,7 @@ export default function Aclamations() {
         <Text>
           <Title>
             <a
-              target="_blank"
+              target="_blank noreferrer"
               rel="nofollow"
               href="http://catalog.csun.edu/academics/coms/programs/ba-communication-studies/"
             >

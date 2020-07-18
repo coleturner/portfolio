@@ -1,21 +1,5 @@
-import { solarizedlight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { rem, em } from '../styles/units';
-import styled from '@emotion/styled';
-import { OutlineButton } from './button';
-import { useCallback, useState } from 'react';
-
-const CodeBlock = styled.div({
-  fontSize: rem(1),
-  position: 'relative',
-});
-
-const CodeActions = styled.div({
-  position: 'absolute',
-  bottom: em(1),
-  right: em(1),
-  fontSize: em(0.75),
-});
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function YoutubeVideo({ title, url }) {
   const youtubeURL = new URL(url);
@@ -23,7 +7,7 @@ export default function YoutubeVideo({ title, url }) {
 
   if (!videoID) {
     return (
-      <a href={url} target="_blank">
+      <a href={url} target="_blank" rel="nofollow noreferrer">
         Watch video: {title}
       </a>
     );
@@ -40,3 +24,8 @@ export default function YoutubeVideo({ title, url }) {
     ></iframe>
   );
 }
+
+YoutubeVideo.propTypes = {
+  title: PropTypes.string,
+  url: PropTypes.string,
+};

@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import Link from 'next/link';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import Container from './container';
-import { SHADE } from '../styles/colors';
 import { useRouter } from 'next/router';
 
 const NavigationContainer = styled.nav`
@@ -37,16 +34,19 @@ const NavigationContainer = styled.nav`
 
 const Menu = styled.div``;
 
-function NavLink(props) {
-  const { matchPaths, ...otherProps } = props;
-
+function NavLink({ matchPaths, href, ...otherProps }) {
   const { asPath, route } = useRouter();
   const isActive =
-    asPath === props.href ||
+    asPath === href ||
     (Array.isArray(matchPaths) && matchPaths.includes(route));
 
-  return <a {...otherProps} aria-current={isActive || undefined} />;
+  return <a href={href} {...otherProps} aria-current={isActive || undefined} />;
 }
+
+NavLink.propTypes = {
+  matchPaths: PropTypes.array,
+  href: PropTypes.string,
+};
 
 export default function Navigation() {
   return (
