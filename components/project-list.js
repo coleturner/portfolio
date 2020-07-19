@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { format, parse } from 'date-fns';
@@ -8,6 +8,7 @@ import Gallery from './gallery';
 import styled from '@emotion/styled';
 import LinkIcon from './icons/link-icon';
 import { css } from 'emotion';
+import { OutlineButton } from './button';
 
 const BREAKING_POINT = '700px';
 
@@ -133,44 +134,48 @@ const Time = styled.time`
   vertical-align: baseline;
 `;
 
-const ProjectDetails = styled.div`
-  padding: 1em;
+const ProjectDetails = styled.div(
+  ({ active }) => css`
+    padding: 1em;
+    display: ${active ? 'block' : 'none'};
 
-  @media screen and (min-width: ${BREAKING_POINT}) {
-    padding: 1.5em 3em 3em;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #333;
-
-    @media screen and (prefers-color-scheme: dark) {
-      background: linear-gradient(
-        to right,
-        var(--theme-color-1) 0%,
-        var(--theme-color-2) 50%,
-        var(--theme-color-1) 100%
-      );
-
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    @media screen and (min-width: ${BREAKING_POINT}) {
+      display: block;
+      padding: 1.5em 3em 3em;
     }
-  }
 
-  h4 {
-    font-size: 1.15em;
-    font-weight: 500;
-    margin: 1em 0 0.25em;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #333;
 
-    &:first-child {
-      margin-top: 0;
+      @media screen and (prefers-color-scheme: dark) {
+        background: linear-gradient(
+          to right,
+          var(--theme-color-1) 0%,
+          var(--theme-color-2) 50%,
+          var(--theme-color-1) 100%
+        );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
-  }
-`;
+
+    h4 {
+      font-size: 1.15em;
+      font-weight: 500;
+      margin: 1em 0 0.25em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  `
+);
 
 const Tags = styled.div`
   margin-top: 1em;
@@ -210,10 +215,20 @@ const ProjectLink = styled.a`
   }
 `;
 
+const ReadMoreContainer = styled.p`
+  text-align: center;
+  padding: 1em 0;
+  display: none;
+
+  @media screen and (max-width: ${BREAKING_POINT}) {
+    display: block;
+  }
+`;
+
 export const MarkdownHeading = (props) => {
   const { level, children } = props;
 
-  const Component = `H${Math.min(6, level + 3)}`;
+  const Component = `h${Math.min(6, level + 2)}`;
 
   return <Component>{children}</Component>;
 };
@@ -270,11 +285,14 @@ export const getDomain = (url) => {
 
 export default function ProjectList({ projects }) {
   const dateInputFormat = 'yyyy-MM-d';
-
   return (
     <ProjectListContainer>
       {projects.map(
         ({ images, abstract, name, started, ended, tags, url }, index) => {
+          const [shouldShowProjectDetails, showProjectDetails] = useState(
+            false
+          );
+
           const startTime =
             started && parse(started, dateInputFormat, new Date());
           const endTime = ended && parse(ended, dateInputFormat, new Date());
@@ -287,6 +305,8 @@ export default function ProjectList({ projects }) {
               src: image.fields?.file?.url,
             })
           );
+
+          const readMore = () => showProjectDetails(true);
 
           return (
             <Project
@@ -304,7 +324,12 @@ export default function ProjectList({ projects }) {
               </ProjectHeading>
               <ProjectContent>
                 {imageArray.length ? <Gallery images={imageArray} /> : null}
-                <ProjectDetails>
+                {!shouldShowProjectDetails && (
+                  <ReadMoreContainer>
+                    <OutlineButton onClick={readMore}>Read More</OutlineButton>
+                  </ReadMoreContainer>
+                )}
+                <ProjectDetails active={shouldShowProjectDetails}>
                   <ReactMarkdown
                     className="markdown"
                     source={abstract}

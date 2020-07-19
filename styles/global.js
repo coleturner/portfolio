@@ -66,7 +66,10 @@ export const globalStyles = (
           }
         }
 
-        html,
+        html {
+          overflow: auto;
+        }
+
         body {
           background: #fff;
           background: var(--page-background-color, #fff);

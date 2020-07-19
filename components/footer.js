@@ -7,22 +7,29 @@ import LinkedInIcon from './icons/linkedin-icon';
 import GithubIcon from './icons/github-icon';
 import { useRouter } from 'next/router';
 
+const BREAKPOINT_MOBILE = '500px';
+
 const FooterContainer = styled.div`
   margin-top: 7em;
 `;
 
 const Footer = styled.footer`
-  > div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   background: #000;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
   padding: 2em 0;
+  text-align: center;
+
+  @media screen and (min-with: ${BREAKPOINT_MOBILE}) {
+    text-align: left;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
 
   #icon-gradient {
     --color-stop-1: #00dbde;
@@ -61,11 +68,16 @@ const Portrait = styled.div`
   height: 9em;
   width: 9em;
   border-radius: 12em;
-  margin-bottom: 1em;
   padding: 0.15em;
   text-align: center;
   position: relative;
   z-index: 2;
+  margin: 1em auto;
+
+  @media screen and (min-with: ${BREAKPOINT_MOBILE}) {
+    margin: 0;
+    margin-bottom: 1em;
+  }
 
   &::before {
     background: linear-gradient(
@@ -191,9 +203,11 @@ export default function AppFooter() {
               </linearGradient>
             </svg>
           </NavigationContainer>
-          <Portrait>
-            <img src="/portrait.jpg" />
-          </Portrait>
+          <div>
+            <Portrait>
+              <img src="/portrait.jpg" />
+            </Portrait>
+          </div>
         </Container>
       </Footer>
     </FooterContainer>

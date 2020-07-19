@@ -9,13 +9,24 @@ export default function useColorScheme(defaultScheme = 'unset') {
   });
 
   useEffect(() => {
-    mediaRef.current = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaRef.current.addEventListener('change', listener);
+    if (!window.matchMedia) {
+      return () => {};
+    }
 
-    setScheme(mediaRef.current.matches ? 'dark' : 'light');
+    const match = window.matchMedia('(prefers-color-scheme: dark)');
+
+    if (match.addListener) {
+      match.addListener(listener);
+    }
+
+    setScheme(match.matches ? 'dark' : 'light');
+
+    mediaRef.current = match;
 
     return () => {
-      mediaRef.current.removeListener(listener);
+      if (mediaRef.current && mediaRef.current.removeListener) {
+        mediaRef.current.removeListener(listener);
+      }
     };
   });
 
