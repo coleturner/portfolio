@@ -117,6 +117,10 @@ export const globalStyles = (
           background: #777;
           animation: ${LOADING_GROW} 150ms 1;
 
+          @media screen and (prefers-reduced-motion: reduce) {
+            animation: none;
+          }
+
           div {
             background: repeating-linear-gradient(
               to right,
@@ -138,6 +142,10 @@ export const globalStyles = (
             height: 100%;
             padding: 0;
             animation: ${LOADING_BACKGROUND} 3s infinite;
+
+            @media screen and (prefers-reduced-motion: reduce) {
+              animation-duration: 10s;
+            }
           }
         }
       `}

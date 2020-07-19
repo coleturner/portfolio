@@ -93,7 +93,7 @@ function RandomCloud(props) {
           }) scaleY(${scale})`,
           animation: 'none',
 
-          opacity: Math.max(1, Math.min(0.75, Math.random() + 0.35)),
+          opacity: Math.max(0.5, Math.random() + 0.15),
           filter: `grayscale(${Math.random()})`,
         }}
       >

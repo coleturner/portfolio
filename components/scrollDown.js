@@ -60,6 +60,7 @@ const ScrollDownContainer = styled.div`
       animation: none;
 
       &::before {
+        display: block;
         content: 'Scroll Down';
         font-size: 1rem;
       }

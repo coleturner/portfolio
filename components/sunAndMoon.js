@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import { useRefScrollProgress } from '../hooks/useRefScrollProgress';
+
 const SunContainer = styled.div`
   font-size: 5em;
   position: absolute;
@@ -27,6 +28,7 @@ const MoonContainer = styled.div`
   z-index: -1;
   filter: grayscale(50%);
 `;
+
 export function SunOrMoon(props) {
   const mode = useColorScheme();
 
@@ -38,6 +40,7 @@ export function SunOrMoon(props) {
 
   return <Sun {...props} />;
 }
+
 function Moon(props) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -81,7 +84,7 @@ function Moon(props) {
     <MoonContainer ref={ref}>
       <motion.div
         style={{
-          scale: shouldReduceMotion ? 5 : scale,
+          scale: shouldReduceMotion ? 2 : scale,
           y: shouldReduceMotion ? '120%' : y,
           opacity: shouldReduceMotion ? 0.35 : opacity,
         }}

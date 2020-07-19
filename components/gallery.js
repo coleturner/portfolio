@@ -36,6 +36,10 @@ const Scroller = styled.div`
   max-height: 60vh;
   max-height: 60vmax;
   left: ${({ slideIndex }) => `${-1 * slideIndex * 100}%`};
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 const Images = styled.div`
