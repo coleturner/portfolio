@@ -16,7 +16,12 @@ const ContainerNode = styled.div(
 
 export default function Container({ children, flex, scale, style }) {
   return (
-    <ContainerNode flex={flex} style={style} scale={scale}>
+    <ContainerNode
+      className="container"
+      flex={flex}
+      style={style}
+      scale={scale}
+    >
       {children}
     </ContainerNode>
   );
