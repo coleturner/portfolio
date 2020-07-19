@@ -59,7 +59,13 @@ const Paragraph = styled.p`
 const Quote = styled.blockquote(
   ({ color }) =>
     css`
-      padding: 1em;
+      padding: 1em 0;
+      margin: 0;
+
+      @media screen and (min-width: 700px) {
+        padding: 1em 3em;
+      }
+
       p {
         border-radius: 1em;
         font-size: 1em;

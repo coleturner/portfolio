@@ -10,6 +10,12 @@ import Container from './container';
 import { useMemo } from 'react';
 import { css } from '@emotion/react';
 
+const MainHeader = styled.div`
+  background: #000;
+  position: relative;
+  z-index: 2;
+`;
+
 const PostMetadata = styled.div`
   display: flex;
   flex-direction: row;
@@ -91,20 +97,22 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
 
   return (
     <>
-      <CoverImage
-        title={title}
-        url={coverImage.url}
-        style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
-        borderRadius={0}
-        color={color}
-      >
-        <PostTitle color={color}>{title}</PostTitle>
-        <PostMetadata>
-          {author && <Avatar name={author.name} picture={author.picture} />}
-          <Spacer />
-          <Date dateString={date} />
-        </PostMetadata>
-      </CoverImage>
+      <MainHeader>
+        <CoverImage
+          title={title}
+          url={coverImage.url}
+          style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
+          borderRadius={0}
+          color={color}
+        >
+          <PostTitle color={color}>{title}</PostTitle>
+          <PostMetadata>
+            {author && <Avatar name={author.name} picture={author.picture} />}
+            <Spacer />
+            <Date dateString={date} />
+          </PostMetadata>
+        </CoverImage>
+      </MainHeader>
       <StickyHeader
         color={color}
         textColor={textColor}
