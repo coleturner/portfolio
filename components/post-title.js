@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 
 const Title = styled.h1`
   font-size: 4em;
+  font-size: clamp(1rem, 1rem + 3vw, 4em);
   line-height: 1.2;
   background-color: #fff;
   background-size: 100%;

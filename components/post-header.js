@@ -40,13 +40,17 @@ const StickyHeader = styled.div(
       z-index: 1;
 
       time {
-        display: block;
         font-weight: 600;
         margin-left: 1em;
         padding: 0 1em;
         white-space: nowrap;
         position: relative;
         opacity: 0.85;
+        display: none;
+
+        @media screen and (min-width: 600px) {
+          display: block;
+        }
 
         &::before {
           display: block;

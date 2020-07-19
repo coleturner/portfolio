@@ -17,8 +17,8 @@ const CodeBlock = styled.div`
 
 const CodeActions = styled.div`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 1em;
+  right: 1em;
   font-size: 0.75em;
 `;
 

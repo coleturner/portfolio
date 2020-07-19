@@ -13,7 +13,7 @@ import Layout from '../../components/layout';
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
 import PostTitle from '../../components/post-title';
 import AppFooter from '../../components/footer';
-import { ScrollUp } from '../../components/ScrollUp';
+import { ScrollUp } from '../../components/scrollUp';
 import { PillButton } from '../../components/button';
 
 function metaImageURL(url) {

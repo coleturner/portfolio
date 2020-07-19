@@ -15,6 +15,10 @@ const ScrollUpContainer = styled.div(
     z-index: 100;
 
     svg {
+      background: rgba(0, 0, 0, 0.85);
+      background: var(--page-background-color);
+      overflow: hidden;
+      border-radius: 10em;
       fill: ${color};
     }
 
