@@ -37,6 +37,8 @@ export default function Meta() {
         name="description"
         content="Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide."
       />
+      <meta key="og:image" property="og:image" content="/og-image.jpg" />
+      <meta key="twitter:image" name="twitter:image" content="/og-image.jpg" />
     </Head>
   );
 }

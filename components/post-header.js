@@ -100,7 +100,7 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
       <MainHeader>
         <CoverImage
           title={title}
-          url={coverImage.url}
+          url={coverImage?.url}
           style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
           borderRadius={0}
           color={color}

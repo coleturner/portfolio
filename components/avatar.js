@@ -28,7 +28,9 @@ const AvatarName = styled.span`
 export default function Avatar({ name, picture, pictureSize = 3 }) {
   return (
     <AvatarContainer>
-      <AvatarImage src={picture.url} alt={name} size={pictureSize} />
+      {picture && (
+        <AvatarImage src={picture.url} alt={name} size={pictureSize} />
+      )}
       {name && <AvatarName>{name}</AvatarName>}
     </AvatarContainer>
   );

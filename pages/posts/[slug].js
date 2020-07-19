@@ -18,7 +18,7 @@ import { PillButton } from '../../components/button';
 import Link from 'next/link';
 
 function metaImageURL(url) {
-  if (url.startsWith('//')) {
+  if (url && url.startsWith('//')) {
     return 'https:' + url;
   }
 

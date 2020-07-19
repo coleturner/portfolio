@@ -85,6 +85,10 @@ const CoverImageContent = styled.div`
 const CONTENTFUL_HOST = 'ctfassets.net';
 
 function getThumbURL(urlStr) {
+  if (!urlStr) {
+    return null;
+  }
+
   const params = {};
 
   if (urlStr.includes(CONTENTFUL_HOST)) {
@@ -100,6 +104,10 @@ function getThumbURL(urlStr) {
 }
 
 function getFullURL(urlStr) {
+  if (!urlStr) {
+    return null;
+  }
+
   const params = {};
 
   if (urlStr.includes(CONTENTFUL_HOST)) {
