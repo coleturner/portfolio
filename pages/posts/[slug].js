@@ -120,9 +120,11 @@ export default function Post({ post, morePosts, preview }) {
           <Container>
             <MoreStories title="More Stories" posts={morePosts} />
 
-            <Link href="/blog" passHref>
-              <PillButton as="a">See more posts</PillButton>
-            </Link>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/blog" passHref>
+                <PillButton as="a">See more posts</PillButton>
+              </Link>
+            </div>
           </Container>
         </>
       )}
