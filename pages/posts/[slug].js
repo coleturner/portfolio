@@ -16,6 +16,7 @@ import AppFooter from '../../components/footer';
 import { ScrollUp } from '../../components/scrollUp';
 import { PillButton } from '../../components/button';
 import Link from 'next/link';
+import LoadingSpinner from '../../components/loadingSpinner';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -41,7 +42,7 @@ export default function Post({ post, morePosts, preview }) {
     : () => {};
 
   if (router.isFallback) {
-    return <PostTitle>Loading…</PostTitle>;
+    return <LoadingSpinner />;
   }
 
   const publishedTime = new Date(post.date).toISOString();
