@@ -68,6 +68,7 @@ export const globalStyles = (
 
         html {
           overflow: auto;
+          overscroll-behavior-y: none;
         }
 
         body {
@@ -78,7 +79,6 @@ export const globalStyles = (
           font-family: 'Roboto', Helvetica, Arial, sans-serif;
           font-size: 16px;
           line-height: 1.4;
-          overscroll-behavior-y: none;
         }
 
         body,
