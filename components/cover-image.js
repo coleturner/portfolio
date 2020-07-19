@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Container from './container';
@@ -103,7 +103,7 @@ function getThumbURL(urlStr) {
   return url.toString();
 }
 
-function getFullURL(urlStr) {
+function getFullURL(urlStr, width) {
   if (!urlStr) {
     return null;
   }
@@ -114,19 +114,36 @@ function getFullURL(urlStr) {
     params.fm = 'jpg';
   }
 
+  if (width) {
+    // Add some padding to it, for quality
+    params.w = width + 100;
+  }
+
   const url = parse(urlStr, true);
   url.query = { ...url.query, ...params };
 
   return url.toString();
 }
 
-function useImage(url) {
+function useImage(url, ref) {
+  const [width, setWidth] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const thumbURL = useMemo(() => getThumbURL(url), [url]);
-  const fullURL = useMemo(() => getFullURL(url), [url]);
+  const fullURL = useMemo(() => getFullURL(url, width), [url, width]);
 
   useEffect(() => {
+    if (ref.current) {
+      setWidth(ref.current.getBoundingClientRect().width);
+    }
+  }, [ref]);
+
+  useEffect(() => {
+    // If we're using a ref, wait until the width is set
+    if (ref !== undefined && width === null) {
+      return;
+    }
+
     setIsLoaded(false);
 
     const img = new Image();
@@ -139,7 +156,7 @@ function useImage(url) {
     if (img.complete) {
       img.onload();
     }
-  }, [fullURL]);
+  }, [fullURL, ref.current]);
 
   return [isLoaded && fullURL ? fullURL : thumbURL, isLoaded];
 }
@@ -153,10 +170,12 @@ export default function CoverImage({
   shadow = true,
   color,
 }) {
-  const [imageURL, isLoaded] = useImage(url);
+  const ref = useRef();
+  const [imageURL, isLoaded] = useImage(url, ref);
 
   return (
     <CoverImageContainer
+      ref={ref}
       key={url}
       style={style}
       borderRadius={borderRadius}
