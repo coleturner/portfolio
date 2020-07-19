@@ -16,6 +16,14 @@ import AppFooter from '../../components/footer';
 import { ScrollUp } from '../../components/ScrollUp';
 import { PillButton } from '../../components/button';
 
+function metaImageURL(url) {
+  if (url.startsWith('//')) {
+    return 'https:' + url;
+  }
+
+  return url;
+}
+
 export default function Post({ post, morePosts, preview }) {
   const router = useRouter();
 
@@ -47,7 +55,7 @@ export default function Post({ post, morePosts, preview }) {
           <meta
             key="og:image"
             property="og:image"
-            content={post.ogImage?.url || post.coverImage?.url}
+            content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
           />
           <meta
             key="og:description"
@@ -71,16 +79,21 @@ export default function Post({ post, morePosts, preview }) {
             name="twitter:card"
             content="summary_large_image"
           />
+          <meta
+            key="twitter:title"
+            property="twitter:title"
+            content={post.title}
+          />
+          <meta
+            key="twitter:image"
+            name="twitter:image"
+            content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
+          />
           <meta key="twitter:site" name="twitter:site" content="@coleturner" />
           <meta
             key="twitter:creator"
             name="twitter:creator"
             content="@coleturner"
-          />
-          <meta
-            key="twitter:image"
-            name="twitter:image"
-            content={post.ogImage?.url || post.coverImage?.url}
           />
         </Head>
         <PostHeader
