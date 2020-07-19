@@ -10,10 +10,6 @@ import Container from './container';
 import { useMemo } from 'react';
 import { css } from '@emotion/react';
 
-const PostHeaderContainer = styled.div`
-  --cover-image-background-position: top center;
-`;
-
 const PostMetadata = styled.div`
   display: flex;
   flex-direction: row;
@@ -90,7 +86,7 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
   );
 
   return (
-    <PostHeaderContainer>
+    <>
       <CoverImage
         title={title}
         url={coverImage.url}
@@ -117,7 +113,7 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
           <Date dateString={date} />
         </Container>
       </StickyHeader>
-    </PostHeaderContainer>
+    </>
   );
 }
 
@@ -129,9 +125,9 @@ PostHeader.propTypes = {
   date: PropTypes.string,
   author: PropTypes.shape({
     name: PropTypes.string,
-    picture: {
+    picture: PropTypes.shape({
       url: PropTypes.string,
-    },
+    }),
   }),
   color: PropTypes.string,
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import { HOME_OG_IMAGE_URL } from '../lib/constants';
 
 export default function Meta() {
   return (
@@ -34,10 +33,10 @@ export default function Meta() {
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <meta
+        key="description"
         name="description"
         content="Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide."
       />
-      <meta property="og:image" content={HOME_OG_IMAGE_URL} />
     </Head>
   );
 }

@@ -14,6 +14,7 @@ import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
 import PostTitle from '../../components/post-title';
 import AppFooter from '../../components/footer';
 import { ScrollUp } from '../../components/ScrollUp';
+import { PillButton } from '../../components/button';
 
 export default function Post({ post, morePosts, preview }) {
   const router = useRouter();
@@ -21,6 +22,14 @@ export default function Post({ post, morePosts, preview }) {
   if (!router.isFallback && !post) {
     return <ErrorPage statusCode={404} />;
   }
+
+  const generateOGImage = preview
+    ? () => {
+        import('../../lib/generateOGImage').then((mod) =>
+          mod.default(post.title, post.coverImage.url, post.color)
+        );
+      }
+    : () => {};
 
   return (
     <Layout preview={preview}>
@@ -32,7 +41,10 @@ export default function Post({ post, morePosts, preview }) {
           <article>
             <Head>
               <title>{post.title} | Cole Turner</title>
-              <meta property="og:image" content={post.coverImage.url} />
+              <meta
+                property="og:image"
+                content={post.ogImage?.url || post.coverImage?.url}
+              />
             </Head>
             <PostHeader
               title={post.title}
@@ -42,6 +54,13 @@ export default function Post({ post, morePosts, preview }) {
               color={post.color}
             />
             <Container>
+              {preview && (
+                <div style={{ padding: '1em 0' }}>
+                  <PillButton onClick={generateOGImage}>
+                    Generate OG Image
+                  </PillButton>
+                </div>
+              )}
               <PostBody content={post.content} color={post.color} />
             </Container>
           </article>
