@@ -1,22 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import postPropType from '../components/propTypes/postPropType';
-// todo:
-// buy a license: https://www.flaticon.com/profile/preagreement/getstarted
-// then download icons and save licenses
-
-// https://www.flaticon.com/free-icon/startup_1067357?term=ship&page=1&position=10
-// https://www.flaticon.com/free-icon/cloud_1163624?term=cloud&page=1&position=6
-// https://www.flaticon.com/free-icon/sun_869869?term=sun&page=1&position=3
-// https://www.flaticon.com/free-icon/medal_2972196
-// https://www.flaticon.com/free-icon/certificate_2912780?term=diploma&page=1&position=7
-// https://www.flaticon.com/free-icon/moon_2949009?term=moon&page=1&position=3
-// https://www.flaticon.com/free-icon/up-arrow_992703?term=arrow%20up&page=1&position=10
-
 import MoreStories from '../components/stories-list';
 import Layout from '../components/layout';
 import { getLatestPostsForHome } from '../lib/api';
-import Head from 'next/head';
 import styled from '@emotion/styled';
 
 import AnimatedPortrait from '../components/animatedPortrait';

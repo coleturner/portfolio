@@ -9,7 +9,7 @@ const SVG = styled.svg`
   }
 `;
 
-export default function TwitterIcon(props) {
+export default function EducationIcon(props) {
   return (
     <SVG viewBox="0 0 512.002 512.002" {...props}>
       <path
