@@ -20,7 +20,7 @@ const Footer = styled.footer`
   padding: 2em 0;
   text-align: center;
 
-  @media screen and (min-with: ${BREAKPOINT_MOBILE}) {
+  @media screen and (min-width: ${BREAKPOINT_MOBILE}) {
     text-align: left;
 
     > div {
@@ -74,7 +74,7 @@ const Portrait = styled.div`
   z-index: 2;
   margin: 1em auto;
 
-  @media screen and (min-with: ${BREAKPOINT_MOBILE}) {
+  @media screen and (min-width: ${BREAKPOINT_MOBILE}) {
     margin: 0;
     margin-bottom: 1em;
   }
