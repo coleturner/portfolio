@@ -47,21 +47,16 @@ const Footer = styled.footer`
 const Biography = styled.div`
   font-size: 1.5em;
   padding: 3em 0;
-  color: rgba(0, 0, 0, 0.65);
 
-  @media screen and (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.65);
+  background: linear-gradient(
+    to bottom right,
+    var(--link-color-stop-1) 0%,
+    var(--link-color-stop-2) 50%,
+    var(--link-color-stop-3) 100%
+  );
 
-    background: linear-gradient(
-      to bottom right,
-      var(--link-color-stop-1) 0%,
-      var(--link-color-stop-2) 50%,
-      var(--link-color-stop-3) 100%
-    );
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const Portrait = styled.div`
