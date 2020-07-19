@@ -31,49 +31,79 @@ export default function Post({ post, morePosts, preview }) {
       }
     : () => {};
 
+  if (router.isFallback) {
+    return <PostTitle>Loading…</PostTitle>;
+  }
+
+  const publishedTime = new Date(post.date).toISOString();
+
   return (
     <Layout preview={preview}>
       <Header />
-      {router.isFallback ? (
-        <PostTitle>Loading…</PostTitle>
-      ) : (
-        <>
-          <article>
-            <Head>
-              <title>{post.title} | Cole Turner</title>
-              <meta
-                property="og:image"
-                content={post.ogImage?.url || post.coverImage?.url}
-              />
-            </Head>
-            <PostHeader
-              title={post.title}
-              coverImage={post.coverImage}
-              date={post.date}
-              author={post.author}
-              color={post.color}
-            />
-            <Container>
-              {preview && (
-                <div style={{ padding: '1em 0' }}>
-                  <PillButton onClick={generateOGImage}>
-                    Generate OG Image
-                  </PillButton>
-                </div>
-              )}
-              <PostBody content={post.content} color={post.color} />
-            </Container>
-          </article>
-          {morePosts && morePosts.length > 0 && (
-            <>
-              <Container>
-                <MoreStories title="More Stories" posts={morePosts} />
-              </Container>
-            </>
+      <article>
+        <Head>
+          <title>{post.title} | Cole Turner</title>
+          <meta key="description" name="description" content={post.excerpt} />
+          <meta
+            key="og:image"
+            property="og:image"
+            content={post.ogImage?.url || post.coverImage?.url}
+          />
+          <meta
+            key="og:description"
+            property="og:description"
+            content={post.excerpt}
+          />
+          <meta key="og:title" property="og:title" content={post.title} />
+          <meta key="og:type" property="og:type" content="article" />
+          <meta
+            key="og:article:published_time"
+            property="og:article:published_time"
+            content={publishedTime}
+          />
+          <meta
+            key="og:article:author"
+            property="og:article:author"
+            content="Cole Turner"
+          />
+          <meta
+            key="twitter:card"
+            name="twitter:card"
+            content="summary_large_image"
+          />
+          <meta key="twitter:site" name="twitter:site" content="@coleturner" />
+          <meta
+            key="twitter:creator"
+            name="twitter:creator"
+            content="@coleturner"
+          />
+        </Head>
+        <PostHeader
+          title={post.title}
+          coverImage={post.coverImage}
+          date={post.date}
+          author={post.author}
+          color={post.color}
+        />
+        <Container>
+          {preview && (
+            <div style={{ padding: '1em 0' }}>
+              <PillButton onClick={generateOGImage}>
+                Generate OG Image
+              </PillButton>
+            </div>
           )}
-          <ScrollUp color={post.color} />
+          <PostBody content={post.content} color={post.color} />
+        </Container>
+      </article>
+      {morePosts && morePosts.length > 0 && (
+        <>
+          <Container>
+            <MoreStories title="More Stories" posts={morePosts} />
+          </Container>
         </>
       )}
+      <ScrollUp color={post.color} />
       <AppFooter />
     </Layout>
   );
