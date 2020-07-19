@@ -216,6 +216,10 @@ export default function PostBody({ content, color }) {
         const { contentType } = sys;
 
         switch (contentType.sys.id) {
+          case 'sourceCode': {
+            const { title, code, language } = fields;
+            return <SourceCode title={title} code={code} language={language} />;
+          }
           case 'post':
             return (
               <PostPreview

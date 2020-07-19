@@ -15,6 +15,7 @@ import PostTitle from '../../components/post-title';
 import AppFooter from '../../components/footer';
 import { ScrollUp } from '../../components/scrollUp';
 import { PillButton } from '../../components/button';
+import Link from 'next/link';
 
 function metaImageURL(url) {
   if (url.startsWith('//')) {
@@ -118,6 +119,10 @@ export default function Post({ post, morePosts, preview }) {
         <>
           <Container>
             <MoreStories title="More Stories" posts={morePosts} />
+
+            <Link href="/blog" passHref>
+              <PillButton as="a">See more posts</PillButton>
+            </Link>
           </Container>
         </>
       )}
