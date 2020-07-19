@@ -28,7 +28,7 @@ export default function BlogIndex({ preview, allPosts }) {
   return (
     <Layout preview={preview}>
       <Head>
-        <title>Blog | Cole Turner</title>
+        <title key="title">Blog | Cole Turner</title>
       </Head>
 
       <Header />

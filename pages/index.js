@@ -117,10 +117,6 @@ const LastCardContainer = styled.div`
 export default function Index({ preview, latestPosts }) {
   return (
     <Layout preview={preview}>
-      <Head>
-        <title>Cole Turner</title>
-      </Head>
-
       <CardList>
         <Card>
           <CardContent>

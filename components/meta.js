@@ -2,8 +2,13 @@ import React from 'react';
 import Head from 'next/head';
 
 export default function Meta() {
+  const title = 'Cole Turner · Software Engineer';
+
+  const description =
+    "Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide.";
   return (
     <Head>
+      <title key="title">{title}</title>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
@@ -32,13 +37,28 @@ export default function Meta() {
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <meta
-        key="description"
-        name="description"
-        content="Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide."
-      />
+      <meta key="description" name="description" content={description} />
+
       <meta key="og:image" property="og:image" content="/og-image.jpg" />
+      <meta
+        key="og:description"
+        property="og:description"
+        content={description}
+      />
+      <meta key="og:title" property="og:title" content={title} />
+      <meta
+        key="twitter:card"
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta key="twitter:title" property="twitter:title" content={title} />
       <meta key="twitter:image" name="twitter:image" content="/og-image.jpg" />
+      <meta key="twitter:site" name="twitter:site" content="@coleturner" />
+      <meta
+        key="twitter:creator"
+        name="twitter:creator"
+        content="@coleturner"
+      />
     </Head>
   );
 }

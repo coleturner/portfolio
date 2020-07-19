@@ -51,7 +51,7 @@ export default function Post({ post, morePosts, preview }) {
       <Header />
       <article>
         <Head>
-          <title>{post.title} | Cole Turner</title>
+          <title key="title">{post.title} | Cole Turner</title>
           <meta key="description" name="description" content={post.excerpt} />
           <meta
             key="og:image"

@@ -14,7 +14,7 @@ export default function Resume({ preview, resumeProjects }) {
     <>
       <Layout preview={preview}>
         <Head>
-          <title>Resume | Cole Turner</title>
+          <title key="title">Resume | Cole Turner</title>
         </Head>
 
         <Header />
