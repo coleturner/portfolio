@@ -77,6 +77,11 @@ export default function Post({ post, morePosts, preview }) {
             name="twitter:creator"
             content="@coleturner"
           />
+          <meta
+            key="twitter:image"
+            name="twitter:image"
+            content={post.ogImage?.url || post.coverImage?.url}
+          />
         </Head>
         <PostHeader
           title={post.title}
