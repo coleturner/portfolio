@@ -8,7 +8,9 @@ import { panelBoxShadow } from '../styles/global';
 import { UI_COLORS, TINT } from '../styles/colors';
 
 const PostPreviewSection = styled.section`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   border-radius: 1em;
   box-shadow: ${panelBoxShadow(30)};
   cursor: pointer;
@@ -36,14 +38,22 @@ const PostPreviewSection = styled.section`
   }
 `;
 
-const PostHighlight = styled.div`
-  padding: 1.5em 2em;
+const PostCoverImage = styled.div`
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2;
+`;
+
+const PostHighlight = styled.div`
+  padding: 1.5em 2em;
+  padding-top: 50%;
+  position: relative;
   z-index: 3;
   color: ${UI_COLORS.POST_PREVIEW_HIGHLIGHT_TEXT};
+
   time {
     opacity: 0.75;
   }
@@ -87,13 +97,15 @@ export default function PostPreview({
   return (
     <Link as={`/posts/${slug}`} href="/posts/[slug]">
       <PostPreviewSection color={color}>
-        <CoverImage
-          titleText={title}
-          slug={slug}
-          url={coverImage.url}
-          size={size}
-          color={color}
-        />
+        <PostCoverImage>
+          <CoverImage
+            titleText={title}
+            slug={slug}
+            url={coverImage.url}
+            size={size}
+            color={color}
+          />
+        </PostCoverImage>
         <PostHighlight>
           {date && <Date dateString={date} />}
           <PostTitle>
