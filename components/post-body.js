@@ -192,9 +192,13 @@ const VideoEmbed = styled.video`
 export default function PostBody({ content, color, complimentaryColor }) {
   const options = {
     renderMark: {
-      [MARKS.CODE]: (text) => (
-        <QuoteBubble color={complimentaryColor}>{text}</QuoteBubble>
-      ),
+      [MARKS.CODE]: (text) => {
+        if (!text || text.trim() === '') {
+          return null;
+        }
+
+        return <QuoteBubble color={complimentaryColor}>{text}</QuoteBubble>;
+      },
     },
     renderNode: {
       [BLOCKS.HR]: () => <HR />,
