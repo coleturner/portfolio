@@ -6,9 +6,14 @@ export default function Meta() {
 
   const description =
     "Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide.";
+
   return (
     <Head>
       <title key="title">{title}</title>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
