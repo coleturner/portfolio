@@ -27,6 +27,15 @@ const PostBodyContainer = styled.div(
     padding: 3em 0;
     color: rgba(0, 0, 0, 0.65);
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.4;
+    }
+
     img {
       max-width: 100%;
     }
@@ -62,11 +71,6 @@ const QuoteBubble = styled.blockquote(({ color }) => {
 
   return css`
     margin: 1em 0;
-
-    @media screen and (min-width: 700px) {
-      margin: 1em 3em;
-    }
-
     border-radius: 1em;
     font-size: 1em;
     font-style: italic;
@@ -75,6 +79,10 @@ const QuoteBubble = styled.blockquote(({ color }) => {
     background-color: ${bubbleColor};
     color: ${getColorContrast(bubbleColor)};
     position: relative;
+
+    @media screen and (min-width: 700px) {
+      margin: 1em 3em;
+    }
 
     &::before,
     &::after {
@@ -112,18 +120,26 @@ const Quote = styled.blockquote(({ color }) => {
       ${hexToRGBA(color, 0.0)} 100%
     );
     border-left: 6px solid ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
-    padding: 1em 0;
-    margin: 0;
+    padding: 1em;
+    margin: 2em 0;
     position: relative;
 
     @media screen and (min-width: 700px) {
-      padding: 1em 3em;
+      padding: 1em 2em;
     }
 
     p {
       font-size: 1em;
       font-style: normal;
       white-space: pre-line;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     a {
@@ -165,7 +181,7 @@ const H6 = styled.div(
       font-size: 1.5em;
       margin: 2em 0;
       color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
-      line-height: 1.4;
+      line-height: 1.3;
     `
 );
 
@@ -193,6 +209,16 @@ export default function PostBody({ content, color, complimentaryColor }) {
       [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
       [BLOCKS.QUOTE]: (node, children) => {
         return <Quote color={complimentaryColor}>{children}</Quote>;
+      },
+      [BLOCKS.LIST_ITEM]: (node) => {
+        const children = documentToReactComponents(node, {
+          renderNode: {
+            [BLOCKS.PARAGRAPH]: (_, paragraphChild) => paragraphChild,
+            [BLOCKS.LIST_ITEM]: (_, listItemChild) => listItemChild,
+          },
+        });
+
+        return <li>{children}</li>;
       },
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         const { title, description, file } = node.data.target.fields;
