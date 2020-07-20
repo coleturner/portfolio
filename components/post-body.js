@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
+import hexToRGBA from 'hex-to-rgba';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
 import {
   UI_COLORS,
@@ -56,53 +57,80 @@ const Paragraph = styled.p`
   margin-bottom: 1em;
 `;
 
-const Quote = styled.blockquote(
-  ({ color }) =>
-    css`
-      padding: 1em 0;
-      margin: 0;
+const QuoteBubble = styled.blockquote(({ color }) => {
+  const bubbleColor = color || UI_COLORS.POST_TEXT_QUOTE_COLOR;
 
-      @media screen and (min-width: 700px) {
-        padding: 1em 3em;
-      }
+  return css`
+    margin: 1em 0;
 
-      p {
-        border-radius: 1em;
-        font-size: 1em;
-        font-style: italic;
-        padding: 1em 2em;
-        margin-bottom: 0.5em;
-        background-color: ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
-        color: ${getColorContrast(color)};
-        position: relative;
+    @media screen and (min-width: 700px) {
+      margin: 1em 3em;
+    }
 
-        &::before,
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          height: 30px;
-        }
+    border-radius: 1em;
+    font-size: 1em;
+    font-style: italic;
+    padding: 1em 2em;
+    margin-bottom: 0.5em;
+    background-color: ${bubbleColor};
+    color: ${getColorContrast(bubbleColor)};
+    position: relative;
 
-        &::before {
-          left: -7px;
-          border-left: 20px solid ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
-          border-bottom-right-radius: 16px 14px;
-          transform: translate(0, -2px);
-        }
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      height: 30px;
+    }
 
-        &::after {
-          left: 4px;
-          width: 26px;
-          background: white;
-          background: var(--page-background-color);
+    &::before {
+      left: -7px;
+      border-left: 20px solid ${bubbleColor};
+      border-bottom-right-radius: 16px 14px;
+      transform: translate(0, -2px);
+    }
 
-          border-bottom-right-radius: 10px;
-          transform: translate(-30px, -2px);
-        }
-      }
-    `
-);
+    &::after {
+      left: 4px;
+      width: 26px;
+      background: white;
+      background: var(--page-background-color);
+
+      border-bottom-right-radius: 10px;
+      transform: translate(-30px, -2px);
+    }
+  `;
+});
+
+const Quote = styled.blockquote(({ color }) => {
+  return css`
+    background: linear-gradient(
+      to right,
+      ${hexToRGBA(color, 0.3)} 0%,
+      ${hexToRGBA(color, 0.15)} 25%,
+      ${hexToRGBA(color, 0.0)} 100%
+    );
+    border-left: 6px solid ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
+    padding: 1em 0;
+    margin: 0;
+    position: relative;
+
+    @media screen and (min-width: 700px) {
+      padding: 1em 3em;
+    }
+
+    p {
+      font-size: 1em;
+      font-style: normal;
+      white-space: pre-line;
+    }
+
+    a {
+      color: ${color};
+    }
+  `;
+});
 
 const HR = styled.hr`
   border-color: ${SHADE[0.15]};
@@ -111,33 +139,33 @@ const HR = styled.hr`
 
 const H1 = styled.h1`
   font-size: 2;
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.5em 0;
 `;
 const H2 = styled.h2`
   font-size: 2;
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.5em 0;
 `;
 const H3 = styled.h3`
   font-size: 1.5;
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.5em 0;
 `;
 const H4 = styled.h4`
   font-size: 1.25;
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.5em 0;
 `;
 const H5 = styled.h5`
   font-size: 1.15;
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.5em 0;
 `;
 
 const H6 = styled.div(
   ({ color }) =>
     css`
-      font-weight: 700;
+      font-weight: 100;
       font-size: 1.5em;
-      margin: 2em 0 1em 0;
+      margin: 2em 0;
       color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
-      line-height: 1.3;
+      line-height: 1.4;
     `
 );
 
@@ -145,8 +173,13 @@ const VideoEmbed = styled.video`
   width: 100%;
 `;
 
-export default function PostBody({ content, color }) {
+export default function PostBody({ content, color, complimentaryColor }) {
   const options = {
+    renderMark: {
+      [MARKS.CODE]: (text) => (
+        <QuoteBubble color={complimentaryColor}>{text}</QuoteBubble>
+      ),
+    },
     renderNode: {
       [BLOCKS.HR]: () => <HR />,
       [BLOCKS.HEADING_1]: (node, children) => <H1>{children}</H1>,
@@ -154,11 +187,13 @@ export default function PostBody({ content, color }) {
       [BLOCKS.HEADING_3]: (node, children) => <H3>{children}</H3>,
       [BLOCKS.HEADING_4]: (node, children) => <H4>{children}</H4>,
       [BLOCKS.HEADING_5]: (node, children) => <H5>{children}</H5>,
-      [BLOCKS.HEADING_6]: (node, children) => <H6 color={color}>{children}</H6>,
-      [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
-      [BLOCKS.QUOTE]: (node, children) => (
-        <Quote color={color}>{children}</Quote>
+      [BLOCKS.HEADING_6]: (node, children) => (
+        <H6 color={complimentaryColor}>{children}</H6>
       ),
+      [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
+      [BLOCKS.QUOTE]: (node, children) => {
+        return <Quote color={complimentaryColor}>{children}</Quote>;
+      },
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         const { title, description, file } = node.data.target.fields;
 
@@ -265,7 +300,7 @@ export default function PostBody({ content, color }) {
   };
 
   return (
-    <PostBodyContainer color={color}>
+    <PostBodyContainer color={color} complimentaryColor={complimentaryColor}>
       {documentToReactComponents(content, options)}
     </PostBodyContainer>
   );
@@ -273,5 +308,6 @@ export default function PostBody({ content, color }) {
 
 PostBody.propTypes = {
   color: PropTypes.string,
+  complimentaryColor: PropTypes.string,
   content: PropTypes.object,
 };

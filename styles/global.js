@@ -36,6 +36,10 @@ export const globalStyles = (
             '#ffffff',
             15
           )};
+          --page-background-color-invert-5: ${changeColorBrightness(
+            '#ffffff',
+            -5
+          )};
           --page-background-color-invert-15: ${changeColorBrightness(
             '#ffffff',
             -15
@@ -61,6 +65,10 @@ export const globalStyles = (
             --page-background-color-plus-15: ${changeColorBrightness(
               '#111d2b',
               15
+            )};
+            --page-background-color-invert-5: ${changeColorBrightness(
+              '#111d2b',
+              5
             )};
             --page-background-color-invert-15: ${changeColorBrightness(
               '#111d2b',

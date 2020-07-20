@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import hexToRGBA from 'hex-to-rgba';
+import invertColor from 'invert-color';
 
 export function changeColorBrightness(color, percent) {
   const num = parseInt(color.replace('#', ''), 16);
@@ -30,11 +31,23 @@ function hexToRgb(hex) {
 
   return result
     ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16),
-    }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
     : undefined;
+}
+
+export function getInvertedColor(color, threshold = 130) {
+  const invertedColor = invertColor(color);
+  const yiq = rgbToYIQ(hexToRgb(invertedColor));
+
+  // Make sure it is as bright as the threshold
+  if (yiq < threshold) {
+    return changeColorBrightness(invertedColor, Math.round(threshold - yiq));
+  }
+
+  return invertedColor;
 }
 
 export function getColorContrast(colorHex, threshold = 128) {
