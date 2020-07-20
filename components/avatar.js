@@ -25,11 +25,20 @@ const AvatarName = styled.span`
   font-weight: 700;
 `;
 
-export default function Avatar({ name, picture, pictureSize = 3 }) {
+export default function Avatar({
+  name,
+  picture,
+  pictureSize = 3,
+  imageSize = 80,
+}) {
   return (
     <AvatarContainer>
       {picture && (
-        <AvatarImage src={picture.url} alt={name} size={pictureSize} />
+        <AvatarImage
+          src={picture.url + '?w=' + imageSize}
+          alt={name}
+          size={pictureSize}
+        />
       )}
       {name && <AvatarName>{name}</AvatarName>}
     </AvatarContainer>
@@ -42,4 +51,5 @@ Avatar.propTypes = {
     url: PropTypes.string,
   }),
   pictureSize: PropTypes.number,
+  imageSize: PropTypes.number,
 };
