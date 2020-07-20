@@ -6,13 +6,7 @@ const Title = styled.h1`
   font-size: 4em;
   font-size: clamp(1rem, 1rem + 3vw, 4em);
   line-height: 1.2;
-  background-color: #fff;
-  background-size: 100%;
-  background-mage: linear-gradient(to bottom, #fff 0%, #bbb 100%);
-  background-image: repeating-linear-gradient(#fff, #aaa 1.2em);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  text-shadow: 0 3px 100px #000;
 `;
 
 export default function PostTitle({ color, children }) {
