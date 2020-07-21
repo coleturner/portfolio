@@ -265,7 +265,14 @@ export default function PostBody({ content, color }) {
             );
           }
           case 'image':
-            return <img title={title} alt={description} src={file.url} />;
+            return (
+              <img
+                loading="lazy"
+                title={title}
+                alt={description}
+                src={file.url}
+              />
+            );
           case 'application':
             return (
               <a alt={description} href={file.url}>
