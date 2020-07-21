@@ -38,6 +38,8 @@ const PostBodyContainer = styled.div(
 
     img {
       max-width: 100%;
+      margin: 1em auto;
+      display: block;
     }
 
     @media screen and (prefers-color-scheme: dark) {
