@@ -19,10 +19,11 @@ export function changeColorBrightness(color, percent) {
     .slice(1)}`;
 }
 
-function rgbToYIQ({ r, g, b }) {
+export function rgbToYIQ({ r, g, b }) {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
-function hexToRgb(hex) {
+
+export function hexToRgb(hex) {
   if (!hex || hex === undefined || hex === '') {
     return undefined;
   }
@@ -36,18 +37,6 @@ function hexToRgb(hex) {
         b: parseInt(result[3], 16),
       }
     : undefined;
-}
-
-export function getInvertedColor(color, threshold = 130) {
-  const invertedColor = invertColor(color);
-  const yiq = rgbToYIQ(hexToRgb(invertedColor));
-
-  // Make sure it is as bright as the threshold
-  if (yiq < threshold) {
-    return changeColorBrightness(invertedColor, Math.round(threshold - yiq));
-  }
-
-  return invertedColor;
 }
 
 export function getColorContrast(colorHex, threshold = 128) {

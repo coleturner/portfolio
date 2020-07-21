@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import hexToRGBA from 'hex-to-rgba';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -10,6 +10,8 @@ import {
   SHADE,
   changeColorBrightness,
   getColorContrast,
+  rgbToYIQ,
+  hexToRgb,
 } from '../styles/colors';
 import SourceCode from './source-code';
 import PostPreview from './post-preview';
@@ -17,6 +19,8 @@ import Link from 'next/link';
 import { isDevelopment } from '../lib/environment';
 import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
+import invertColor from 'invert-color';
+import useColorScheme from '../hooks/useColorScheme';
 
 const PostBodyContainer = styled.div(
   ({ color }) => css`
@@ -191,7 +195,30 @@ const VideoEmbed = styled.video`
   width: 100%;
 `;
 
-export default function PostBody({ content, color, complimentaryColor }) {
+export default function PostBody({ content, color }) {
+  const colorScheme = useColorScheme();
+  const complimentaryColor = useMemo(() => {
+    const threshold = colorScheme === 'dark' ? 140 : 108;
+    let invertedColor = invertColor(color);
+
+    const yiq = rgbToYIQ(hexToRgb(invertedColor));
+
+    // Make sure it is as bright as the threshold
+    if (yiq < threshold) {
+      invertedColor = changeColorBrightness(
+        invertedColor,
+        Math.round(threshold - yiq)
+      );
+    } else if (yiq > threshold) {
+      invertedColor = changeColorBrightness(
+        invertedColor,
+        Math.round(yiq - threshold)
+      );
+    }
+
+    return invertedColor;
+  }, [color, colorScheme]);
+
   const options = {
     renderMark: {
       [MARKS.CODE]: (text) => {

@@ -112,11 +112,7 @@ export default function Post({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
-          <PostBody
-            content={post.content}
-            color={post.color}
-            complimentaryColor={post.complimentaryColor}
-          />
+          <PostBody content={post.content} color={post.color} />
         </Container>
       </article>
       {morePosts && morePosts.length > 0 && (
