@@ -198,23 +198,15 @@ const VideoEmbed = styled.video`
 export default function PostBody({ content, color }) {
   const colorScheme = useColorScheme();
   const complimentaryColor = useMemo(() => {
-    const threshold = colorScheme === 'dark' ? 140 : 108;
+    const threshold = colorScheme === 'dark' ? 140 : 128;
     let invertedColor = invertColor(color);
 
     const yiq = rgbToYIQ(hexToRgb(invertedColor));
 
-    // Make sure it is as bright as the threshold
-    if (yiq < threshold) {
-      invertedColor = changeColorBrightness(
-        invertedColor,
-        Math.round(threshold - yiq)
-      );
-    } else if (yiq > threshold) {
-      invertedColor = changeColorBrightness(
-        invertedColor,
-        Math.round(yiq - threshold)
-      );
-    }
+    invertedColor = changeColorBrightness(
+      invertedColor,
+      Math.round(threshold - yiq)
+    );
 
     return invertedColor;
   }, [color, colorScheme]);
