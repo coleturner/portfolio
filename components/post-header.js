@@ -5,10 +5,15 @@ import Date from '../components/date';
 import CoverImage from '../components/cover-image';
 import PostTitle from '../components/post-title';
 import styled from '@emotion/styled';
-import { UI_COLORS, changeColorBrightness } from '../styles/colors';
+import {
+  UI_COLORS,
+  changeColorBrightness,
+  getColorContrast,
+} from '../styles/colors';
 import Container from './container';
 import { useMemo } from 'react';
 import { css } from '@emotion/react';
+import hexToRgba from 'hex-to-rgba';
 
 const MainHeader = styled.div`
   background: #000;
@@ -85,10 +90,11 @@ const StickyHeaderTitle = styled.h3`
 `;
 
 export default function PostHeader({ title, coverImage, date, author, color }) {
-  const textColor = useMemo(() => changeColorBrightness(color, -70), [color]);
-  const textShadowColor = useMemo(() => changeColorBrightness(color, 15), [
-    color,
-  ]);
+  const textColor = useMemo(() => getColorContrast(color), [color]);
+  const textShadowColor = useMemo(
+    () => hexToRgba(getColorContrast(color, 128, true), 0.45),
+    [color]
+  );
 
   const darkenedColor = useMemo(
     () => color && changeColorBrightness(color, -30),
