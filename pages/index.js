@@ -17,6 +17,8 @@ import { RocketShip } from '../components/rocketShip';
 import { Clouds } from '../components/clouds';
 import { SunOrMoon } from '../components/sunAndMoon';
 import Typewriter from '../components/typewriter';
+import Head from 'next/head';
+import { BASE_URL } from '../lib/constants';
 
 const CardList = styled.div`
   max-width: 100%;
@@ -120,6 +122,27 @@ const LastCardContainer = styled.div`
 export default function Index({ preview, latestPosts }) {
   return (
     <Layout preview={preview}>
+      <Head>
+        <script
+          key="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org/',
+              '@type': 'Person',
+              name: 'Cole Turner',
+              url: BASE_URL,
+              image: BASE_URL + 'portrait.jpg',
+              sameAs: [
+                'https://twitter.com/coleturner',
+                'https://www.linkedin.com/in/colept/',
+                'https://github.com/coleturner',
+              ],
+              jobTitle: 'Software Engineer',
+            }),
+          }}
+        />
+      </Head>
       <CardList>
         <Card>
           <CardContent>

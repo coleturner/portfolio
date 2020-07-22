@@ -16,6 +16,7 @@ import { ScrollUp } from '../../components/scrollUp';
 import { PillButton } from '../../components/button';
 import Link from 'next/link';
 import LoadingSpinner from '../../components/loadingSpinner';
+import { BASE_URL } from '../../lib/constants';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -95,6 +96,31 @@ export default function Post({ post, morePosts, preview }) {
             key="twitter:creator"
             name="twitter:creator"
             content="@coleturner"
+          />
+
+          <script
+            key="structured-data"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'BlogPosting',
+                mainEntityOfPage: {
+                  '@type': 'WebPage',
+                  '@id': BASE_URL + 'posts/' + post.slug,
+                },
+                headline: 'abcad',
+                description: 'Excerpt',
+                image: metaImageURL(
+                  post.coverImage?.url || post.postImage?.url
+                ),
+                author: {
+                  '@type': 'Person',
+                  name: 'Cole Turner',
+                },
+                datePublished: post.date,
+              }),
+            }}
           />
         </Head>
         <PostHeader

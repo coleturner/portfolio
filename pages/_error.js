@@ -64,7 +64,7 @@ function NextErrorComponent({
   return (
     <div style={styles.error}>
       <Head>
-        <title>
+        <title key="title">
           {statusCode}: {title}
         </title>
 

@@ -57,7 +57,7 @@ export default function Error404Page() {
   return (
     <div style={styles.error}>
       <Head>
-        <title>
+        <title key="title">
           {statusCode}: {title}
         </title>
 
