@@ -103,10 +103,12 @@ function getThumbURL(urlStr) {
   return url.toString();
 }
 
-function getFullURL(urlStr, width) {
+function getFullURL(urlStr, dimensions) {
   if (!urlStr) {
     return null;
   }
+
+  const [width, height] = dimensions;
 
   const params = {};
 
@@ -119,6 +121,10 @@ function getFullURL(urlStr, width) {
     params.w = Math.round(width + 100);
   }
 
+  if (height) {
+    params.h = Math.round(height + 100);
+  }
+
   const url = parse(urlStr, true);
   url.query = { ...url.query, ...params };
 
@@ -126,21 +132,25 @@ function getFullURL(urlStr, width) {
 }
 
 function useImage(url, ref) {
-  const [width, setWidth] = useState(null);
+  const [dimensions, setDimensions] = useState([null, null]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const thumbURL = useMemo(() => getThumbURL(url), [url]);
-  const fullURL = useMemo(() => getFullURL(url, width), [url, width]);
+  const fullURL = useMemo(() => getFullURL(url, dimensions), [
+    url,
+    ...dimensions,
+  ]);
 
   useEffect(() => {
     if (ref.current) {
-      setWidth(ref.current.getBoundingClientRect().width);
+      const rect = ref.current.getBoundingClientRect();
+      setDimensions([rect.width, rect.height]);
     }
   }, [ref]);
 
   useEffect(() => {
     // If we're using a ref, wait until the width is set
-    if (ref !== undefined && width === null) {
+    if (ref !== undefined && dimensions.width === null) {
       return;
     }
 
