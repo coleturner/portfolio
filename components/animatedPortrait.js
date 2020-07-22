@@ -282,6 +282,7 @@ export default function AnimatedPortrait({
             height="100%"
             onEnded={loop}
             exit={{ opacity: 0 }}
+            poster="/memoji.png"
           >
             <source src={'/animoji/' + source + '.mp4'} type="video/mp4" />
           </motion.video>
