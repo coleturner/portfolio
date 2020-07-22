@@ -51,6 +51,8 @@ const RocketShipContainer = styled.div`
   bottom: 0%;
   animation: ${ROCKET_MOVEMENT} 15s infinite ease-in;
   overflow: hidden;
+  user-select: none;
+  pointer-events: none;
 
   .trail {
     animation: ${ROCKET_TRAIL} 300ms infinite;

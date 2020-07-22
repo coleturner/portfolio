@@ -116,7 +116,7 @@ function getFullURL(urlStr, width) {
 
   if (width) {
     // Add some padding to it, for quality
-    params.w = width + 100;
+    params.w = Math.round(width + 100);
   }
 
   const url = parse(urlStr, true);

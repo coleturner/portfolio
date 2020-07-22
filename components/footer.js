@@ -202,7 +202,7 @@ export default function AppFooter() {
           </NavigationContainer>
           <div>
             <Portrait>
-              <img src="/portrait.jpg" />
+              <img src="/portrait.jpg" alt="Cole, smiling." />
             </Portrait>
           </div>
         </Container>

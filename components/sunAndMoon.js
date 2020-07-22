@@ -17,6 +17,8 @@ const SunContainer = styled.div`
   right: 0;
   bottom: 0;
   z-index: -1;
+  user-select: none;
+  pointer-events: none;
 `;
 const MoonContainer = styled.div`
   font-size: 5em;
@@ -27,6 +29,8 @@ const MoonContainer = styled.div`
   bottom: 0;
   z-index: -1;
   filter: grayscale(50%);
+  user-select: none;
+  pointer-events: none;
 `;
 
 export function SunOrMoon(props) {

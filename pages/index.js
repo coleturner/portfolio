@@ -35,11 +35,27 @@ const Card = styled.div`
   z-index: 1;
   min-height: 100vh;
 
+  .netflix-link {
+    color: #e50914;
+
+    @media (prefers-color-scheme: dark) {
+      color: #ff3d47;
+    }
+  }
+
   .paypal-link {
     color: #003087;
 
     @media (prefers-color-scheme: dark) {
       color: #0079c1;
+    }
+  }
+
+  .tinychat-link {
+    color: #257aa2;
+
+    @media (prefers-color-scheme: dark) {
+      color: #2f9bce;
     }
   }
 `;
@@ -133,7 +149,7 @@ export default function Index({ preview, latestPosts }) {
                     target="_blank"
                     rel="nofollow noreferrer"
                     href="https://www.netflix.com/"
-                    style={{ color: '#E50914' }}
+                    className="netflix-link"
                   >
                     Netflix
                   </a>
@@ -159,7 +175,7 @@ export default function Index({ preview, latestPosts }) {
                     target="_blank"
                     rel="nofollow noreferrer"
                     href="https://www.tinychat.com/"
-                    style={{ color: '#41b7ef' }}
+                    className="tinychat-link"
                   >
                     Tinychat
                   </a>

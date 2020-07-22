@@ -20,8 +20,10 @@ const CloudsContainer = styled.div`
   z-index: -1;
   top: 50%;
   left: 0;
-  right; 0;
+  right: 0;
   font-size: 2em;
+  user-select: none;
+  pointer-events: none;
 
   svg {
     position: absolute;
