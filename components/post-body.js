@@ -21,6 +21,7 @@ import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
 import invertColor from 'invert-color';
 import useColorScheme from '../hooks/useColorScheme';
+import { panelBoxShadow } from '../styles/global';
 
 const PostBodyContainer = styled.div(
   ({ color }) => css`
@@ -39,12 +40,6 @@ const PostBodyContainer = styled.div(
     h5,
     h6 {
       line-height: 1.4;
-    }
-
-    img {
-      max-width: 100%;
-      margin: 1em auto;
-      display: block;
     }
 
     @media screen and (prefers-color-scheme: dark) {
@@ -68,6 +63,14 @@ const PostBodyContainer = styled.div(
     }
   `
 );
+
+const PostImage = styled.img`
+  max-width: 100%;
+  margin: 1em auto;
+  display: block;
+  box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
+  border-radius: 0.3em;
+`;
 
 const Paragraph = styled.p`
   margin-bottom: 1em;
@@ -267,7 +270,7 @@ export default function PostBody({ content, color }) {
           }
           case 'image':
             return (
-              <img
+              <PostImage
                 loading="lazy"
                 title={title}
                 alt={description}
