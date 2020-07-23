@@ -326,6 +326,7 @@ export default function PostBody({ content, color }) {
                 title={fields.title}
                 coverImage={fields.coverImage}
                 date={fields.date}
+                readingTime={fields.readingTime}
                 author={fields.author}
                 slug={fields.slug}
                 excerpt={fields.excerpt}

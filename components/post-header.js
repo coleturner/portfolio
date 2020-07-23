@@ -28,8 +28,16 @@ const PostMetadata = styled.div`
   margin-top: 2em;
 `;
 
-const Spacer = styled.div`
-  padding: 1em 2em;
+const AvatarName = styled.span`
+  font-weight: 700;
+  font-size: 1.25em;
+`;
+
+const ReadingTime = styled.span`
+  &::before {
+    content: '·';
+    margin: 0 0.75em;
+  }
 `;
 
 const StickyHeader = styled.div(
@@ -89,7 +97,14 @@ const StickyHeaderTitle = styled.h3`
   text-overflow: ellipsis;
 `;
 
-export default function PostHeader({ title, coverImage, date, author, color }) {
+export default function PostHeader({
+  title,
+  coverImage,
+  date,
+  readingTime,
+  author,
+  color,
+}) {
   const textColor = useMemo(() => getColorContrast(color), [color]);
   const textShadowColor = useMemo(
     () => hexToRgba(getColorContrast(color, 128, true), 0.45),
@@ -113,9 +128,18 @@ export default function PostHeader({ title, coverImage, date, author, color }) {
         >
           <PostTitle color={color}>{title}</PostTitle>
           <PostMetadata>
-            {author && <Avatar name={author.name} picture={author.picture} />}
-            <Spacer />
-            <Date dateString={date} />
+            <div>
+              {author && <Avatar name={author.name} picture={author.picture} />}
+            </div>
+            <div>
+              {author.name && <AvatarName>{author.name}</AvatarName>}
+              <div>
+                <Date dateString={date} />
+                {readingTime && (
+                  <ReadingTime>{readingTime} min read</ReadingTime>
+                )}
+              </div>
+            </div>
           </PostMetadata>
         </CoverImage>
       </MainHeader>
@@ -141,6 +165,7 @@ PostHeader.propTypes = {
     url: PropTypes.string,
   }),
   date: PropTypes.string,
+  readingTime: PropTypes.number,
   author: PropTypes.shape({
     name: PropTypes.string,
     picture: PropTypes.shape({

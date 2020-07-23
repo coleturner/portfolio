@@ -74,6 +74,15 @@ const PostTitle = styled.h3`
   }
 `;
 
+const ReadingTime = styled.span`
+  opacity: 0.75;
+
+  &::before {
+    content: '·';
+    margin: 0 0.75em;
+  }
+`;
+
 const PostExcerpt = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -89,6 +98,7 @@ export default function PostPreview({
   title,
   coverImage,
   date,
+  readingTime,
   excerpt,
   slug,
   size = 80,
@@ -107,7 +117,10 @@ export default function PostPreview({
           />
         </PostCoverImage>
         <PostHighlight>
-          {date && <Date dateString={date} />}
+          <div>
+            {date && <Date dateString={date} />}
+            {readingTime && <ReadingTime>{readingTime} min read</ReadingTime>}
+          </div>
           <PostTitle>
             <Link as={`/posts/${slug}`} href="/posts/[slug]">
               <a>{title}</a>
@@ -125,6 +138,7 @@ PostPreview.propTypes = {
   title: PropTypes.string,
   coverImage: PropTypes.shape({ url: PropTypes.string }),
   date: PropTypes.string,
+  readingTime: PropTypes.number,
   excerpt: PropTypes.string,
   slug: PropTypes.string,
   size: PropTypes.number,

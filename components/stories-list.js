@@ -20,6 +20,7 @@ export default function StoriesList({ title, posts }) {
               title={post.title}
               coverImage={post.coverImage}
               date={post.date}
+              readingTime={post.readingTime}
               author={post.author}
               slug={post.slug}
               excerpt={post.excerpt}

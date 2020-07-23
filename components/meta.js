@@ -5,7 +5,7 @@ export default function Meta() {
   const title = 'Cole Turner · Software Engineer';
 
   const description =
-    "Senior Software Engineer with a passion for UX/UI and communications. It's my mission to build applications that feel seamless and power businesses worldwide.";
+    'Senior Software Engineer with a passion for UX/UI and communications. My mission is to build seamless applications that power businesses worldwide.';
 
   return (
     <Head>

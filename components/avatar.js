@@ -21,14 +21,10 @@ const AvatarImage = styled.img(
     `
 );
 
-const AvatarName = styled.span`
-  font-weight: 700;
-`;
-
 export default function Avatar({
   name,
   picture,
-  pictureSize = 3,
+  pictureSize = 4,
   imageSize = 80,
 }) {
   return (
@@ -40,7 +36,6 @@ export default function Avatar({
           size={pictureSize}
         />
       )}
-      {name && <AvatarName>{name}</AvatarName>}
     </AvatarContainer>
   );
 }
