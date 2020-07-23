@@ -58,6 +58,13 @@ const StickyHeader = styled.div(
       left: 0;
       z-index: 1;
 
+      @media screen and (max-width: 700px) {
+        .container {
+          max-width: 100%;
+          width: 97%;
+        }
+      }
+
       time {
         font-weight: 600;
         margin-left: 1em;

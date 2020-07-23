@@ -26,6 +26,7 @@ const PostBodyContainer = styled.div(
   ({ color }) => css`
     line-height: 1.6;
     font-size: 22px;
+    font-size: clamp(1rem, 1rem + 0.5vh, 4em);
     max-width: 42rem;
     max-width: 70ch;
     padding: 3em 0;
