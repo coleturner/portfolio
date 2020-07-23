@@ -46,7 +46,7 @@ export const OutlineButton = styled.button`
 `;
 
 export const PillButton = styled.button(
-  ({ colorScheme = 'light' }) => css`
+  ({ colorScheme }) => css`
     --light-background: ${UI_COLORS.PillButtonLightBackground};
     --light-color: ${UI_COLORS.PillButtonLightColor};
     --light-hover-background: ${UI_COLORS.PillButtonLightHoverBackground};
@@ -64,17 +64,16 @@ export const PillButton = styled.button(
     border: 0;
     text-decoration: none;
     background-color: ${UI_COLORS.PillButtonLightBackground};
-    color: ${UI_COLORS.PillButtonLightColor};
-    background-color: var(--${colorScheme}-background);
+    background-color: var(--light-background);
 
     &,
     &:hover {
-      color: var(--${colorScheme}-color);
+      color: ${UI_COLORS.PillButtonLightColor};
     }
 
     &:hover {
       background-color: ${UI_COLORS.PillButtonLightHoverBackground};
-      background-color: var(--${colorScheme}-hover-background);
+      background-color: var(--light-hover-background);
     }
 
     svg {
@@ -90,5 +89,15 @@ export const PillButton = styled.button(
         background-color: var(--dark-hover-background);
       }
     }
+
+    ${colorScheme &&
+    css`
+      background-color: var(--${colorScheme}-background);
+
+      &,
+      &:hover {
+        color: var(--${colorScheme}-color);
+      }
+    `};
   `
 );

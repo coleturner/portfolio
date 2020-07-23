@@ -202,15 +202,17 @@ const VideoEmbed = styled.video`
 export default function PostBody({ content, color }) {
   const colorScheme = useColorScheme();
   const complimentaryColor = useMemo(() => {
-    const threshold = colorScheme === 'dark' ? 140 : 128;
+    const threshold = 128;
     let invertedColor = invertColor(color);
 
     const yiq = rgbToYIQ(hexToRgb(invertedColor));
 
-    invertedColor = changeColorBrightness(
-      invertedColor,
-      Math.round(threshold - yiq)
-    );
+    const brightnessChange =
+      colorScheme === 'dark'
+        ? Math.max(yiq, threshold) - Math.min(yiq, threshold)
+        : Math.min(yiq, threshold) - Math.max(yiq, threshold);
+
+    invertedColor = changeColorBrightness(invertedColor, brightnessChange);
 
     return invertedColor;
   }, [color, colorScheme]);
