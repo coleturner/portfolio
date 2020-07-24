@@ -213,6 +213,7 @@ export default function AnimatedPortrait({
   ];
 
   const [source, setSource] = useState(videoPick);
+  const [usePoster, setUsePoster] = useState(true);
 
   if (shouldReduceMotion) {
     return (
@@ -231,6 +232,7 @@ export default function AnimatedPortrait({
     }
 
     playBoopSound();
+    setUsePoster(false);
     setSource(pick);
   };
 
@@ -240,6 +242,7 @@ export default function AnimatedPortrait({
     }
 
     if (triggers.includes(source)) {
+      setUsePoster(false);
       setSource(videoPick);
     } else {
       // Don't restart triggers
@@ -282,7 +285,7 @@ export default function AnimatedPortrait({
             height="100%"
             onEnded={loop}
             exit={{ opacity: 0 }}
-            poster="/memoji.png"
+            poster={usePoster && '/memoji.png'}
           >
             <source src={'/animoji/' + source + '.mp4'} type="video/mp4" />
           </motion.video>
