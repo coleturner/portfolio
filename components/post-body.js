@@ -211,7 +211,7 @@ const Emphasis = styled.em`
   font-size: 1.5em;
   margin: 2em 0;
   color: ${UI_COLORS.POST_TEXT_H6_TEXT};
-  color: var(--post-color, ${UI_COLORS.POST_TEXT_H6_TEXT});
+  color: var(--post-complementary-color, ${UI_COLORS.POST_TEXT_H6_TEXT});
   line-height: 1.3;
   font-style: normal;
 
