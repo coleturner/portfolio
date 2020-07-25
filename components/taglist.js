@@ -10,13 +10,26 @@ const TaglistContainer = styled.div`
   background: var(--page-background-color);
   box-shadow: inset 0 100px 100px 100px rgba(0, 0, 0, 0.3);
   border-bottom: 3px solid rgba(0, 0, 0, 0.3);
-  padding: 0.5em 0;
+  padding: 0.25em;
   text-align: center;
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+
+  white-space: nowrap;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overscroll-behavior-x: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+
+    @media screen and (min-width: 800px) {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
+  }
 `;
 
 const Tag = styled.span(
@@ -25,6 +38,7 @@ const Tag = styled.span(
     background: rgba(255, 255, 255, 0.15);
     border-bottom: 3px solid ${color};
     border-radius: 0.2em;
+    margin: 0.25em 0;
     margin-right: 0.5em;
     opacity: 0.85;
     position: relative;
