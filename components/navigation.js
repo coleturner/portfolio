@@ -59,7 +59,7 @@ export default function Navigation() {
           <NavLink>Resume</NavLink>
         </Link>
         <Link href="/blog" passHref>
-          <NavLink matchPaths={['/posts/[slug]']}>Blog</NavLink>
+          <NavLink matchPaths={['/posts/[slug]', '/blog/[slug]']}>Blog</NavLink>
         </Link>
       </Menu>
     </NavigationContainer>

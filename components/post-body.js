@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import hexToRGBA from 'hex-to-rgba';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -10,8 +10,6 @@ import {
   SHADE,
   changeColorBrightness,
   getColorContrast,
-  rgbToYIQ,
-  hexToRgb,
 } from '../styles/colors';
 import SourceCode from './source-code';
 import PostPreview from './post-preview';
@@ -19,8 +17,6 @@ import Link from 'next/link';
 import { isDevelopment } from '../lib/environment';
 import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
-import invertColor from 'invert-color';
-import useColorScheme from '../hooks/useColorScheme';
 import { panelBoxShadow } from '../styles/global';
 
 const PostBodyContainer = styled.div(
@@ -32,6 +28,10 @@ const PostBodyContainer = styled.div(
     max-width: 70ch;
     padding: 3em 0;
     color: rgba(0, 0, 0, 0.65);
+
+    > p:last-child:empty {
+      display: none;
+    }
 
     h1,
     h2,
@@ -184,7 +184,7 @@ const H5 = styled.h5`
   margin: 2em 0 0.5em 0;
 `;
 
-const H6 = styled.div(
+const Emphasis = styled.em(
   ({ color }) =>
     css`
       font-weight: 100;
@@ -192,6 +192,10 @@ const H6 = styled.div(
       margin: 2em 0;
       color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
       line-height: 1.3;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     `
 );
 
@@ -199,24 +203,7 @@ const VideoEmbed = styled.video`
   width: 100%;
 `;
 
-export default function PostBody({ content, color }) {
-  const colorScheme = useColorScheme();
-  const complimentaryColor = useMemo(() => {
-    const threshold = 128;
-    let invertedColor = invertColor(color);
-
-    const yiq = rgbToYIQ(hexToRgb(invertedColor));
-
-    const brightnessChange =
-      colorScheme === 'dark'
-        ? Math.max(yiq, threshold) - Math.min(yiq, threshold)
-        : Math.min(yiq, threshold) - Math.max(yiq, threshold);
-
-    invertedColor = changeColorBrightness(invertedColor, brightnessChange);
-
-    return invertedColor;
-  }, [color, colorScheme]);
-
+export default function PostBody({ content, color, complementaryColor }) {
   const options = {
     renderMark: {
       [MARKS.CODE]: (text) => {
@@ -224,7 +211,7 @@ export default function PostBody({ content, color }) {
           return null;
         }
 
-        return <QuoteBubble color={complimentaryColor}>{text}</QuoteBubble>;
+        return <QuoteBubble color={complementaryColor}>{text}</QuoteBubble>;
       },
     },
     renderNode: {
@@ -235,11 +222,13 @@ export default function PostBody({ content, color }) {
       [BLOCKS.HEADING_4]: (node, children) => <H4>{children}</H4>,
       [BLOCKS.HEADING_5]: (node, children) => <H5>{children}</H5>,
       [BLOCKS.HEADING_6]: (node, children) => (
-        <H6 color={complimentaryColor}>{children}</H6>
+        <Emphasis color={complementaryColor}>{children}</Emphasis>
       ),
-      [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
+      [BLOCKS.PARAGRAPH]: (node, children) => {
+        return <Paragraph>{children}</Paragraph>;
+      },
       [BLOCKS.QUOTE]: (node, children) => {
-        return <Quote color={complimentaryColor}>{children}</Quote>;
+        return <Quote color={complementaryColor}>{children}</Quote>;
       },
       [BLOCKS.LIST_ITEM]: (node) => {
         const children = documentToReactComponents(node, {
@@ -356,7 +345,7 @@ export default function PostBody({ content, color }) {
         const { slug } = fields;
 
         return (
-          <Link as={`/posts/${slug}`} href="/posts[slug]">
+          <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a>{children}</a>
           </Link>
         );
@@ -365,7 +354,7 @@ export default function PostBody({ content, color }) {
   };
 
   return (
-    <PostBodyContainer color={color} complimentaryColor={complimentaryColor}>
+    <PostBodyContainer color={color} complementaryColor={complementaryColor}>
       {documentToReactComponents(content, options)}
     </PostBodyContainer>
   );
@@ -373,6 +362,6 @@ export default function PostBody({ content, color }) {
 
 PostBody.propTypes = {
   color: PropTypes.string,
-  complimentaryColor: PropTypes.string,
+  complementaryColor: PropTypes.string,
   content: PropTypes.object,
 };

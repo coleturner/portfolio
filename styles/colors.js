@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import hexToRGBA from 'hex-to-rgba';
 
+export { default as invertColor } from 'invert-color';
+
 export function changeColorBrightness(color, percent) {
   const num = parseInt(color.replace('#', ''), 16);
   const amt = Math.round(2.55 * percent);

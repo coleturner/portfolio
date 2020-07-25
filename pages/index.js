@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import postPropType from '../components/propTypes/postPropType';
-import MoreStories from '../components/stories-list';
+import StoriesList from '../components/stories-list';
 import Layout from '../components/layout';
 import { getLatestPostsForHome } from '../lib/api';
 import styled from '@emotion/styled';
@@ -223,7 +223,7 @@ export default function Index({ preview, latestPosts }) {
                   style={{ maxWidth: 600, margin: '0 auto', fontSize: '1rem' }}
                 >
                   {latestPosts.length > 0 && (
-                    <MoreStories posts={latestPosts} />
+                    <StoriesList posts={latestPosts} />
                   )}
                   <Link href="/blog" passHref>
                     <PillButton as="a" colorScheme="dark">

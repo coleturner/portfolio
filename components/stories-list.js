@@ -8,10 +8,18 @@ const Section = styled.section``;
 const List = styled.div``;
 const ListItem = styled.div``;
 
+const Heading = styled.h2`
+  text-align: center;
+  font-size: 2em;
+  text-decoration: underline;
+  text-decoration-color: var(--theme-color-1);
+  text-underline-position: under;
+`;
+
 export default function StoriesList({ title, posts }) {
   return (
     <Section>
-      {title && <h2>{title}</h2>}
+      {title && <Heading>{title}</Heading>}
       <List>
         {posts.map((post) => (
           <ListItem key={post.slug}>

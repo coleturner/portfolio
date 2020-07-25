@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import postPropType from '../../components/propTypes/postPropType';
 import { useRouter } from 'next/router';
@@ -6,7 +6,7 @@ import Head from 'next/head';
 import ErrorPage from '../../pages/_error';
 import Container from '../../components/container';
 import PostBody from '../../components/post-body';
-import MoreStories from '../../components/stories-list';
+import StoriesList from '../../components/stories-list';
 import Header from '../../components/header';
 import PostHeader from '../../components/post-header';
 import Layout from '../../components/layout';
@@ -17,6 +17,16 @@ import { PillButton } from '../../components/button';
 import Link from 'next/link';
 import LoadingSpinner from '../../components/loadingSpinner';
 import { BASE_URL } from '../../lib/constants';
+import styled from '@emotion/styled';
+import useColorScheme from '../../hooks/useColorScheme';
+import {
+  hexToRgb,
+  rgbToYIQ,
+  changeColorBrightness,
+  invertColor,
+  getColorContrast,
+} from '../../styles/colors';
+import { css } from 'emotion';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -26,12 +36,60 @@ function metaImageURL(url) {
   return url;
 }
 
-export default function Post({ post, morePosts, preview }) {
-  const router = useRouter();
+const Tags = styled.div(
+  ({ color }) => css`
+    position: relative;
+    z-index: 0;
 
-  if (!router.isFallback && !post) {
-    return <ErrorPage statusCode={404} />;
-  }
+    a {
+      display: inline-block;
+      background: ${color};
+      border-radius: 0.2em;
+      padding: 0.5em 1em;
+      margin-right: 0.5em;
+      text-decoration: none;
+      opacity: 0.85;
+      position: relative;
+      z-index: 1;
+
+      &,
+      &:hover {
+        color: ${getColorContrast(color)};
+      }
+
+      &:hover,
+      &:focus {
+        opacity: 1;
+        transform: scale(1.1);
+        z-index: 2;
+      }
+    }
+  `
+);
+
+const Spacer = styled.div`
+  padding: 3em 0;
+`;
+
+function PostView({ post, morePosts, preview }) {
+  const { color } = post;
+
+  const colorScheme = useColorScheme();
+  const complimentaryColor = useMemo(() => {
+    const threshold = 128;
+    let invertedColor = invertColor(color);
+
+    const yiq = rgbToYIQ(hexToRgb(invertedColor));
+
+    const brightnessChange =
+      colorScheme === 'dark'
+        ? Math.max(yiq, threshold) - Math.min(yiq, threshold)
+        : Math.min(yiq, threshold) - Math.max(yiq, threshold);
+
+    invertedColor = changeColorBrightness(invertedColor, brightnessChange);
+
+    return invertedColor;
+  }, [color, colorScheme]);
 
   const generateOGImage = preview
     ? () => {
@@ -41,88 +99,9 @@ export default function Post({ post, morePosts, preview }) {
       }
     : () => {};
 
-  if (router.isFallback) {
-    return <LoadingSpinner />;
-  }
-
-  const publishedTime = new Date(post.date).toISOString();
-
   return (
-    <Layout preview={preview}>
-      <Header />
+    <>
       <article>
-        <Head>
-          <title key="title">{post.title} | Cole Turner</title>
-          <meta key="description" name="description" content={post.excerpt} />
-          <meta
-            key="og:image"
-            property="og:image"
-            content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
-          />
-          <meta
-            key="og:description"
-            property="og:description"
-            content={post.excerpt}
-          />
-          <meta key="og:title" property="og:title" content={post.title} />
-          <meta key="og:type" property="og:type" content="article" />
-          <meta
-            key="og:article:published_time"
-            property="og:article:published_time"
-            content={publishedTime}
-          />
-          <meta
-            key="og:article:author"
-            property="og:article:author"
-            content="Cole Turner"
-          />
-          <meta
-            key="twitter:card"
-            name="twitter:card"
-            content="summary_large_image"
-          />
-          <meta
-            key="twitter:title"
-            property="twitter:title"
-            content={post.title}
-          />
-          <meta
-            key="twitter:image"
-            name="twitter:image"
-            content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
-          />
-          <meta key="twitter:site" name="twitter:site" content="@coleturner" />
-          <meta
-            key="twitter:creator"
-            name="twitter:creator"
-            content="@coleturner"
-          />
-
-          <script
-            key="structured-data"
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                '@context': 'https://schema.org',
-                '@type': 'BlogPosting',
-                mainEntityOfPage: {
-                  '@type': 'WebPage',
-                  '@id': BASE_URL + 'posts/' + post.slug,
-                },
-                headline: 'abcad',
-                description: 'Excerpt',
-                image: metaImageURL(
-                  post.coverImage?.url || post.postImage?.url
-                ),
-                author: {
-                  '@type': 'Person',
-                  name: 'Cole Turner',
-                },
-                datePublished: post.date,
-              }),
-            }}
-          />
-        </Head>
         <PostHeader
           title={post.title}
           coverImage={post.coverImage}
@@ -130,6 +109,7 @@ export default function Post({ post, morePosts, preview }) {
           readingTime={post.readingTime}
           author={post.author}
           color={post.color}
+          complimentaryColor={complimentaryColor}
         />
         <Container>
           {preview && (
@@ -140,12 +120,21 @@ export default function Post({ post, morePosts, preview }) {
             </div>
           )}
           <PostBody content={post.content} color={post.color} />
+
+          <Tags color={color}>
+            {post.tags.map((tag) => (
+              <Link key={tag.slug} as={`/blog/${tag.slug}`} href="/blog/[slug]">
+                <a>{tag.name}</a>
+              </Link>
+            ))}
+          </Tags>
         </Container>
       </article>
+      <Spacer />
       {morePosts && morePosts.length > 0 && (
         <>
           <Container>
-            <MoreStories title="More Stories" posts={morePosts} />
+            <StoriesList title="More Stories" posts={morePosts} />
 
             <div style={{ textAlign: 'center' }}>
               <Link href="/blog" passHref>
@@ -156,6 +145,103 @@ export default function Post({ post, morePosts, preview }) {
         </>
       )}
       <ScrollUp color={post.color} />
+    </>
+  );
+}
+
+PostView.propTypes = {
+  post: postPropType,
+  morePosts: PropTypes.arrayOf(postPropType),
+  preview: PropTypes.bool,
+};
+
+export default function Post({ post, morePosts, preview }) {
+  const router = useRouter();
+
+  if (!router.isFallback && !post) {
+    return <ErrorPage statusCode={404} />;
+  }
+
+  if (router.isFallback) {
+    return <LoadingSpinner />;
+  }
+
+  const publishedTime = new Date(post.date).toISOString();
+
+  return (
+    <Layout preview={preview}>
+      <Head>
+        <title key="title">{post.title} | Cole Turner</title>
+        <meta key="description" name="description" content={post.excerpt} />
+        <meta
+          key="og:image"
+          property="og:image"
+          content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
+        />
+        <meta
+          key="og:description"
+          property="og:description"
+          content={post.excerpt}
+        />
+        <meta key="og:title" property="og:title" content={post.title} />
+        <meta key="og:type" property="og:type" content="article" />
+        <meta
+          key="og:article:published_time"
+          property="og:article:published_time"
+          content={publishedTime}
+        />
+        <meta
+          key="og:article:author"
+          property="og:article:author"
+          content="Cole Turner"
+        />
+        <meta
+          key="twitter:card"
+          name="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          key="twitter:title"
+          property="twitter:title"
+          content={post.title}
+        />
+        <meta
+          key="twitter:image"
+          name="twitter:image"
+          content={metaImageURL(post.ogImage?.url || post.coverImage?.url)}
+        />
+        <meta key="twitter:site" name="twitter:site" content="@coleturner" />
+        <meta
+          key="twitter:creator"
+          name="twitter:creator"
+          content="@coleturner"
+        />
+
+        <script
+          key="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BlogPosting',
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': BASE_URL + 'posts/' + post.slug,
+              },
+              headline: 'abcad',
+              description: 'Excerpt',
+              image: metaImageURL(post.coverImage?.url || post.postImage?.url),
+              author: {
+                '@type': 'Person',
+                name: 'Cole Turner',
+              },
+              datePublished: post.date,
+            }),
+          }}
+        />
+      </Head>
+      <Header />
+      <PostView post={post} morePosts={morePosts} preview={preview} />
       <AppFooter />
     </Layout>
   );

@@ -110,6 +110,7 @@ export default function PostHeader({
   date,
   readingTime,
   author,
+  tags,
   color,
 }) {
   const textColor = useMemo(() => getColorContrast(color), [color]);
@@ -179,5 +180,11 @@ PostHeader.propTypes = {
       url: PropTypes.string,
     }),
   }),
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      slug: PropTypes.string,
+    })
+  ),
   color: PropTypes.string,
 };
