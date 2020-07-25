@@ -23,7 +23,7 @@ import TagList from '../../components/taglist';
 const Hero = styled.div(
   ({ color = '#111' }) => css`
     border-radius: 0.3em;
-    padding: 1em 2em;
+    padding: 3em;
     background: ${color};
     border-bottom: 6px solid ${changeColorBrightness(color, -15)};
     color: ${getColorContrast(color)};
@@ -50,6 +50,11 @@ const Hero = styled.div(
 
 const Heading = styled.h1`
   font-size: 1.25em;
+
+  &:only-child {
+    margin: 0;
+    text-align: center;
+  }
 `;
 
 const Description = styled.p`
@@ -80,8 +85,10 @@ export default function BlogTag({ tag, posts, allTags, preview }) {
       <TagList tags={allTags} />
       <Container>
         <Hero color={tag.color}>
-          <Heading>{tag.name}</Heading>
-          {tag.description && <Description>{tag.description}</Description>}
+          <Container>
+            <Heading>{tag.name}</Heading>
+            {tag.description && <Description>{tag.description}</Description>}
+          </Container>
         </Hero>
         <StoriesList posts={posts} />
       </Container>
