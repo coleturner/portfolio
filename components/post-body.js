@@ -198,6 +198,7 @@ const Emphasis = styled.em(
       margin: 2em 0;
       color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
       line-height: 1.3;
+      font-style: normal;
 
       &:last-child {
         margin-bottom: 0;
