@@ -29,6 +29,7 @@ const Hero = styled.div(
     color: ${getColorContrast(color)};
     margin: 2em 0 3em 0;
     font-size: 1.5em;
+    font-size: clamp(1rem, 1rem + 0.5vh, 4em);
     position: relative;
     text-shadow: 0 1px 0px rgba(255, 255, 255, 0.2);
 
