@@ -12,6 +12,7 @@ import {
   getColorContrast,
 } from '../styles/colors';
 import SourceCode from './source-code';
+import Gallery from './gallery';
 import PostPreview from './post-preview';
 import Link from 'next/link';
 import { isDevelopment } from '../lib/environment';
@@ -158,6 +159,11 @@ const Quote = styled.blockquote(({ color = '#000000' }) => {
   `;
 });
 
+const ImageGallery = styled.div`
+  position: relative;
+  z-index: 0;
+`;
+
 const HR = styled.hr`
   border-color: ${SHADE[0.15]};
   margin: 3em 0;
@@ -290,6 +296,21 @@ export default function PostBody({ content, color, complementaryColor }) {
           case 'sourceCode': {
             const { title, code, language } = fields;
             return <SourceCode title={title} code={code} language={language} />;
+          }
+          case 'imageGallery': {
+            const { title, images } = fields;
+            return (
+              <ImageGallery>
+                <Gallery
+                  images={images.map((n) => {
+                    const { file } = n.fields;
+                    const src = file.url;
+                    return { src };
+                  })}
+                />
+                <h6 style={{ textAlign: 'center' }}>{title}</h6>
+              </ImageGallery>
+            );
           }
           case 'youtubeVideo': {
             const { title, url } = fields;

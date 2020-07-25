@@ -1,4 +1,10 @@
-import React from 'react';
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from 'emotion';
@@ -12,7 +18,6 @@ const Container = styled.div`
 `;
 
 const ScrollerItem = styled.div`
-  border-radius: 0.35em;
   overflow: hidden;
   position: relative;
   flex: 0 0 100%;
@@ -30,12 +35,12 @@ const ScrollerItemContent = styled.div`
 const Scroller = styled.div`
   display: flex;
   flex-direction: row;
-  transition: left 150ms ease;
+  transition: transform 200ms ease-in;
   position: relative;
   min-height: 15em;
   max-height: 60vh;
   max-height: 60vmax;
-  left: ${({ slideIndex }) => `${-1 * slideIndex * 100}%`};
+  transform: translateX(${({ slideIndex }) => `${-1 * slideIndex * 100}%`});
 
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
@@ -45,6 +50,7 @@ const Scroller = styled.div`
 const Images = styled.div`
   overflow: hidden;
   position: relative;
+  border-radius: 0.35em;
 
   &::before {
     position: absolute;
@@ -61,6 +67,7 @@ const Images = styled.div`
 
 const ARROW_STYLE = css`
   background: rgba(0, 0, 0, 0.65);
+  border: 0;
   border-radius: 10em;
   width: 3em;
   height: 3em;
@@ -71,7 +78,11 @@ const ARROW_STYLE = css`
   padding: 0.25em;
   z-index: 4;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 150ms ease-in;
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &:hover {
     background: rgba(0, 0, 0, 0.85);
@@ -91,11 +102,13 @@ const ARROW_STYLE = css`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    cursor: inherit;
   }
 `;
 
-const Previous = styled.div`
-  ${ARROW_STYLE} left: 1em;
+const Previous = styled.button`
+  ${ARROW_STYLE};
+  left: 1em;
 
   &::before {
     border-right-color: #fff;
@@ -106,7 +119,7 @@ const Previous = styled.div`
   ${({ disabled }) => disabled && 'left: -5em;'};
 `;
 
-const Next = styled.div`
+const Next = styled.button`
   ${ARROW_STYLE};
   right: 1em;
 
@@ -157,147 +170,103 @@ const SlidePickerOption = styled.div`
     `};
 `;
 
-export default class Gallery extends React.PureComponent {
-  static propTypes = {
-    images: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.shape({
-          src: PropTypes.string.isRequired,
-          preloadSrc: PropTypes.string,
-        }),
-      ])
-    ).isRequired,
-  };
+export default function Gallery({ images }) {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const lastSlideIndexRef = useRef(null);
+  const previousButtonRef = useRef();
+  const nextButtonRef = useRef();
 
-  state = { slideIndex: 0, srcLoaded: [], keepPreloading: false };
-  srcTouched = [];
+  const isStartSlide = slideIndex === 0;
+  const isEndSlide = slideIndex === images.length - 1;
 
-  toPrevious = () => {
-    this.setState(this.stateToPrevious, this.preloadPrevious);
-  };
+  useEffect(() => {
+    lastSlideIndexRef.current = slideIndex;
+  });
 
-  preloadPrevious = () => {
-    const prevImage = this.props.images[this.state.slideIndex - 1];
-    return prevImage && this.preload(prevImage);
-  };
-
-  stateToPrevious = (state) => {
-    return {
-      slideIndex: Math.max(0, state.slideIndex - 1),
-    };
-  };
-
-  toNext = () => {
-    this.setState(this.stateToNext, () => this.preloadNext());
-  };
-
-  preloadNext = () => {
-    const nextImage = this.props.images[this.state.slideIndex + 1];
-    return nextImage && this.preload(nextImage);
-  };
-
-  stateToNext = (state) => {
-    return {
-      slideIndex: Math.min(this.props.images.length - 1, state.slideIndex + 1),
-    };
-  };
-
-  setSlideIndex = (index) => {
-    this.setState({
-      slideIndex: index,
-    });
-  };
-
-  preload(src) {
-    if (!src) {
-      return;
+  useLayoutEffect(() => {
+    if (isStartSlide && lastSlideIndexRef.current === slideIndex + 1) {
+      nextButtonRef.current.focus();
+    } else if (isEndSlide && lastSlideIndexRef.current === slideIndex - 1) {
+      previousButtonRef.current.focus();
     }
+  }, [slideIndex]);
 
-    const srcLoaded = [].concat(this.state.srcLoaded);
-    if (this.srcTouched.indexOf(src) !== -1) {
-      return;
-    }
+  const aspectRatio = useMemo(
+    () =>
+      images.reduce((value, image) => {
+        const width = typeof image === 'string' ? null : image.width;
+        const height = typeof image === 'string' ? null : image.height;
 
-    this.srcTouched.push(src);
+        const ratio = width && height && (height / width) * 100;
 
-    const imageLoader = new Image();
-    imageLoader.onload = () => {
-      srcLoaded.push(src);
-      this.setState({ srcLoaded });
-      imageLoader.onload = () => {};
-    };
+        return ratio < value ? ratio : value;
+      }, 100),
+    [...images]
+  );
 
-    imageLoader.src = src;
-    if (imageLoader.complete) {
-      imageLoader.onload();
-    }
-  }
+  const toPrevious = () => {
+    setSlideIndex(Math.max(0, slideIndex - 1));
+  };
 
-  isSourceLoaded(src) {
-    return this.state.srcLoaded.indexOf(src) !== -1;
-  }
+  const toNext = () => {
+    setSlideIndex(Math.min(images.length - 1, slideIndex + 1));
+  };
 
-  renderScroller() {
-    const { images } = this.props;
-    const { slideIndex } = this.state;
+  return (
+    <Container className="gallery">
+      <Previous
+        ref={previousButtonRef}
+        onClick={toPrevious}
+        disabled={slideIndex <= 0}
+      />
+      <Next
+        ref={nextButtonRef}
+        onClick={toNext}
+        disabled={slideIndex >= images.length - 1}
+      />
+      <Images>
+        <Scroller slideIndex={slideIndex}>
+          {images.map((image, index) => {
+            const src = typeof image === 'string' ? image : image.src;
 
-    const aspectRatio = images.reduce((value, image) => {
-      const width = typeof image === 'string' ? null : image.width;
-      const height = typeof image === 'string' ? null : image.height;
-
-      const ratio = width && height && (height / width) * 100;
-
-      return ratio < value ? ratio : value;
-    }, 100);
-
-    return (
-      <Scroller slideIndex={slideIndex}>
-        {images.map((image, index) => {
-          const src = typeof image === 'string' ? image : image.src;
-
-          return (
-            <ScrollerItem
-              key={index}
-              aspectRatio={aspectRatio}
-              isActive={this.state.slideIndex === index && 'active'}
-            >
-              <ScrollerItemContent>
-                <CoverImage url={src} borderRadius={0} shadow={false} />
-              </ScrollerItemContent>
-            </ScrollerItem>
-          );
-        })}
-      </Scroller>
-    );
-  }
-
-  render() {
-    const { images } = this.props;
-    return (
-      <Container className="gallery">
-        <Previous
-          onClick={this.toPrevious}
-          disabled={this.state.slideIndex <= 0}
-        />
-        <Next
-          onClick={this.toNext}
-          disabled={this.state.slideIndex >= this.props.images.length - 1}
-        />
-        <Images>{this.renderScroller()}</Images>
-        <SlidePicker>
-          {images.length > 1 &&
-            images.map((image, index) => {
-              return (
-                <SlidePickerOption
-                  key={index}
-                  isActive={this.state.slideIndex === index && 'active'}
-                  onClick={() => this.setSlideIndex(index)}
-                />
-              );
-            })}
-        </SlidePicker>
-      </Container>
-    );
-  }
+            return (
+              <ScrollerItem
+                key={index}
+                aspectRatio={aspectRatio}
+                isActive={slideIndex === index && 'active'}
+              >
+                <ScrollerItemContent>
+                  <CoverImage url={src} borderRadius={0} shadow={false} />
+                </ScrollerItemContent>
+              </ScrollerItem>
+            );
+          })}
+        </Scroller>
+      </Images>
+      <SlidePicker>
+        {images.length > 1 &&
+          images.map((image, index) => {
+            return (
+              <SlidePickerOption
+                key={index}
+                isActive={slideIndex === index && 'active'}
+                onClick={() => setSlideIndex(index)}
+              />
+            );
+          })}
+      </SlidePicker>
+    </Container>
+  );
 }
+
+Gallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        src: PropTypes.string.isRequired,
+        preloadSrc: PropTypes.string,
+      }),
+    ])
+  ).isRequired,
+};

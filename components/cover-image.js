@@ -151,7 +151,7 @@ function useImage(url, ref) {
   useEffect(() => {
     // If we're using a ref, wait until the width is set
     if (ref !== undefined && dimensions.width === null) {
-      return;
+      return () => {};
     }
 
     setIsLoaded(false);
@@ -166,6 +166,10 @@ function useImage(url, ref) {
     if (img.complete) {
       img.onload();
     }
+
+    return () => {
+      img.onload = () => {};
+    };
   }, [fullURL, ref.current]);
 
   return [isLoaded && fullURL ? fullURL : thumbURL, isLoaded];
