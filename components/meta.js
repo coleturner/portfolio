@@ -5,11 +5,11 @@ export default function Meta() {
   const title = 'Cole Turner · Software Engineer';
 
   const description =
-    'Senior Software Engineer with a passion for UX/UI and communications. My mission is to build seamless applications that power businesses worldwide.';
+    'Senior Software Engineer focused on UI/UX and communications. My mission is to build seamless applications that power businesses worldwide.';
 
   return (
     <Head>
-      <title key="title">{title}</title>
+      <title key="title">Cole Turner &middot; Software Engineer</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
