@@ -176,8 +176,9 @@ const ImageTitle = styled.div`
   left: 0;
   right: 0;
   z-index: 2;
-  padding: 1em;
-  background: rgba(0, 0, 0, 0.45);
+  padding: 0.5em;
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.65);
   color: #fff;
   text-align: center;
   overflow: hidden;
