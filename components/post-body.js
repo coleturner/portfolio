@@ -1,16 +1,11 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
-import hexToRGBA from 'hex-to-rgba';
+import { HOST_NAME } from '../lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
-import {
-  UI_COLORS,
-  SHADE,
-  changeColorBrightness,
-  getColorContrast,
-} from '../styles/colors';
+import { UI_COLORS, SHADE, getColorContrast } from '../styles/colors';
 import SourceCode from './source-code';
 import Gallery from './gallery';
 import PostPreview from './post-preview';
@@ -217,6 +212,24 @@ const VideoEmbed = styled.video`
   width: 100%;
 `;
 
+const renderHyperlink = (node, children) => {
+  try {
+    const url = new URL(node.data.uri);
+    if (url.hostname !== HOST_NAME) {
+      return (
+        <a rel="nofollow noreferrer" href={node.data.uri}>
+          {children}
+        </a>
+      );
+    }
+  } catch (e) {
+    console.error(e);
+    // do nothing
+  }
+
+  return <a href={node.data.uri}>{children}</a>;
+};
+
 export default function PostBody({ content }) {
   const options = {
     renderMark: {
@@ -247,6 +260,7 @@ export default function PostBody({ content }) {
           renderNode: {
             [BLOCKS.PARAGRAPH]: (_, paragraphChild) => paragraphChild,
             [BLOCKS.LIST_ITEM]: (_, listItemChild) => listItemChild,
+            [INLINES.HYPERLINK]: renderHyperlink,
           },
         });
 
@@ -377,6 +391,7 @@ export default function PostBody({ content }) {
           </Link>
         );
       },
+      [INLINES.HYPERLINK]: renderHyperlink,
     },
   };
 
