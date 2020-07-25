@@ -18,6 +18,7 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import styled from '@emotion/styled';
 import { css } from 'emotion';
 import { getColorContrast, changeColorBrightness } from '../../styles/colors';
+import TagList from '../../components/taglist';
 
 const Hero = styled.div(
   ({ color = '#111' }) => css`
@@ -55,7 +56,7 @@ const Description = styled.p`
   margin: 0;
 `;
 
-export default function BlogTag({ tag, posts, preview }) {
+export default function BlogTag({ tag, posts, allTags, preview }) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -74,6 +75,8 @@ export default function BlogTag({ tag, posts, preview }) {
       </Head>
 
       <Header />
+
+      <TagList tags={allTags} />
       <Container>
         <Hero color={tag.color}>
           <Heading>{tag.name}</Heading>
@@ -94,6 +97,7 @@ BlogTag.propTypes = {
     color: PropTypes.string,
   }),
   posts: PropTypes.arrayOf(postPropType),
+  allTags: PropTypes.array,
   preview: PropTypes.bool,
 };
 
@@ -105,12 +109,15 @@ export async function getStaticProps({ params, preview = false }) {
     };
   }
 
+  const allTags = await getAllPostTags();
+
   const posts = await getAllPostWithTagId(tag.id, preview);
 
   return {
     props: {
       preview,
       posts,
+      allTags,
       tag,
     },
   };
