@@ -59,7 +59,7 @@ const PostBodyContainer = styled.div`
 `;
 const PostImage = styled.img`
   max-width: 100%;
-  margin: 1em auto;
+  margin: 2em auto;
   display: block;
   box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
   border-radius: 0.3em;
@@ -167,25 +167,41 @@ const HR = styled.hr`
   margin: 3em 0;
 `;
 
+const headingAfterImageStyle = css`
+  img + p:empty + & {
+    margin-top: 3em;
+  }
+`;
+
 const H1 = styled.h1`
-  font-size: 2;
+  font-size: 2em;
   margin: 2em 0 0.5em 0;
+
+  ${headingAfterImageStyle};
 `;
 const H2 = styled.h2`
-  font-size: 2;
+  font-size: 2em;
   margin: 2em 0 0.5em 0;
+
+  ${headingAfterImageStyle};
 `;
 const H3 = styled.h3`
-  font-size: 1.5;
+  font-size: 1.5em;
   margin: 2em 0 0.5em 0;
+
+  ${headingAfterImageStyle};
 `;
 const H4 = styled.h4`
-  font-size: 1.25;
+  font-size: 1.25em;
   margin: 2em 0 0.5em 0;
+
+  ${headingAfterImageStyle};
 `;
 const H5 = styled.h5`
-  font-size: 1.15;
+  font-size: 1.15em;
   margin: 2em 0 0.5em 0;
+
+  ${headingAfterImageStyle};
 `;
 
 const Emphasis = styled.em`
@@ -203,7 +219,7 @@ const Emphasis = styled.em`
     margin-bottom: 0;
   }
 
-  img ~ p ~ & {
+  img + p + & {
     margin-top: 3em;
   }
 `;
@@ -217,7 +233,7 @@ const renderHyperlink = (node, children) => {
     const url = new URL(node.data.uri);
     if (url.hostname !== HOST_NAME) {
       return (
-        <a rel="nofollow noreferrer" href={node.data.uri}>
+        <a rel="nofollow noreferrer" target="_blank" href={node.data.uri}>
           {children}
         </a>
       );
