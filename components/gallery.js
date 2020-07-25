@@ -66,7 +66,7 @@ const Images = styled.div`
 `;
 
 const ARROW_STYLE = css`
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.75);
   border: 0;
   border-radius: 10em;
   width: 3em;
@@ -155,7 +155,7 @@ const SlidePickerOption = styled.div`
     background: #333;
 
     @media screen and (prefers-color-scheme: dark) {
-      background: var(--theme-color-1);
+      background: var(--gallery-bullet-color, var(--theme-color-1));
     }
   }
 
@@ -165,9 +165,24 @@ const SlidePickerOption = styled.div`
       background: #333;
 
       @media screen and (prefers-color-scheme: dark) {
-        background: var(--theme-color-1);
+        background: var(--gallery-bullet-color, var(--theme-color-1));
       }
     `};
+`;
+
+const ImageTitle = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 1em;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  max-height: 100%;
+  max-width: 100%;
 `;
 
 export default function Gallery({ images }) {
@@ -227,7 +242,7 @@ export default function Gallery({ images }) {
       <Images>
         <Scroller slideIndex={slideIndex}>
           {images.map((image, index) => {
-            const src = typeof image === 'string' ? image : image.src;
+            const { src, title } = image;
 
             return (
               <ScrollerItem
@@ -237,6 +252,7 @@ export default function Gallery({ images }) {
               >
                 <ScrollerItemContent>
                   <CoverImage url={src} borderRadius={0} shadow={false} />
+                  {title && <ImageTitle>{title}</ImageTitle>}
                 </ScrollerItemContent>
               </ScrollerItem>
             );
@@ -265,7 +281,7 @@ Gallery.propTypes = {
       PropTypes.string,
       PropTypes.shape({
         src: PropTypes.string.isRequired,
-        preloadSrc: PropTypes.string,
+        title: PropTypes.string.isRequired,
       }),
     ])
   ).isRequired,

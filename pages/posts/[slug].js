@@ -18,7 +18,6 @@ import Link from 'next/link';
 import LoadingSpinner from '../../components/loadingSpinner';
 import { BASE_URL } from '../../lib/constants';
 import styled from '@emotion/styled';
-import useColorScheme from '../../hooks/useColorScheme';
 import {
   hexToRgb,
   rgbToYIQ,
@@ -27,6 +26,9 @@ import {
   getColorContrast,
 } from '../../styles/colors';
 import { css } from 'emotion';
+import hexToRgba from 'hex-to-rgba';
+import PostTheme from '../../components/post-theme';
+import usePostTheme from '../../hooks/usePostTheme';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -37,13 +39,14 @@ function metaImageURL(url) {
 }
 
 const Tags = styled.div(
-  ({ color }) => css`
+  () => css`
     position: relative;
     z-index: 0;
 
     a {
       display: inline-block;
-      background: ${color};
+      background: rgba(255, 255, 255, 0.35);
+      background: var(--post-color);
       border-radius: 0.2em;
       padding: 0.5em 1em;
       margin-right: 0.5em;
@@ -54,7 +57,7 @@ const Tags = styled.div(
 
       &,
       &:hover {
-        color: ${getColorContrast(color)};
+        color: var(--post-color-contrast);
       }
 
       &:hover,
@@ -71,25 +74,13 @@ const Spacer = styled.div`
   padding: 3em 0;
 `;
 
+const Article = styled.article``;
+
 function PostView({ post, morePosts, preview }) {
   const { color } = post;
-
-  const colorScheme = useColorScheme();
-  const complementaryColor = useMemo(() => {
-    const threshold = 128;
-    let invertedColor = invertColor(color);
-
-    const yiq = rgbToYIQ(hexToRgb(invertedColor));
-
-    const brightnessChange =
-      colorScheme === 'dark'
-        ? Math.max(yiq, threshold) - Math.min(yiq, threshold)
-        : Math.min(yiq, threshold) - Math.max(yiq, threshold);
-
-    invertedColor = changeColorBrightness(invertedColor, brightnessChange);
-
-    return invertedColor;
-  }, [color, colorScheme]);
+  const { complementaryColorDark, complementaryColorLight } = usePostTheme(
+    color
+  );
 
   const generateOGImage = preview
     ? () => {
@@ -100,16 +91,18 @@ function PostView({ post, morePosts, preview }) {
     : () => {};
 
   return (
-    <>
-      <article>
+    <PostTheme
+      color={color}
+      complementaryColorLight={complementaryColorLight}
+      complementaryColorDark={complementaryColorDark}
+    >
+      <Article>
         <PostHeader
           title={post.title}
           coverImage={post.coverImage}
           date={post.date}
           readingTime={post.readingTime}
           author={post.author}
-          color={post.color}
-          complementaryColor={complementaryColor}
         />
         <Container>
           {preview && (
@@ -119,21 +112,24 @@ function PostView({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
-          <PostBody
-            content={post.content}
-            color={post.color}
-            complementaryColor={complementaryColor}
-          />
+          <PostBody content={post.content} />
 
-          <Tags color={color}>
-            {post.tags.map((tag) => (
-              <Link key={tag.slug} as={`/blog/${tag.slug}`} href="/blog/[slug]">
-                <a>{tag.name}</a>
-              </Link>
-            ))}
-          </Tags>
+          {post.tags && post.tags.length ? (
+            <Tags>
+              <h3>Related Tags</h3>
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag.slug}
+                  as={`/blog/${tag.slug}`}
+                  href="/blog/[slug]"
+                >
+                  <a>{tag.name}</a>
+                </Link>
+              ))}
+            </Tags>
+          ) : null}
         </Container>
-      </article>
+      </Article>
       <Spacer />
       {morePosts && morePosts.length > 0 && (
         <>
@@ -148,8 +144,8 @@ function PostView({ post, morePosts, preview }) {
           </Container>
         </>
       )}
-      <ScrollUp color={post.color} />
-    </>
+      <ScrollUp />
+    </PostTheme>
   );
 }
 

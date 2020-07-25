@@ -5,15 +5,8 @@ import Date from '../components/date';
 import CoverImage from '../components/cover-image';
 import PostTitle from '../components/post-title';
 import styled from '@emotion/styled';
-import {
-  UI_COLORS,
-  changeColorBrightness,
-  getColorContrast,
-} from '../styles/colors';
+import { UI_COLORS } from '../styles/colors';
 import Container from './container';
-import { useMemo } from 'react';
-import { css } from '@emotion/react';
-import hexToRgba from 'hex-to-rgba';
 
 const MainHeader = styled.div`
   background: #000;
@@ -40,57 +33,59 @@ const ReadingTime = styled.span`
   }
 `;
 
-const StickyHeader = styled.div(
-  ({ color, textColor, textShadowColor, darkenedColor }) =>
-    css`
-      align-items: center;
-      background: ${color || UI_COLORS.POST_STICKY_HEADER_BACKGROUND};
-      color: ${textColor || UI_COLORS.POST_STICKY_HEADER_TEXT};
-      text-shadow: 0 1px 0 ${textShadowColor};
-      padding: 1em;
-      line-height: 1;
-      border-bottom: 3px solid ${darkenedColor};
+const StickyHeader = styled.div`
+  align-items: center;
+  background: ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND};
+  background: var(--post-color, ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND});
+  color: ${UI_COLORS.POST_STICKY_HEADER_TEXT};
+  color: var(--post-color-contrast, ${UI_COLORS.POST_STICKY_HEADER_TEXT});
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-shadow: 0 1px 0
+    var(--post-color-contrast-shadow-0_45, rgba(255, 255, 255, 0.15));
+  padding: 1em;
+  line-height: 1;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 3px solid var(--post-color-minus-30, rgba(0, 0, 0, 0.3));
 
-      position: sticky;
-      top: 0;
-      right: 0;
-      bottom: 0;
+  position: sticky;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+
+  @media screen and (max-width: 700px) {
+    .container {
+      max-width: 100%;
+      width: 97%;
+    }
+  }
+
+  time {
+    font-weight: 600;
+    margin-left: 1em;
+    padding: 0 1em;
+    white-space: nowrap;
+    position: relative;
+    opacity: 0.85;
+    display: none;
+
+    @media screen and (min-width: 600px) {
+      display: block;
+    }
+
+    &::before {
+      display: block;
+      content: '';
+      border-left: 3px solid currentColor;
+      opacity: 0.45;
+      position: absolute;
       left: 0;
-      z-index: 1;
-
-      @media screen and (max-width: 700px) {
-        .container {
-          max-width: 100%;
-          width: 97%;
-        }
-      }
-
-      time {
-        font-weight: 600;
-        margin-left: 1em;
-        padding: 0 1em;
-        white-space: nowrap;
-        position: relative;
-        opacity: 0.85;
-        display: none;
-
-        @media screen and (min-width: 600px) {
-          display: block;
-        }
-
-        &::before {
-          display: block;
-          content: '';
-          border-left: 3px solid currentColor;
-          opacity: 0.45;
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-        }
-      }
-    `
-);
+      top: 0;
+      bottom: 0;
+    }
+  }
+`;
 
 const StickyHeaderTitle = styled.h3`
   display: block;
@@ -110,20 +105,7 @@ export default function PostHeader({
   date,
   readingTime,
   author,
-  tags,
-  color,
 }) {
-  const textColor = useMemo(() => getColorContrast(color), [color]);
-  const textShadowColor = useMemo(
-    () => hexToRgba(getColorContrast(color, 128, true), 0.45),
-    [color]
-  );
-
-  const darkenedColor = useMemo(
-    () => color && changeColorBrightness(color, -30),
-    [color]
-  );
-
   return (
     <>
       <MainHeader>
@@ -132,9 +114,8 @@ export default function PostHeader({
           url={coverImage?.url}
           style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
           borderRadius={0}
-          color={color}
         >
-          <PostTitle color={color}>{title}</PostTitle>
+          <PostTitle>{title}</PostTitle>
           <PostMetadata>
             <div>
               {author && <Avatar name={author.name} picture={author.picture} />}
@@ -151,12 +132,7 @@ export default function PostHeader({
           </PostMetadata>
         </CoverImage>
       </MainHeader>
-      <StickyHeader
-        color={color}
-        textColor={textColor}
-        textShadowColor={textShadowColor}
-        darkenedColor={darkenedColor}
-      >
+      <StickyHeader>
         <Container flex="row" style={{ alignItems: 'center' }}>
           <Avatar picture={author.picture} pictureSize={2} />
           <StickyHeaderTitle>{title}</StickyHeaderTitle>
@@ -186,5 +162,4 @@ PostHeader.propTypes = {
       slug: PropTypes.string,
     })
   ),
-  color: PropTypes.string,
 };

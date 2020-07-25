@@ -20,51 +20,48 @@ import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
 import { panelBoxShadow } from '../styles/global';
 
-const PostBodyContainer = styled.div(
-  ({ color }) => css`
-    line-height: 1.6;
-    font-size: 22px;
-    font-size: clamp(1rem, 1rem + 0.5vh, 4em);
-    max-width: 42rem;
-    max-width: 70ch;
-    padding: 3em 0;
-    color: rgba(0, 0, 0, 0.65);
+const PostBodyContainer = styled.div`
+  line-height: 1.6;
+  font-size: 22px;
+  font-size: clamp(1rem, 1rem + 0.5vh, 4em);
+  max-width: 42rem;
+  max-width: 70ch;
+  padding: 3em 0;
+  color: rgba(0, 0, 0, 0.65);
 
-    > p:last-child:empty {
-      display: none;
-    }
+  > p:last-child:empty {
+    display: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.4;
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: rgba(255, 255, 255, 0.85);
 
     h1,
     h2,
-    h3,
+    h3 {
+      color: var(--post-color-plus-15);
+    }
+
     h4,
     h5,
     h6 {
-      line-height: 1.4;
+      color: var(--post-color-plus-15);
     }
 
-    @media screen and (prefers-color-scheme: dark) {
-      color: rgba(255, 255, 255, 0.85);
-
-      h1,
-      h2,
-      h3 {
-        color: ${changeColorBrightness(color, 15)};
-      }
-
-      h4,
-      h5,
-      h6 {
-        color: ${changeColorBrightness(color, 15)};
-      }
-
-      a {
-        color: ${color};
-      }
+    a {
+      color: var(--post-complementary-color);
     }
-  `
-);
-
+  }
+`;
 const PostImage = styled.img`
   max-width: 100%;
   margin: 1em auto;
@@ -87,8 +84,10 @@ const QuoteBubble = styled.blockquote(({ color }) => {
     font-style: italic;
     padding: 1em 2em;
     margin-bottom: 0.5em;
-    background-color: ${bubbleColor};
+    background-color: ${UI_COLORS.POST_TEXT_QUOTE_COLOR};
+    background-color: var(--post-color, ${UI_COLORS.POST_TEXT_QUOTE_COLOR});
     color: ${getColorContrast(bubbleColor)};
+    color: var(--post-color-contrast, ${getColorContrast(bubbleColor)});
     position: relative;
 
     @media screen and (min-width: 700px) {
@@ -105,7 +104,8 @@ const QuoteBubble = styled.blockquote(({ color }) => {
 
     &::before {
       left: -7px;
-      border-left: 20px solid ${bubbleColor};
+      border-left: 20px solid ${UI_COLORS.POST_TEXT_QUOTE_COLOR};
+      border-color: var(--post-color, ${UI_COLORS.POST_TEXT_QUOTE_COLOR});
       border-bottom-right-radius: 16px 14px;
       transform: translate(0, -2px);
     }
@@ -122,44 +122,47 @@ const QuoteBubble = styled.blockquote(({ color }) => {
   `;
 });
 
-const Quote = styled.blockquote(({ color = '#000000' }) => {
-  return css`
-    background: linear-gradient(
-      to right,
-      ${hexToRGBA(color, 0.3)} 0%,
-      ${hexToRGBA(color, 0.15)} 25%,
-      ${hexToRGBA(color, 0.0)} 100%
-    );
-    border-left: 6px solid ${color || UI_COLORS.POST_TEXT_QUOTE_COLOR};
-    padding: 1em;
-    margin: 2em 0;
-    position: relative;
+const Quote = styled.blockquote`
+  background: linear-gradient(
+    to right,
+    var(--post-color-0_3) 0%,
+    var(--post-color-0_15) 25%,
+    var(--post-color-0_0) 100%
+  );
+  border-left: 6px solid ${UI_COLORS.POST_TEXT_QUOTE_COLOR};
+  border-left-color: var(--post-color, ${UI_COLORS.POST_TEXT_QUOTE_COLOR});
+  padding: 1em;
+  margin: 2em 0;
+  position: relative;
 
-    @media screen and (min-width: 700px) {
-      padding: 1em 2em;
+  @media screen and (min-width: 700px) {
+    padding: 1em 2em;
+  }
+
+  p {
+    font-size: 1em;
+    font-style: normal;
+    white-space: pre-line;
+
+    &:first-child {
+      margin-top: 0;
     }
 
-    p {
-      font-size: 1em;
-      font-style: normal;
-      white-space: pre-line;
-
-      &:first-child {
-        margin-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
 
-    a {
-      color: ${color};
-    }
-  `;
-});
+  a {
+    color: var(--post-color);
+  }
+`;
 
 const ImageGallery = styled.div`
+  --cover-image-color: transparent;
+  --cover-image-color-0_3: transparent;
+  --cover-image-border-width: 0;
+
   position: relative;
   z-index: 0;
 `;
@@ -190,27 +193,31 @@ const H5 = styled.h5`
   margin: 2em 0 0.5em 0;
 `;
 
-const Emphasis = styled.em(
-  ({ color }) =>
-    css`
-      font-weight: 100;
-      font-size: 1.5em;
-      margin: 2em 0;
-      color: ${color || UI_COLORS.POST_TEXT_H6_TEXT};
-      line-height: 1.3;
-      font-style: normal;
+const Emphasis = styled.em`
+  display: block;
+  text-align: center;
+  font-weight: 100;
+  font-size: 1.5em;
+  margin: 2em 0;
+  color: ${UI_COLORS.POST_TEXT_H6_TEXT};
+  color: var(--post-color, ${UI_COLORS.POST_TEXT_H6_TEXT});
+  line-height: 1.3;
+  font-style: normal;
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    `
-);
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  img ~ p ~ & {
+    margin-top: 3em;
+  }
+`;
 
 const VideoEmbed = styled.video`
   width: 100%;
 `;
 
-export default function PostBody({ content, color, complementaryColor }) {
+export default function PostBody({ content }) {
   const options = {
     renderMark: {
       [MARKS.CODE]: (text) => {
@@ -218,7 +225,7 @@ export default function PostBody({ content, color, complementaryColor }) {
           return null;
         }
 
-        return <QuoteBubble color={complementaryColor}>{text}</QuoteBubble>;
+        return <QuoteBubble>{text}</QuoteBubble>;
       },
     },
     renderNode: {
@@ -228,14 +235,12 @@ export default function PostBody({ content, color, complementaryColor }) {
       [BLOCKS.HEADING_3]: (node, children) => <H3>{children}</H3>,
       [BLOCKS.HEADING_4]: (node, children) => <H4>{children}</H4>,
       [BLOCKS.HEADING_5]: (node, children) => <H5>{children}</H5>,
-      [BLOCKS.HEADING_6]: (node, children) => (
-        <Emphasis color={complementaryColor}>{children}</Emphasis>
-      ),
+      [BLOCKS.HEADING_6]: (node, children) => <Emphasis>{children}</Emphasis>,
       [BLOCKS.PARAGRAPH]: (node, children) => {
         return <Paragraph>{children}</Paragraph>;
       },
       [BLOCKS.QUOTE]: (node, children) => {
-        return <Quote color={complementaryColor}>{children}</Quote>;
+        return <Quote>{children}</Quote>;
       },
       [BLOCKS.LIST_ITEM]: (node) => {
         const children = documentToReactComponents(node, {
@@ -304,9 +309,9 @@ export default function PostBody({ content, color, complementaryColor }) {
               <ImageGallery>
                 <Gallery
                   images={images.map((n) => {
-                    const { file } = n.fields;
+                    const { title: imageTitle, file } = n.fields;
                     const src = file.url;
-                    return { src };
+                    return { src, title: imageTitle };
                   })}
                 />
                 <h6 style={{ textAlign: 'center' }}>{title}</h6>
@@ -376,14 +381,12 @@ export default function PostBody({ content, color, complementaryColor }) {
   };
 
   return (
-    <PostBodyContainer color={color} complementaryColor={complementaryColor}>
+    <PostBodyContainer>
       {documentToReactComponents(content, options)}
     </PostBodyContainer>
   );
 }
 
 PostBody.propTypes = {
-  color: PropTypes.string,
-  complementaryColor: PropTypes.string,
   content: PropTypes.object,
 };

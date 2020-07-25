@@ -6,6 +6,8 @@ import CoverImage from './cover-image';
 import styled from '@emotion/styled';
 import { panelBoxShadow } from '../styles/global';
 import { UI_COLORS, TINT } from '../styles/colors';
+import PostTheme from './post-theme';
+import usePostTheme from '../hooks/usePostTheme';
 
 const PostPreviewSection = styled.section`
   display: flex;
@@ -104,31 +106,40 @@ export default function PostPreview({
   size = 80,
   color,
 }) {
+  const { complementaryColorDark, complementaryColorLight } = usePostTheme(
+    color
+  );
+
   return (
     <Link as={`/posts/${slug}`} href="/posts/[slug]">
-      <PostPreviewSection color={color}>
-        <PostCoverImage>
-          <CoverImage
-            titleText={title}
-            slug={slug}
-            url={coverImage.url}
-            size={size}
-            color={color}
-          />
-        </PostCoverImage>
-        <PostHighlight>
-          <div>
-            {date && <Date dateString={date} />}
-            {readingTime && <ReadingTime>{readingTime} min read</ReadingTime>}
-          </div>
-          <PostTitle>
-            <Link as={`/posts/${slug}`} href="/posts/[slug]">
-              <a>{title}</a>
-            </Link>
-          </PostTitle>
+      <PostPreviewSection>
+        <PostTheme
+          color={color}
+          complementaryColorLight={complementaryColorLight}
+          complementaryColorDark={complementaryColorDark}
+        >
+          <PostCoverImage>
+            <CoverImage
+              titleText={title}
+              slug={slug}
+              url={coverImage.url}
+              size={size}
+            />
+          </PostCoverImage>
+          <PostHighlight>
+            <div>
+              {date && <Date dateString={date} />}
+              {readingTime && <ReadingTime>{readingTime} min read</ReadingTime>}
+            </div>
+            <PostTitle>
+              <Link as={`/posts/${slug}`} href="/posts/[slug]">
+                <a>{title}</a>
+              </Link>
+            </PostTitle>
 
-          <PostExcerpt>{excerpt}</PostExcerpt>
-        </PostHighlight>
+            <PostExcerpt>{excerpt}</PostExcerpt>
+          </PostHighlight>
+        </PostTheme>
       </PostPreviewSection>
     </Link>
   );

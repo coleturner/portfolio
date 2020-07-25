@@ -9,11 +9,10 @@ const Title = styled.h1`
   text-shadow: 0 3px 100px #000;
 `;
 
-export default function PostTitle({ color, children }) {
-  return <Title color={color}>{children}</Title>;
+export default function PostTitle({ children }) {
+  return <Title>{children}</Title>;
 }
 
 PostTitle.propTypes = {
-  color: PropTypes.string,
   children: PropTypes.node,
 };
