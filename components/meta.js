@@ -2,15 +2,14 @@ import React from 'react';
 import Head from 'next/head';
 
 export default function Meta() {
-  const title = 'Cole Turner · Software Engineer';
+  const title = 'Cole Turner &middot; Software Engineer';
 
   const description =
     'Senior Software Engineer focused on UI/UX and communications. My mission is to build seamless applications that power businesses worldwide.';
 
   return (
     <Head>
-      <meta charSet="utf-8" />
-      <title key="title">{title}}</title>
+      <title key="title">{title}</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
