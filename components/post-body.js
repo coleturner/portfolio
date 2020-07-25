@@ -121,7 +121,7 @@ const QuoteBubble = styled.blockquote(({ color }) => {
   `;
 });
 
-const Quote = styled.blockquote(({ color }) => {
+const Quote = styled.blockquote(({ color = '#000000' }) => {
   return css`
     background: linear-gradient(
       to right,

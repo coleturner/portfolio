@@ -75,7 +75,7 @@ function PostView({ post, morePosts, preview }) {
   const { color } = post;
 
   const colorScheme = useColorScheme();
-  const complimentaryColor = useMemo(() => {
+  const complementaryColor = useMemo(() => {
     const threshold = 128;
     let invertedColor = invertColor(color);
 
@@ -109,7 +109,7 @@ function PostView({ post, morePosts, preview }) {
           readingTime={post.readingTime}
           author={post.author}
           color={post.color}
-          complimentaryColor={complimentaryColor}
+          complementaryColor={complementaryColor}
         />
         <Container>
           {preview && (
@@ -119,7 +119,11 @@ function PostView({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
-          <PostBody content={post.content} color={post.color} />
+          <PostBody
+            content={post.content}
+            color={post.color}
+            complementaryColor={complementaryColor}
+          />
 
           <Tags color={color}>
             {post.tags.map((tag) => (
