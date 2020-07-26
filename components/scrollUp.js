@@ -6,9 +6,12 @@ import styled from '@emotion/styled';
 
 const ScrollUpContainer = styled.div`
   position: fixed;
-  bottom: 1em;
-  right: 1em;
+  bottom: 1rem;
+  right: 1rem;
   font-size: 2em;
+  font-size: 5vmax;
+
+  font-size: clamp(1em, 5vmax, 3em);
   cursor: pointer;
   z-index: 100;
 
