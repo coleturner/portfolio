@@ -11,7 +11,7 @@ const ScrollUpContainer = styled.div`
   font-size: 2em;
   font-size: 5vmax;
 
-  font-size: clamp(1em, 5vmax, 3em);
+  font-size: clamp(1em, 10vw, 3em);
   cursor: pointer;
   z-index: 100;
 
