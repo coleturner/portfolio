@@ -87,7 +87,7 @@ const StickyHeader = styled.div`
   }
 `;
 
-const StickyHeaderTitle = styled.h3`
+const StickyHeaderTitle = styled.div`
   display: block;
   align-items: center;
   font-size: 1em;
@@ -134,7 +134,7 @@ export default function PostHeader({
       </MainHeader>
       <StickyHeader>
         <Container flex="row" style={{ alignItems: 'center' }}>
-          <Avatar picture={author.picture} pictureSize={2} />
+          <Avatar name={author.name} picture={author.picture} pictureSize={2} />
           <StickyHeaderTitle>{title}</StickyHeaderTitle>
           <Date dateString={date} />
         </Container>

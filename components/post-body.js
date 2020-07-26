@@ -309,6 +309,45 @@ function Anchor({ children }) {
   );
 }
 
+const embeddedEntry = (node) => {
+  const { sys, fields } = node.data.target;
+  const { contentType } = sys;
+
+  switch (contentType.sys.id) {
+    case 'sourceCode': {
+      const { title, code, language } = fields;
+      return <SourceCode title={title} code={code} language={language} />;
+    }
+    case 'imageGallery': {
+      const { title, images } = fields;
+      return (
+        <ImageGallery>
+          <Gallery
+            images={images.map((n) => {
+              const { title: imageTitle, file } = n.fields;
+              const src = file.url;
+              return { src, title: imageTitle };
+            })}
+          />
+          <h6 style={{ textAlign: 'center' }}>{title}</h6>
+        </ImageGallery>
+      );
+    }
+    case 'youtubeVideo': {
+      const { title, url } = fields;
+      return <YoutubeVideo title={title} url={url} />;
+    }
+    default:
+      break;
+  }
+
+  if (isDevelopment()) {
+    throw new Error('Unrecognized content type: ' + contentType.sys.id);
+  }
+
+  return null;
+};
+
 export default function PostBody({ content }) {
   const options = {
     renderMark: {
@@ -395,7 +434,7 @@ export default function PostBody({ content }) {
             );
           case 'application':
             return (
-              <a alt={description} href={file.url}>
+              <a download={file.details.fileName} href={file.url}>
                 {title ? title : file.details.fileName}
               </a>
             );
@@ -407,79 +446,8 @@ export default function PostBody({ content }) {
 
         return null;
       },
-      [BLOCKS.EMBEDDED_ENTRY]: (node) => {
-        const { sys, fields } = node.data.target;
-        const { contentType } = sys;
-
-        switch (contentType.sys.id) {
-          case 'sourceCode': {
-            const { title, code, language } = fields;
-            return <SourceCode title={title} code={code} language={language} />;
-          }
-          case 'imageGallery': {
-            const { title, images } = fields;
-            return (
-              <ImageGallery>
-                <Gallery
-                  images={images.map((n) => {
-                    const { title: imageTitle, file } = n.fields;
-                    const src = file.url;
-                    return { src, title: imageTitle };
-                  })}
-                />
-                <h6 style={{ textAlign: 'center' }}>{title}</h6>
-              </ImageGallery>
-            );
-          }
-          case 'youtubeVideo': {
-            const { title, url } = fields;
-            return <YoutubeVideo title={title} url={url} />;
-          }
-          default:
-            break;
-        }
-
-        if (isDevelopment()) {
-          throw new Error('Unrecognized content type: ' + contentType.sys.id);
-        }
-
-        return null;
-      },
-      [INLINES.EMBEDDED_ENTRY]: (node) => {
-        const { sys, fields } = node.data.target;
-        const { contentType } = sys;
-
-        switch (contentType.sys.id) {
-          case 'sourceCode': {
-            const { title, code, language } = fields;
-            return <SourceCode title={title} code={code} language={language} />;
-          }
-          case 'post':
-            return (
-              <PostPreview
-                key={fields.slug}
-                title={fields.title}
-                coverImage={fields.coverImage}
-                date={fields.date}
-                readingTime={fields.readingTime}
-                author={fields.author}
-                slug={fields.slug}
-                excerpt={fields.excerpt}
-                color={fields.color}
-                size={40}
-              />
-            );
-
-          default:
-            break;
-        }
-
-        if (isDevelopment()) {
-          throw new Error('Unrecognized content type: ' + contentType.sys.id);
-        }
-
-        return null;
-      },
+      [BLOCKS.EMBEDDED_ENTRY]: embeddedEntry,
+      [INLINES.EMBEDDED_ENTRY]: embeddedEntry,
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
         const { fields } = node.data.target;
         const { slug } = fields;

@@ -10,6 +10,7 @@
     "lint": "eslint ./"
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^14.1.1",
     "@contentful/rich-text-plain-text-renderer": "^14.1.1",
     "@contentful/rich-text-react-renderer": "13.4.0",
     "@emotion/core": "^10.0.28",
