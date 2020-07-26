@@ -32,7 +32,6 @@ const PostPreviewSection = styled.section`
     transitionduration: 30ms;
     outline: none;
     transform: scale(1.035);
-    padding: 0.3em;
     boxshadow: ${panelBoxShadow(
       30,
       `var(--post-preview-shadow-color, ${TINT[0.15]})`
