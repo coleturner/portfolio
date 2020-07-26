@@ -9,7 +9,7 @@ export default function Meta() {
 
   return (
     <Head>
-      <title key="title">{title}</title>
+      <title key="title">Cole Turner &middot; Software Engineer</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
