@@ -79,6 +79,7 @@ const ARROW_STYLE = css`
   z-index: 4;
   cursor: pointer;
   transition: all 150ms ease-in;
+  touch-action: manipulation;
 
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
