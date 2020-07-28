@@ -250,7 +250,11 @@ const renderHyperlink = (node, children) => {
 const AnchorLink = styled.a`
   text-decoration: none;
   position: relative;
-  scroll-padding-top: 4.2em;
+
+  span {
+    position: absolute;
+    top: -4.2em;
+  }
 
   .icon-anchor {
     display: none;
@@ -299,7 +303,8 @@ function Anchor({ children }) {
   }
 
   return (
-    <AnchorLink id={anchorText} href={'#' + anchorText}>
+    <AnchorLink href={'#' + anchorText}>
+      <span id={anchorText}></span>
       {children}
 
       <svg className="icon-anchor" viewBox="0 0 477.389 477.389">
