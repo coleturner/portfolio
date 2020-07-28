@@ -19,48 +19,57 @@ const CoverImageContainer = styled.div(
   `
 );
 
-const CoverImageElement = styled.div(({ imageURL, blurry, shadow }) => {
-  return css`
-    background-color: var(--cover-image-color-0_3);
-    background-image: url(${imageURL});
-    background-position: center center;
-    background-position: var(--cover-image-background-position, center center);
-    background-size: cover;
-    border-radius: inherit;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: ${blurry ? '2' : '1'};
-
-    ${blurry &&
-    css`
-      filter: blur(10px);
-    `};
-
-    &::after {
+const CoverImageElement = styled.div(
+  ({ imageURL, blurry, shadow, fit = 'cover' }) => {
+    return css`
       background-color: var(--cover-image-color-0_3);
-      ${shadow &&
-      css`
-        background-image: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0.85) 100%
-        );
-      `};
-      boxshadow: inset 0 0 100px #000;
+      background-image: url(${imageURL});
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-position: var(
+        --cover-image-background-position,
+        center center
+      );
+      background-size: ${fit};
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
       position: absolute;
       left: 0;
       right: 0;
       top: 0;
       bottom: 0;
-      content: '';
-    }
-  `;
-});
+      z-index: ${blurry ? '2' : '1'};
+
+      ${blurry &&
+      css`
+        filter: blur(10px);
+      `};
+
+      &::after {
+        background-color: var(
+          --cover-image-gradient-overlay-color,
+          var(--cover-image-color-0_3)
+        );
+        ${shadow &&
+        css`
+          background-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.85) 100%
+          );
+        `};
+        boxshadow: inset 0 0 100px #000;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        content: '';
+      }
+    `;
+  }
+);
 
 const Sizer = styled.div(
   ({ size }) =>
@@ -178,6 +187,7 @@ export default function CoverImage({
   size = 15,
   borderRadius = 0.75,
   shadow = true,
+  fit = 'cover',
 }) {
   const ref = useRef();
   const [imageURL, isLoaded] = useImage(url, ref);
@@ -198,6 +208,7 @@ export default function CoverImage({
             imageURL={imageURL}
             blurry={true}
             shadow={shadow}
+            fit={fit}
           />
         )}
         {isLoaded && (
@@ -208,17 +219,18 @@ export default function CoverImage({
             imageURL={imageURL}
             blurry={false}
             shadow={shadow}
+            fit={fit}
           />
         )}
       </AnimatePresence>
 
-      <Sizer size={size}>
-        {children && (
+      {children && (
+        <Sizer size={size}>
           <CoverImageContent borderRadius={0}>
             <Container>{children}</Container>
           </CoverImageContent>
-        )}
-      </Sizer>
+        </Sizer>
+      )}
     </CoverImageContainer>
   );
 }
@@ -230,4 +242,5 @@ CoverImage.propTypes = {
   size: PropTypes.number,
   shadow: PropTypes.bool,
   borderRadius: PropTypes.number,
+  fit: PropTypes.string,
 };

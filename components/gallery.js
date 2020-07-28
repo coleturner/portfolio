@@ -12,10 +12,18 @@ import CoverImage from './cover-image';
 
 const ARROW_WIDTH = '8px';
 
-const Container = styled.div`
-  position: relative;
-  overflow: hidden;
-`;
+const Container = styled.div(
+  ({ maxWidth }) => css`
+    position: relative;
+    overflow: hidden;
+    ${maxWidth
+      ? css`
+          max-width: ${maxWidth}px;
+          margin: 0 auto;
+        `
+      : ''};
+  `
+);
 
 const ScrollerItem = styled.div`
   overflow: hidden;
@@ -35,11 +43,9 @@ const ScrollerItemContent = styled.div`
 const Scroller = styled.div`
   display: flex;
   flex-direction: row;
-  transition: transform 200ms ease-in;
+  transition: transform 500ms ease-in;
   position: relative;
   min-height: 15em;
-  max-height: 60vh;
-  max-height: 60vmax;
   transform: translateX(${({ slideIndex }) => `${-1 * slideIndex * 100}%`});
 
   @media screen and (prefers-reduced-motion: reduce) {
@@ -65,20 +71,29 @@ const Images = styled.div`
   }
 `;
 
+const Buttons = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 const ARROW_STYLE = css`
+  position: absolute;
+  top: 50%;
   background: rgba(0, 0, 0, 0.75);
   border: 0;
   border-radius: 10em;
   width: 3em;
   height: 3em;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   content: ' ';
   padding: 0.25em;
   z-index: 4;
   cursor: pointer;
-  transition: all 150ms ease-in;
+  transition: transition 150ms ease-in;
   touch-action: manipulation;
 
   @media screen and (prefers-reduced-motion: reduce) {
@@ -109,27 +124,28 @@ const ARROW_STYLE = css`
 
 const Previous = styled.button`
   ${ARROW_STYLE};
-  left: 1em;
+  left: 0;
+  transform: translateX(1em);
 
   &::before {
     border-right-color: #fff;
-
     margin-left: -6px;
   }
 
-  ${({ disabled }) => disabled && 'left: -5em;'};
+  ${({ disabled }) => disabled && 'transform: translateX(-5em);'};
 `;
 
 const Next = styled.button`
   ${ARROW_STYLE};
-  right: 1em;
+  right: 0;
+  transform: translateX(-1em);
 
   &::before {
     border-left-color: #fff;
     margin-left: 6px;
   }
 
-  ${({ disabled }) => disabled && 'right: -5em;'};
+  ${({ disabled }) => disabled && 'transform: translateX(5em);'};
 `;
 
 const SlidePicker = styled.div`
@@ -187,7 +203,7 @@ const ImageTitle = styled.div`
   max-width: 100%;
 `;
 
-export default function Gallery({ images }) {
+export default function Gallery({ images, fit = 'contain' }) {
   const [slideIndex, setSlideIndex] = useState(0);
   const lastSlideIndexRef = useRef(null);
   const previousButtonRef = useRef();
@@ -211,15 +227,26 @@ export default function Gallery({ images }) {
   const aspectRatio = useMemo(
     () =>
       images.reduce((value, image) => {
-        const width = typeof image === 'string' ? null : image.width;
-        const height = typeof image === 'string' ? null : image.height;
+        const { width, height } = image;
 
         const ratio = width && height && (height / width) * 100;
 
-        return ratio < value ? ratio : value;
-      }, 100),
-    [...images]
+        return Math.max(ratio, value);
+      }, 0),
+    [...images.map((n) => n.src)]
   );
+
+  const maxWidth = useMemo(
+    () =>
+      images.reduce((value, image) => {
+        const { width } = image;
+
+        return Math.max(width, value);
+      }, 0),
+    [...images.map((n) => n.src)]
+  );
+
+  debugger;
 
   const toPrevious = () => {
     setSlideIndex(Math.max(0, slideIndex - 1));
@@ -230,17 +257,19 @@ export default function Gallery({ images }) {
   };
 
   return (
-    <Container className="gallery">
-      <Previous
-        ref={previousButtonRef}
-        onClick={toPrevious}
-        disabled={slideIndex <= 0}
-      />
-      <Next
-        ref={nextButtonRef}
-        onClick={toNext}
-        disabled={slideIndex >= images.length - 1}
-      />
+    <Container className="gallery" maxWidth={maxWidth}>
+      <Buttons>
+        <Previous
+          ref={previousButtonRef}
+          onClick={toPrevious}
+          disabled={slideIndex <= 0}
+        />
+        <Next
+          ref={nextButtonRef}
+          onClick={toNext}
+          disabled={slideIndex >= images.length - 1}
+        />
+      </Buttons>
       <Images>
         <Scroller slideIndex={slideIndex}>
           {images.map((image, index) => {
@@ -253,7 +282,12 @@ export default function Gallery({ images }) {
                 isActive={slideIndex === index && 'active'}
               >
                 <ScrollerItemContent>
-                  <CoverImage url={src} borderRadius={0} shadow={false} />
+                  <CoverImage
+                    url={src}
+                    borderRadius={0}
+                    shadow={false}
+                    fit={fit}
+                  />
                   {title && <ImageTitle>{title}</ImageTitle>}
                 </ScrollerItemContent>
               </ScrollerItem>
@@ -278,6 +312,7 @@ export default function Gallery({ images }) {
 }
 
 Gallery.propTypes = {
+  fit: PropTypes.string,
   images: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,

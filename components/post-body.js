@@ -155,8 +155,9 @@ const Quote = styled.blockquote`
 `;
 
 const ImageGallery = styled.div`
-  --cover-image-color: transparent;
-  --cover-image-color-0_3: transparent;
+  --cover-image-color: #111;
+  --cover-image-color-0_3: #111;
+  --cover-image-gradient-overlay-color: transparent;
   --cover-image-border-width: 0;
 
   position: relative;
@@ -368,14 +369,17 @@ const embeddedEntry = (node) => {
       return <SourceCode title={title} code={code} language={language} />;
     }
     case 'imageGallery': {
-      const { title, images } = fields;
+      const { title, images, fit } = fields;
       return (
         <ImageGallery>
           <Gallery
+            fit={fit}
             images={images.map((n) => {
               const { title: imageTitle, file } = n.fields;
               const src = file.url;
-              return { src, title: imageTitle };
+
+              const { width, height } = file.details.image;
+              return { src, width, height, title: imageTitle };
             })}
           />
           <h6 style={{ textAlign: 'center' }}>{title}</h6>
