@@ -298,7 +298,7 @@ function Anchor({ children }) {
   }
 
   return (
-    <AnchorLink href={'#' + anchorText}>
+    <AnchorLink id={anchorText} href={'#' + anchorText}>
       {children}
 
       <svg className="icon-anchor" viewBox="0 0 477.389 477.389">
