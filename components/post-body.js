@@ -250,6 +250,7 @@ const renderHyperlink = (node, children) => {
 const AnchorLink = styled.a`
   text-decoration: none;
   position: relative;
+  scroll-padding-top: 4.2em;
 
   .icon-anchor {
     display: none;
