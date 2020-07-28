@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { HOST_NAME } from '../lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -309,6 +309,26 @@ function Anchor({ children }) {
   );
 }
 
+const GoogleFormContainer = styled.div`
+  width: 100%;
+
+  iframe {
+    border: 0;
+  }
+`;
+
+function GoogleForm({ formId }) {
+  return (
+    <GoogleFormContainer>
+      <iframe
+        src={`https://docs.google.com/forms/d/e/${formId}/viewform?embedded=true`}
+        width="100%"
+        height={1000}
+      />
+    </GoogleFormContainer>
+  );
+}
+
 const embeddedEntry = (node) => {
   const { sys, fields } = node.data.target;
   const { contentType } = sys;
@@ -336,6 +356,10 @@ const embeddedEntry = (node) => {
     case 'youtubeVideo': {
       const { title, url } = fields;
       return <YoutubeVideo title={title} url={url} />;
+    }
+    case 'googleForm': {
+      const { formId } = fields;
+      return <GoogleForm formId={formId} />;
     }
     default:
       break;

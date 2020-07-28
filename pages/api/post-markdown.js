@@ -1,4 +1,4 @@
-import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES, MARKS, helpers } from '@contentful/rich-text-types';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { documentToPlainTextString } from '@contentful/rich-text-plain-text-renderer';
 import { getPreviewPostBySlug } from '../../lib/api';
@@ -17,8 +17,8 @@ const renderMark = {
   },
 };
 
-const renderHyperlink = (node) => {
-  return `[${documentToPlainTextString(node)}](${node.data.uri})`;
+const renderHyperlink = (node, next) => {
+  return `[${next(node.content)}](${node.data.uri})`;
 };
 
 const embeddedEntry = (node) => {
@@ -58,6 +58,29 @@ ${code}
 
   return null;
 };
+
+const listItemRenderer = (node) => ({
+  renderMark,
+  renderNode: {
+    [BLOCKS.PARAGRAPH]: (p, next) => {
+      return next(
+        p.content.filter((content) => {
+          if (helpers.isText(content) && content.value === '') {
+            return false;
+          }
+
+          return true;
+        })
+      );
+    },
+    [BLOCKS.LIST_ITEM]: (li, next) => {
+      const prefix =
+        node.nodeType === 'ordered-list' ? node.content.indexOf(li) + 1 : '-';
+      return prefix + ' ' + next(li.content).trim() + '\n';
+    },
+    [INLINES.HYPERLINK]: renderHyperlink,
+  },
+});
 
 const inlineRenderer = {
   renderMark,
@@ -114,47 +137,19 @@ export default async function postToMarkdown(req, res) {
     renderMark,
     renderNode: {
       [BLOCKS.HR]: () => '\n---\n',
-      [BLOCKS.HEADING_1]: (node, next) => `# ${next(node.content)}`,
-      [BLOCKS.HEADING_2]: (node, next) => `## ${next(node.content)}`,
-      [BLOCKS.HEADING_3]: (node, next) => `### ${next(node.content)}`,
-      [BLOCKS.HEADING_4]: (node, next) => `#### ${next(node.content)}`,
-      [BLOCKS.HEADING_5]: (node, next) => `##### ${next(node.content)}`,
+      [BLOCKS.HEADING_1]: (node, next) => `\n# ${next(node.content)}`,
+      [BLOCKS.HEADING_2]: (node, next) => `\n## ${next(node.content)}`,
+      [BLOCKS.HEADING_3]: (node, next) => `\n### ${next(node.content)}`,
+      [BLOCKS.HEADING_4]: (node, next) => `\n#### ${next(node.content)}`,
+      [BLOCKS.HEADING_5]: (node, next) => `\n##### ${next(node.content)}`,
       [BLOCKS.HEADING_6]: (node, next) =>
         `\n**${next(node.content).replace(/^\*\*/, '').replace(/\*\*$/, '')}**`,
       [BLOCKS.PARAGRAPH]: (node, next) => `\n${next(node.content)}\n`,
-      [INLINES.HYPERLINK]: renderHyperlink,
       [BLOCKS.UL_LIST]: (node) => {
-        const children = documentToHtmlString(node, {
-          renderNode: {
-            [BLOCKS.PARAGRAPH]: (p) => documentToPlainTextString(p),
-            [BLOCKS.LIST_ITEM]: (li) => {
-              return (
-                '- ' + documentToHtmlString(li, inlineRenderer).trim() + '\n'
-              );
-            },
-            [INLINES.HYPERLINK]: renderHyperlink,
-          },
-        });
-
-        return '\n' + children;
+        return documentToHtmlString(node, listItemRenderer(node));
       },
       [BLOCKS.OL_LIST]: (node) => {
-        const children = documentToHtmlString(node, {
-          renderNode: {
-            [BLOCKS.PARAGRAPH]: (p) => documentToPlainTextString(p),
-            [BLOCKS.LIST_ITEM]: (li) => {
-              const number = node.content.indexOf(li) + 1;
-              return (
-                `${number}. ` +
-                documentToHtmlString(li, inlineRenderer).trim() +
-                '\n'
-              );
-            },
-            [INLINES.HYPERLINK]: renderHyperlink,
-          },
-        });
-
-        return '\n' + children;
+        return documentToHtmlString(node, listItemRenderer(node));
       },
       [BLOCKS.QUOTE]: (node) => {
         return (
@@ -170,6 +165,7 @@ export default async function postToMarkdown(req, res) {
       [BLOCKS.EMBEDDED_ASSET]: embeddedAsset,
       [INLINES.EMBEDDED_ENTRY]: embeddedEntry,
       [INLINES.EMBEDDED_ASSET]: embeddedAsset,
+      [INLINES.HYPERLINK]: renderHyperlink,
     },
   });
 
