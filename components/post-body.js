@@ -262,7 +262,7 @@ const AnchorLinkContainer = styled.div`
 
   .anchor {
     position: absolute;
-    top: -4.2em;
+    top: -4.2rem;
   }
 
   .icon-anchor {
