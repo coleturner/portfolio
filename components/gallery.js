@@ -246,8 +246,6 @@ export default function Gallery({ images, fit = 'contain' }) {
     [...images.map((n) => n.src)]
   );
 
-  debugger;
-
   const toPrevious = () => {
     setSlideIndex(Math.max(0, slideIndex - 1));
   };

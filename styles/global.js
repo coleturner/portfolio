@@ -118,6 +118,11 @@ export const globalStyles = (
 
           &:hover {
             color: ${UI_COLORS.LinkHover};
+
+            &,
+            & * {
+              cursor: pointer;
+            }
           }
         }
 
