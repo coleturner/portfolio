@@ -311,7 +311,7 @@ function getAnchorText(
 
     if (React.isValidElement(child) && child.props.children) {
       if (cloneElements.includes(child.type)) {
-        return React.cloneElement(n, {
+        return React.cloneElement(child, {
           ...child.props,
           children: factory(child.props.children),
         });
