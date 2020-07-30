@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { HOST_NAME } from '../lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -8,13 +8,18 @@ import styled from '@emotion/styled';
 import { UI_COLORS, SHADE, getColorContrast } from '../styles/colors';
 import SourceCode from './source-code';
 import Gallery from './gallery';
-import PostPreview from './post-preview';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
 import { isDevelopment } from '../lib/environment';
 import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
 import { panelBoxShadow } from '../styles/global';
 import { toSlug } from '../lib/api';
+
+const TwitterTweetEmbed = dynamic(() =>
+  import('react-twitter-embed').then((mod) => mod.TwitterTweetEmbed)
+);
 
 const PostBodyContainer = styled.div`
   line-height: 1.6;
@@ -228,6 +233,12 @@ const Emphasis = styled.em`
 
 const VideoEmbed = styled.video`
   width: 100%;
+`;
+
+const TwitterEmbedContainer = styled.div`
+  .twitter-tweet {
+    margin: 1em auto;
+  }
 `;
 
 const renderHyperlink = (node, children) => {
@@ -538,6 +549,17 @@ const embeddedEntryFactory = (content) => (node) => {
     case 'googleForm': {
       const { formId } = fields;
       return <GoogleForm formId={formId} />;
+    }
+    case 'tweetEmbed': {
+      const { tweetId, conversation } = fields;
+      return (
+        <TwitterEmbedContainer>
+          <TwitterTweetEmbed
+            tweetId={tweetId}
+            options={{ conversation: conversation || 'none' }}
+          />
+        </TwitterEmbedContainer>
+      );
     }
     case 'tableOfContents': {
       const index = content.content.indexOf(node);

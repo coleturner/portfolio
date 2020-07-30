@@ -36,6 +36,7 @@
     "react-in-viewport": "^1.0.0-alpha.14",
     "react-markdown": "^4.3.1",
     "react-syntax-highlighter": "^12.2.1",
+    "react-twitter-embed": "^3.0.3",
     "react-typist": "^2.0.5",
     "url-parse": "^1.4.7"
   },
