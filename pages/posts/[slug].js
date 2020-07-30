@@ -84,8 +84,13 @@ function PostView({ post, morePosts, preview }) {
 
   const generateOGImage = preview
     ? () => {
+        const { hash } = window.location;
+        const title =
+          document.querySelector(`.anchor + a[href="${hash}"]`)?.innerText ||
+          post.title;
+
         import('../../lib/generateOGImage').then((mod) =>
-          mod.default(post.title, post.coverImage.url, post.color)
+          mod.default(title, post.coverImage.url, post.color)
         );
       }
     : () => {};
