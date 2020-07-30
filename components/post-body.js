@@ -16,6 +16,7 @@ import YoutubeVideo from './youtube-video';
 import { css } from 'emotion';
 import { panelBoxShadow } from '../styles/global';
 import { toSlug } from '../lib/api';
+import useColorScheme from '../hooks/useColorScheme';
 
 const TwitterTweetEmbed = dynamic(() =>
   import('react-twitter-embed').then((mod) => mod.TwitterTweetEmbed)
@@ -515,7 +516,7 @@ function TableOfContents({ content }) {
   );
 }
 
-const embeddedEntryFactory = (content) => (node) => {
+const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
   const { sys, fields } = node.data.target;
   const { contentType } = sys;
 
@@ -556,7 +557,10 @@ const embeddedEntryFactory = (content) => (node) => {
         <TwitterEmbedContainer>
           <TwitterTweetEmbed
             tweetId={tweetId}
-            options={{ conversation: conversation || 'none' }}
+            options={{
+              conversation: conversation || 'none',
+              theme: colorScheme,
+            }}
           />
         </TwitterEmbedContainer>
       );
@@ -585,6 +589,7 @@ const embeddedEntryFactory = (content) => (node) => {
 };
 
 export default function PostBody({ content }) {
+  const colorScheme = useColorScheme();
   const options = {
     renderMark: {
       [MARKS.CODE]: (text) => {
@@ -682,8 +687,8 @@ export default function PostBody({ content }) {
 
         return null;
       },
-      [BLOCKS.EMBEDDED_ENTRY]: embeddedEntryFactory(content),
-      [INLINES.EMBEDDED_ENTRY]: embeddedEntryFactory(content),
+      [BLOCKS.EMBEDDED_ENTRY]: embeddedEntryFactory(content, colorScheme),
+      [INLINES.EMBEDDED_ENTRY]: embeddedEntryFactory(content, colorScheme),
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
         const { fields } = node.data.target;
         const { slug } = fields;
