@@ -455,6 +455,8 @@ function TableOfContents({ content }) {
       [BLOCKS.PARAGRAPH]: () => null,
       [BLOCKS.QUOTE]: () => null,
       [BLOCKS.LIST_ITEM]: () => null,
+      [BLOCKS.OL_LIST]: () => null,
+      [BLOCKS.UL_LIST]: () => null,
       [BLOCKS.EMBEDDED_ASSET]: () => null,
       [BLOCKS.EMBEDDED_ENTRY]: () => null,
       [INLINES.EMBEDDED_ENTRY]: () => null,
