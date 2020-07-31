@@ -299,9 +299,22 @@ const AnchorLinkContainer = styled.div`
   }
 `;
 
+function getStringForElement(element) {
+  if (!element || typeof element === 'string') {
+    return element;
+  }
+
+  if (React.isValidElement(element)) {
+    return getStringForElement(element.props.children);
+  }
+
+  return null;
+}
+
 function getAnchorID(children) {
-  const anchorChildren = React.Children.map(children, (n) =>
-    typeof n === 'string' ? n : null
+  const anchorChildren = React.Children.map(
+    children,
+    getStringForElement
   ).filter(Boolean);
 
   if (!anchorChildren.length) {
