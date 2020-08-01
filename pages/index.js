@@ -5,9 +5,7 @@ import StoriesList from '../components/stories-list';
 import Layout from '../components/layout';
 import { getLatestPostsForHome } from '../lib/api';
 import styled from '@emotion/styled';
-
-import AnimatedPortrait from '../components/animatedPortrait';
-import { PillButton, OutlineButton } from '../components/button';
+import { PillButton } from '../components/button';
 
 import AppFooter from '../components/footer';
 import Link from 'next/link';
@@ -16,10 +14,67 @@ import { Waves } from '../components/waves';
 import { RocketShip } from '../components/rocketShip';
 import { Clouds } from '../components/clouds';
 import { SunOrMoon } from '../components/sunAndMoon';
-import Typewriter from '../components/typewriter';
 import Head from 'next/head';
 import { BASE_URL } from '../lib/constants';
 import MentorIcon from '../components/icons/mentor-icon';
+import { css } from 'emotion';
+import { keyframes } from '@emotion/react';
+
+const GRADIENT_FLASH = keyframes`
+  0% {
+    background-position: 0%;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+`;
+
+const borderStyle = css`
+  position: relative;
+
+  &::before {
+    background: repeating-linear-gradient(
+      to right,
+      var(--link-color-stop-1) 0%,
+      var(--link-color-stop-2) 25%,
+      var(--link-color-stop-3) 50%,
+      var(--link-color-stop-2) 75%,
+      var(--link-color-stop-1) 100%
+    );
+    background-size: 200%;
+    border-radius: 100em;
+    animation: ${GRADIENT_FLASH} 5s infinite linear;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    padding: 0.15em;
+    transform: translate(-50%, -50%) rotate(45deg);
+    content: ' ';
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+`;
+
+const Portrait = styled.div`
+  margin: 0 auto;
+  width: 9em;
+  height: 9em;
+  border-radius: 10em;
+  ${borderStyle};
+
+  img {
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    position: relative;
+    z-index: 2;
+  }
+`;
 
 const CardList = styled.div`
   max-width: 100%;
@@ -83,17 +138,19 @@ const Title = styled.h1`
 const Biography = styled.div`
   font-size: 1em;
 
-  background: #fff;
+  @media (prefers-color-scheme: dark) {
+    background: #fff;
+    background-size: 100%;
+    background: linear-gradient(
+      to bottom right,
+      var(--link-color-stop-1) 0%,
+      var(--link-color-stop-2) 50%,
+      var(--link-color-stop-3) 100%
+    );
 
-  background: linear-gradient(
-    to right,
-    var(--link-color-stop-1) 0%,
-    var(--link-color-stop-2) 50%,
-    var(--link-color-stop-3) 100%
-  );
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const LastCardContainer = styled.div`
@@ -161,9 +218,9 @@ export default function Index({ preview, latestPosts }) {
       <CardList>
         <Card>
           <CardContent>
-            <div style={{ marginTop: '1em' }}>
-              <AnimatedPortrait interactable={true} />
-            </div>
+            <Portrait>
+              <img src="/portrait.jpg" alt="Cole Turner" />
+            </Portrait>
 
             <CardText>
               <Biography>
