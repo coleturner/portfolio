@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PreviewAlert from 'components/previewAlert';
 import Meta from 'components/meta';
 import styled from '@emotion/styled';
-import { initGA, logPageView } from 'lib/analytics';
+import { initGA, logPageView, flushGAQueue } from 'lib/analytics';
 
 const Main = styled.main`
   display: flex;
@@ -14,11 +14,9 @@ const Main = styled.main`
 export default function Layout({ preview, children }) {
   useEffect(() => {
     try {
-      if (!window.GA_INITIALIZED) {
-        initGA();
-        window.GA_INITIALIZED = true;
-      }
+      initGA();
       logPageView();
+      flushGAQueue();
     } catch (e) {
       // Don't let this interrupt anything
     }

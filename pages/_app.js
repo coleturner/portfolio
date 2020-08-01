@@ -9,6 +9,7 @@ import TypistCSS from 'react-typist/dist/Typist.css';
 import { css } from '@emotion/react';
 import { globalStyles } from '../styles/global';
 import { useRouter } from 'next/router';
+import { logEvent } from '../lib/analytics';
 
 function onLoading() {
   const elm = document.getElementById('page-loading-indicator');
@@ -27,13 +28,15 @@ function onLoadingDone() {
 }
 
 export function reportWebVitals({ id, name, label, value }) {
-  ReactGA.event({
+  const event = {
     category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
     action: name,
     value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
     label: id, // id unique to current page load
     nonInteraction: true, // avoids affecting bounce rate.
-  });
+  };
+
+  logEvent(event);
 }
 
 export default function App({ Component, pageProps }) {
