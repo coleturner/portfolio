@@ -24,9 +24,11 @@ import LoadingSpinner from './loadingSpinner';
 const Quote = dynamic(() => import('./post-quote'), {
   loading: () => <LoadingSpinner />,
 });
+
 const QuoteBubble = dynamic(() => import('./post-quote-bubble'), {
   loading: () => <LoadingSpinner />,
 });
+
 const TableOfContents = dynamic(() => import('./post-table-of-contents'), {
   loading: () => <LoadingSpinner />,
 });
