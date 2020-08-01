@@ -3,23 +3,27 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { extractCritical } from 'emotion-server';
 
 export default class MyDocument extends Document {
-  static getInitialProps(context) {
-    const { renderPage } = context;
-
-    const page = renderPage();
-    const styles = extractCritical(page.html);
-
-    return { ...page, ...styles };
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+    const styles = extractCritical(initialProps.html);
+    return {
+      ...initialProps,
+      styles: (
+        <>
+          {initialProps.styles}
+          <style
+            data-emotion-css={styles.ids.join(' ')}
+            dangerouslySetInnerHTML={{ __html: styles.css }}
+          />
+        </>
+      ),
+    };
   }
 
   render() {
     return (
       <html lang="en">
         <Head>
-          <style
-            data-emotion-css={this.props.ids.join(' ')}
-            dangerouslySetInnerHTML={{ __html: this.props.css }}
-          />
           <link rel="icon" href="/favicon.ico" />
           <meta name="theme-color" content="#000000" />
         </Head>
