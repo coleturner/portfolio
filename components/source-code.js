@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { OutlineButton } from 'components/button';
 import { useCallback, useState } from 'react';
 import { panelBoxShadow } from '../styles/global';
+import StaticContent from './static-content';
 
 const CodeBlock = styled.div`
   font-size: 1rem;
@@ -41,17 +42,19 @@ export default function SourceCode({ title, code, language }) {
 
   return (
     <CodeBlock>
-      <SyntaxHighlighter
-        language={language}
-        style={theme}
-        customStyle={{
-          borderRadius: '0.5em',
-          padding: '2em',
-        }}
-        useInlineStyles={true}
-      >
-        {code}
-      </SyntaxHighlighter>
+      <StaticContent>
+        <SyntaxHighlighter
+          language={language}
+          style={theme}
+          customStyle={{
+            borderRadius: '0.5em',
+            padding: '2em',
+          }}
+          useInlineStyles={true}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </StaticContent>
       <CodeActions>
         <OutlineButton onClick={copy}>{copyStatus || 'Copy'}</OutlineButton>
       </CodeActions>
