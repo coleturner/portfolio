@@ -5,7 +5,6 @@ import Navigation from 'components/navigation';
 import TwitterIcon from 'components/icons/twitter-icon';
 import LinkedInIcon from 'components/icons/linkedin-icon';
 import GithubIcon from 'components/icons/github-icon';
-import { useRouter } from 'next/router';
 
 const BREAKPOINT_MOBILE = '500px';
 
@@ -42,23 +41,6 @@ const Footer = styled.footer`
     border-radius: 10em;
     fill: url(#icon-gradient) currentColor;
   }
-`;
-
-const Biography = styled.div`
-  font-size: 1.5em;
-  padding: 3em 0;
-
-  background: #fff;
-
-  background: linear-gradient(
-    to right,
-    var(--link-color-stop-1) 0%,
-    var(--link-color-stop-2) 50%,
-    var(--link-color-stop-3) 100%
-  );
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `;
 
 const Portrait = styled.div`
@@ -130,21 +112,9 @@ const SocialMenu = styled.nav`
 `;
 
 export default function AppFooter() {
-  const { route } = useRouter();
-  const isIndex = route === '/';
-
   return (
     <FooterContainer>
       <Footer>
-        {isIndex && (
-          <Container>
-            <Biography>
-              Cole Turner is a senior software engineer, based in the Bay Area
-              (CA), who specializes in: developing web application products,
-              seamless user experience, and cross-functional communications.
-            </Biography>
-          </Container>
-        )}
         <Container>
           <NavigationContainer>
             <Navigation />

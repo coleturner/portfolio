@@ -80,11 +80,20 @@ const Title = styled.h1`
   margin-top: 0.5em;
 `;
 
-const Introduction = styled.div`
-  width: 91%;
-  max-width: 70ch;
-  margin: 0 auto;
-  opacity: 0.85;
+const Biography = styled.div`
+  font-size: 1em;
+
+  background: #fff;
+
+  background: linear-gradient(
+    to right,
+    var(--link-color-stop-1) 0%,
+    var(--link-color-stop-2) 50%,
+    var(--link-color-stop-3) 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const LastCardContainer = styled.div`
@@ -156,10 +165,16 @@ export default function Index({ preview, latestPosts }) {
               <AnimatedPortrait interactable={true} />
             </div>
 
-            <Title>Cole Turner</Title>
-            <Introduction>
-              <Typewriter text="I enjoy developing 👉good👈great ideas for the web." />
-            </Introduction>
+            <CardText>
+              <Biography>
+                <Title>Cole Turner</Title>
+                <p>
+                  Cole Turner is a software engineer who specializes in
+                  developing web application products, seamless user experience,
+                  and cross-functional communications.
+                </p>
+              </Biography>
+            </CardText>
           </CardContent>
           <ScrollDown />
         </Card>
