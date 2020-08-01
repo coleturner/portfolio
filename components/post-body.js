@@ -1,25 +1,25 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HOST_NAME, CONTENTFUL_HOST } from '../lib/constants';
+import { HOST_NAME, CONTENTFUL_HOST } from 'lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
-import { UI_COLORS, SHADE } from '../styles/colors';
-import SourceCode from './source-code';
-import Gallery from './gallery';
+import { UI_COLORS, SHADE } from 'styles/colors';
+import SourceCode from 'components/source-code';
+import Gallery from 'components/gallery';
 import Link from 'next/link';
 import parse from 'url-parse';
 import dynamic from 'next/dynamic';
 
-import { isDevelopment } from '../lib/environment';
-import YoutubeVideo from './youtube-video';
+import { isDevelopment } from 'lib/environment';
+import YoutubeVideo from 'components/youtube-video';
 import { css } from 'emotion';
-import { panelBoxShadow } from '../styles/global';
-import { toSlug } from '../lib/api';
-import useColorScheme from '../hooks/useColorScheme';
+import { panelBoxShadow } from 'styles/global';
+import { toSlug } from 'lib/api';
+import useColorScheme from 'hooks/useColorScheme';
 import Head from 'next/head';
-import LoadingSpinner from './loadingSpinner';
+import LoadingSpinner from 'components/loadingSpinner';
 
 const Quote = dynamic(() => import('./post-quote'), {
   loading: () => <LoadingSpinner />,

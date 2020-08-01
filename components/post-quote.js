@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { UI_COLORS } from '../styles/colors';
+import { UI_COLORS } from 'styles/colors';
 const Quote = styled.blockquote`
   background: linear-gradient(
     to right,

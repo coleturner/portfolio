@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../components/propTypes/postPropType';
-import StoriesList from '../components/stories-list';
-import Layout from '../components/layout';
+import postPropType from 'components/propTypes/postPropType';
+import StoriesList from 'components/stories-list';
+import Layout from 'components/layout';
 import { getLatestPostsForHome } from '../lib/api';
 import styled from '@emotion/styled';
 
-import AnimatedPortrait from '../components/animatedPortrait';
-import { PillButton } from '../components/button';
+import AnimatedPortrait from 'components/animatedPortrait';
+import { PillButton } from 'components/button';
 
-import AppFooter from '../components/footer';
+import AppFooter from 'components/footer';
 import Link from 'next/link';
-import { ScrollDown } from '../components/scrollDown';
-import { Waves } from '../components/waves';
-import { RocketShip } from '../components/rocketShip';
-import { Clouds } from '../components/clouds';
-import { SunOrMoon } from '../components/sunAndMoon';
-import Typewriter from '../components/typewriter';
+import { ScrollDown } from 'components/scrollDown';
+import { Waves } from 'components/waves';
+import { RocketShip } from 'components/rocketShip';
+import { Clouds } from 'components/clouds';
+import { SunOrMoon } from 'components/sunAndMoon';
+import Typewriter from 'components/typewriter';
 import Head from 'next/head';
 import { BASE_URL } from '../lib/constants';
 
@@ -250,5 +250,6 @@ export async function getStaticProps({ preview = false }) {
   const latestPosts = await getLatestPostsForHome(preview);
   return {
     props: { preview, latestPosts },
+    revalidate: 60,
   };
 }

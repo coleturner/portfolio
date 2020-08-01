@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from 'emotion';
-import CoverImage from './cover-image';
+import CoverImage from 'components/cover-image';
 
 const ARROW_WIDTH = '8px';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import EducationIcon from './icons/education-icon';
-import TrophyIcon from './icons/trophy-icon';
+import EducationIcon from 'components/icons/education-icon';
+import TrophyIcon from 'components/icons/trophy-icon';
 import styled from '@emotion/styled';
 
 const AclamationList = styled.div``;

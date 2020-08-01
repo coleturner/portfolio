@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../components/container';
-import Header from '../components/header';
-import Layout from '../components/layout';
-import ProjectList from '../components/project-list';
+import Container from 'components/container';
+import Header from 'components/header';
+import Layout from 'components/layout';
+import ProjectList from 'components/project-list';
 import { getResumeProjects } from '../lib/api';
 import Head from 'next/head';
-import Aclamations from '../components/aclamations';
-import AppFooter from '../components/footer';
+import Aclamations from 'components/aclamations';
+import AppFooter from 'components/footer';
 
 export default function Resume({ preview, resumeProjects }) {
   return (
@@ -37,5 +37,6 @@ export async function getStaticProps({ preview = false }) {
 
   return {
     props: { preview, resumeProjects },
+    revalidate: 60,
   };
 }

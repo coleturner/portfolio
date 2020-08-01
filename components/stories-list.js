@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from './propTypes/postPropType';
-import PostPreview from './post-preview';
+import postPropType from 'components/propTypes/postPropType';
+import PostPreview from 'components/post-preview';
 import styled from '@emotion/styled';
 
 const Section = styled.section``;

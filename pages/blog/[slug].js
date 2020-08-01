@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../../components/propTypes/postPropType';
+import postPropType from 'components/propTypes/postPropType';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import ErrorPage from '../../pages/_error';
-import Container from '../../components/container';
-import StoriesList from '../../components/stories-list';
-import Header from '../../components/header';
-import Layout from '../../components/layout';
+import Container from 'components/container';
+import StoriesList from 'components/stories-list';
+import Header from 'components/header';
+import Layout from 'components/layout';
 import {
   getAllPostWithTagId,
   getAllPostTags,
   getTagBySlug,
 } from '../../lib/api';
-import AppFooter from '../../components/footer';
-import LoadingSpinner from '../../components/loadingSpinner';
+import AppFooter from 'components/footer';
+import LoadingSpinner from 'components/loadingSpinner';
 import styled from '@emotion/styled';
 import { css } from 'emotion';
 import { getColorContrast, changeColorBrightness } from '../../styles/colors';
-import TagList from '../../components/taglist';
+import TagList from 'components/taglist';
 
 const Hero = styled.div(
   ({ color = '#111' }) => css`
@@ -114,6 +114,7 @@ export async function getStaticProps({ params, preview = false }) {
   if (!tag) {
     return {
       props: {},
+      revalidate: 60,
     };
   }
 
@@ -128,6 +129,7 @@ export async function getStaticProps({ params, preview = false }) {
       allTags,
       tag,
     },
+    revalidate: 60,
   };
 }
 

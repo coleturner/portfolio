@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { globalStyles } from '../styles/global';
-import { PillButton } from '../components/button';
+import { PillButton } from 'components/button';
 import Head from 'next/head';
 
 const styles = {

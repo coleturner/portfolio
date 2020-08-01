@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { format, parse } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 
-import Gallery from './gallery';
+import Gallery from 'components/gallery';
 import styled from '@emotion/styled';
-import LinkIcon from './icons/link-icon';
+import LinkIcon from 'components/icons/link-icon';
 import { css } from 'emotion';
-import { OutlineButton } from './button';
+import { OutlineButton } from 'components/button';
 
 const BREAKING_POINT = '700px';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global, css, keyframes } from '@emotion/react';
-import { UI_COLORS, SHADE, changeColorBrightness } from './colors';
+import { UI_COLORS, SHADE, changeColorBrightness } from 'styles/colors';
 
 const LOADING_BACKGROUND = keyframes`
   0% {

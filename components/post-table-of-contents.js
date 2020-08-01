@@ -2,8 +2,8 @@ import React from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
-import { UI_COLORS } from '../styles/colors';
-import { getAnchorID, getAnchorText } from './post-body';
+import { UI_COLORS } from 'styles/colors';
+import { getAnchorID, getAnchorText } from 'components/post-body';
 const TableOfContentsContainer = styled.div`
   padding: 1em;
   border-top: 6px solid ${UI_COLORS.POST_TEXT_QUOTE_COLOR};

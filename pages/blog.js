@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../components/propTypes/postPropType';
-import Container from '../components/container';
-import StoriesList from '../components/stories-list';
-import Header from '../components/header';
-import Layout from '../components/layout';
+import postPropType from 'components/propTypes/postPropType';
+import Container from 'components/container';
+import StoriesList from 'components/stories-list';
+import Header from 'components/header';
+import Layout from 'components/layout';
 import { getAllPostsForHome, getAllPostTags } from '../lib/api';
 import Head from 'next/head';
-import AppFooter from '../components/footer';
+import AppFooter from 'components/footer';
 import styled from '@emotion/styled';
 import { SHADE } from '../styles/colors';
-import TagList from '../components/taglist';
+import TagList from 'components/taglist';
 
 const Content = styled.div`
   --post-preview-shadow-color: ${SHADE[0.15]};
@@ -68,5 +68,6 @@ export async function getStaticProps({ preview = false }) {
 
   return {
     props: { preview, allPosts, allTags },
+    revalidate: 60,
   };
 }

@@ -6,9 +6,9 @@ import {
 } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import styled from '@emotion/styled';
-import { OutlineButton } from './button';
+import { OutlineButton } from 'components/button';
 import { useCallback, useState } from 'react';
-import useColorScheme from '../hooks/useColorScheme';
+import useColorScheme from 'hooks/useColorScheme';
 
 const CodeBlock = styled.div`
   font-size: 1rem;

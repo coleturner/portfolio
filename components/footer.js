@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Container from './container';
-import Navigation from './navigation';
-import TwitterIcon from './icons/twitter-icon';
-import LinkedInIcon from './icons/linkedin-icon';
-import GithubIcon from './icons/github-icon';
+import Container from 'components/container';
+import Navigation from 'components/navigation';
+import TwitterIcon from 'components/icons/twitter-icon';
+import LinkedInIcon from 'components/icons/linkedin-icon';
+import GithubIcon from 'components/icons/github-icon';
 import { useRouter } from 'next/router';
 
 const BREAKPOINT_MOBILE = '500px';

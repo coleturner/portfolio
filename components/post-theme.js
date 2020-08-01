@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { changeColorBrightness, getColorContrast } from '../styles/colors';
+import { changeColorBrightness, getColorContrast } from 'styles/colors';
 import hexToRgba from 'hex-to-rgba';
 import { css } from 'emotion';
 

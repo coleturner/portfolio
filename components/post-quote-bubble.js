@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { UI_COLORS, getColorContrast } from '../styles/colors';
+import { UI_COLORS, getColorContrast } from 'styles/colors';
 import { css } from 'emotion';
 
 const QuoteBubble = styled.blockquote(({ color }) => {

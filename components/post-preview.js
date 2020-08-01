@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import Date from './date';
-import CoverImage from './cover-image';
+import Date from 'components/date';
+import CoverImage from 'components/cover-image';
 import styled from '@emotion/styled';
-import { panelBoxShadow } from '../styles/global';
-import { UI_COLORS, TINT } from '../styles/colors';
-import PostTheme from './post-theme';
-import usePostTheme from '../hooks/usePostTheme';
+import { panelBoxShadow } from 'styles/global';
+import { UI_COLORS, TINT } from 'styles/colors';
+import PostTheme from 'components/post-theme';
+import usePostTheme from 'hooks/usePostTheme';
 
 const PostPreviewSection = styled.section`
   display: flex;

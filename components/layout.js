@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PreviewAlert from '../components/previewAlert';
-import Meta from '../components/meta';
+import PreviewAlert from 'components/previewAlert';
+import Meta from 'components/meta';
 import styled from '@emotion/styled';
-import { initGA, logPageView } from '../lib/analytics';
+import { initGA, logPageView } from 'lib/analytics';
 
 const Main = styled.main`
   display: flex;

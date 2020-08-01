@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactGA from 'react-ga';
 import PropTypes from 'prop-types';
 import { CacheProvider, Global } from '@emotion/core';
 import { cache } from 'emotion';
@@ -23,6 +24,16 @@ function onLoadingDone() {
       elm.style.display = 'none';
     }
   }, 150);
+}
+
+export function reportWebVitals({ id, name, label, value }) {
+  ReactGA.event({
+    category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+    action: name,
+    value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+    label: id, // id unique to current page load
+    nonInteraction: true, // avoids affecting bounce rate.
+  });
 }
 
 export default function App({ Component, pageProps }) {

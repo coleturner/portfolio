@@ -3,10 +3,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import Container from './container';
-import Navigation from './navigation';
-import { SHADE } from '../styles/colors';
-import AnimatedPortrait from './animatedPortrait';
+import Container from 'components/container';
+import Navigation from 'components/navigation';
+import { SHADE } from 'styles/colors';
+import AnimatedPortrait from 'components/animatedPortrait';
 
 const LOGO_TEXT_ANIMATE = keyframes`
   0% {

@@ -7,7 +7,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import styled from '@emotion/styled';
-import { UI_COLORS } from '../styles/colors';
+import { UI_COLORS } from 'styles/colors';
 import { keyframes } from '@emotion/react';
 
 const BOUNCE_DOWN = keyframes`

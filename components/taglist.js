@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { css } from 'emotion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getColorContrast } from '../styles/colors';
+import { getColorContrast } from 'styles/colors';
 
 const TaglistContainer = styled.div`
   background: var(--page-background-color);

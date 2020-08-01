@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from '../components/avatar';
-import Date from '../components/date';
-import CoverImage from '../components/cover-image';
-import PostTitle from '../components/post-title';
+import Avatar from 'components/avatar';
+import Date from 'components/date';
+import CoverImage from 'components/cover-image';
+import PostTitle from 'components/post-title';
 import styled from '@emotion/styled';
-import { UI_COLORS } from '../styles/colors';
-import Container from './container';
+import { UI_COLORS } from 'styles/colors';
+import Container from 'components/container';
 
 const MainHeader = styled.div`
   background: #000;

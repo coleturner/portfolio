@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { keyframes, css } from '@emotion/react';
-import { UI_COLORS } from '../styles/colors';
+import { UI_COLORS } from 'styles/colors';
 
 const RIPPLE = keyframes`
 0% {

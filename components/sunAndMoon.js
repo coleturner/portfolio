@@ -1,5 +1,5 @@
 import React from 'react';
-import useColorScheme from '../hooks/useColorScheme';
+import useColorScheme from 'hooks/useColorScheme';
 import styled from '@emotion/styled';
 import {
   motion,
@@ -7,7 +7,7 @@ import {
   useTransform,
   useReducedMotion,
 } from 'framer-motion';
-import { useRefScrollProgress } from '../hooks/useRefScrollProgress';
+import { useRefScrollProgress } from 'hooks/useRefScrollProgress';
 
 const SunContainer = styled.div`
   font-size: 5em;

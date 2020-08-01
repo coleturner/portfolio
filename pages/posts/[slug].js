@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../../components/propTypes/postPropType';
+import postPropType from 'components/propTypes/postPropType';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import ErrorPage from '../../pages/_error';
-import Container from '../../components/container';
-import PostBody from '../../components/post-body';
-import StoriesList from '../../components/stories-list';
-import Header from '../../components/header';
-import PostHeader from '../../components/post-header';
-import Layout from '../../components/layout';
+import Container from 'components/container';
+import PostBody from 'components/post-body';
+import StoriesList from 'components/stories-list';
+import Header from 'components/header';
+import PostHeader from 'components/post-header';
+import Layout from 'components/layout';
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
-import AppFooter from '../../components/footer';
-import { ScrollUp } from '../../components/scrollUp';
-import { PillButton } from '../../components/button';
+import AppFooter from 'components/footer';
+import { ScrollUp } from 'components/scrollUp';
+import { PillButton } from 'components/button';
 import Link from 'next/link';
-import LoadingSpinner from '../../components/loadingSpinner';
+import LoadingSpinner from 'components/loadingSpinner';
 import { BASE_URL } from '../../lib/constants';
 import styled from '@emotion/styled';
 import {
@@ -27,7 +27,7 @@ import {
 } from '../../styles/colors';
 import { css } from 'emotion';
 import hexToRgba from 'hex-to-rgba';
-import PostTheme from '../../components/post-theme';
+import PostTheme from 'components/post-theme';
 import usePostTheme from '../../hooks/usePostTheme';
 
 function metaImageURL(url) {
@@ -277,6 +277,7 @@ export async function getStaticProps({ params, preview = false }) {
       post,
       morePosts: data?.morePosts ?? null,
     },
+    revalidate: 60,
   };
 }
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { SHADE, UI_COLORS, TINT } from '../styles/colors';
+import { SHADE, UI_COLORS, TINT } from 'styles/colors';
 import { css } from 'emotion';
 
 const BUTTON_STYLE_TRANSPARENT = {

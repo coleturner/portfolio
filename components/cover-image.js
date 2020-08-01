@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Container from './container';
+import Container from 'components/container';
 import { useEffect, useState, useMemo } from 'react';
 import parse from 'url-parse';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css } from '@emotion/react';
-import { CONTENTFUL_HOST } from '../lib/constants';
+import { CONTENTFUL_HOST } from 'lib/constants';
 
 const CoverImageContainer = styled.div(
   ({ borderRadius }) => css`
