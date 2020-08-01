@@ -20,10 +20,7 @@ import useColorScheme from 'hooks/useColorScheme';
 import Head from 'next/head';
 import LoadingSpinner from 'components/loadingSpinner';
 
-const SourceCode = dynamic(() => import('components/source-code'), {
-  loading: () => <LoadingSpinner />,
-  ssr: false,
-});
+const SourceCode = dynamic(() => import('components/source-code'));
 
 const Quote = dynamic(() => import('components/post-quote'), {
   loading: () => <LoadingSpinner />,
@@ -51,7 +48,11 @@ const PostBodyContainer = styled.div`
   max-width: 42rem;
   max-width: 70ch;
   padding: 3em 0;
-  color: rgba(0, 0, 0, 0.65);
+  color: rgba(0, 0, 0, 0.75);
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: rgba(255, 255, 255, 0.75);
+  }
 
   > p:last-child:empty {
     display: none;
@@ -66,24 +67,24 @@ const PostBodyContainer = styled.div`
     line-height: 1.4;
   }
 
-  @media screen and (prefers-color-scheme: dark) {
-    color: rgba(255, 255, 255, 0.85);
+  h1,
+  h2,
+  h3 {
+    color: var(--post-color-minus-15);
 
-    h1,
-    h2,
-    h3 {
+    @media screen and (prefers-color-scheme: dark) {
       color: var(--post-color-plus-15);
     }
+  }
 
-    h4,
-    h5,
-    h6 {
-      color: var(--post-color-plus-15);
-    }
+  h4,
+  h5,
+  h6 {
+    color: var(--post-color-plus-15);
+  }
 
-    a {
-      color: var(--post-complementary-color);
-    }
+  a {
+    color: var(--post-complementary-color);
   }
 `;
 

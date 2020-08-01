@@ -3345,7 +3345,7 @@ fast-levenshtein@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fault@^1.0.2:
+fault@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/fault/-/fault-1.0.4.tgz#eafcfc0a6d214fc94601e170df29954a4f842f13"
   dependencies:
@@ -3731,9 +3731,9 @@ hey-listen@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/hey-listen/-/hey-listen-1.0.8.tgz#8e59561ff724908de1aa924ed6ecc84a56a9aa68"
 
-highlight.js@~9.15.0, highlight.js@~9.15.1:
-  version "9.15.10"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.10.tgz#7b18ed75c90348c045eef9ed08ca1319a2219ad2"
+highlight.js@^10.1.1, highlight.js@~10.1.0:
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.1.2.tgz#c20db951ba1c22c055010648dfffd7b2a968e00c"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -4495,12 +4495,12 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lowlight@1.12.1:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-1.12.1.tgz#014acf8dd73a370e02ff1cc61debcde3bb1681eb"
+lowlight@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-1.14.0.tgz#83ebc143fec0f9e6c0d3deffe01be129ce56b108"
   dependencies:
-    fault "^1.0.2"
-    highlight.js "~9.15.0"
+    fault "^1.0.0"
+    highlight.js "~10.1.0"
 
 lru-cache@5.1.1, lru-cache@^5.1.1:
   version "5.1.1"
@@ -5198,9 +5198,20 @@ parse-asn1@^5.0.0, parse-asn1@^5.1.5:
     pbkdf2 "^3.0.3"
     safe-buffer "^5.1.1"
 
-parse-entities@^1.1.0, parse-entities@^1.1.2:
+parse-entities@^1.1.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/parse-entities/-/parse-entities-1.2.2.tgz#c31bf0f653b6661354f8973559cb86dd1d5edf50"
+  dependencies:
+    character-entities "^1.0.0"
+    character-entities-legacy "^1.0.0"
+    character-reference-invalid "^1.0.0"
+    is-alphanumerical "^1.0.0"
+    is-decimal "^1.0.0"
+    is-hexadecimal "^1.0.0"
+
+parse-entities@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/parse-entities/-/parse-entities-2.0.0.tgz#53c6eb5b9314a1f4ec99fa0fdf7ce01ecda0cbe8"
   dependencies:
     character-entities "^1.0.0"
     character-entities-legacy "^1.0.0"
@@ -5675,15 +5686,9 @@ prettier@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.5.tgz#d6d56282455243f2f92cc1716692c08aa31522d4"
 
-prismjs@^1.8.4:
+prismjs@^1.20.0, prismjs@~1.20.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.20.0.tgz#9b685fc480a3514ee7198eac6a3bf5024319ff03"
-  optionalDependencies:
-    clipboard "^2.0.0"
-
-prismjs@~1.17.0:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.17.1.tgz#e669fcbd4cdd873c35102881c33b14d0d68519be"
   optionalDependencies:
     clipboard "^2.0.0"
 
@@ -5866,15 +5871,15 @@ react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
 
-react-syntax-highlighter@^12.2.1:
-  version "12.2.1"
-  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-12.2.1.tgz#14d78352da1c1c3f93c6698b70ec7c706b83493e"
+react-syntax-highlighter@^13.2.1:
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-13.2.1.tgz#3d5a3b655cd85ce06b9508e0365d01ef9b8560bb"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    highlight.js "~9.15.1"
-    lowlight "1.12.1"
-    prismjs "^1.8.4"
-    refractor "^2.4.1"
+    highlight.js "^10.1.1"
+    lowlight "^1.14.0"
+    prismjs "^1.20.0"
+    refractor "^3.0.0"
 
 react-test-renderer@^16.0.0-0:
   version "16.13.1"
@@ -5977,13 +5982,13 @@ reflect.ownkeys@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/reflect.ownkeys/-/reflect.ownkeys-0.2.0.tgz#749aceec7f3fdf8b63f927a04809e90c5c0b3460"
 
-refractor@^2.4.1:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/refractor/-/refractor-2.10.1.tgz#166c32f114ed16fd96190ad21d5193d3afc7d34e"
+refractor@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/refractor/-/refractor-3.0.0.tgz#7c8072eaf49dbc1b333e7acc64fb52a1c9b17c75"
   dependencies:
     hastscript "^5.0.0"
-    parse-entities "^1.1.2"
-    prismjs "~1.17.0"
+    parse-entities "^2.0.0"
+    prismjs "~1.20.0"
 
 regenerate-unicode-properties@^8.2.0:
   version "8.2.0"

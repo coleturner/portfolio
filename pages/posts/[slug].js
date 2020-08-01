@@ -18,15 +18,7 @@ import Link from 'next/link';
 import LoadingSpinner from 'components/loadingSpinner';
 import { BASE_URL } from '../../lib/constants';
 import styled from '@emotion/styled';
-import {
-  hexToRgb,
-  rgbToYIQ,
-  changeColorBrightness,
-  invertColor,
-  getColorContrast,
-} from '../../styles/colors';
 import { css } from 'emotion';
-import hexToRgba from 'hex-to-rgba';
 import PostTheme from 'components/post-theme';
 import usePostTheme from '../../hooks/usePostTheme';
 

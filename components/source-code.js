@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  solarizedlight,
-  xonokai,
-} from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import theme from 'react-syntax-highlighter/dist/cjs/styles/prism/a11y-dark';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import styled from '@emotion/styled';
 import { OutlineButton } from 'components/button';
 import { useCallback, useState } from 'react';
-import useColorScheme from 'hooks/useColorScheme';
+import { panelBoxShadow } from '../styles/global';
 
 const CodeBlock = styled.div`
   font-size: 1rem;
   position: relative;
+  box-shadow: ${panelBoxShadow(30, 'rgba(0,0,0,0.12)')};
 `;
 
 const CodeActions = styled.div`
@@ -23,8 +21,6 @@ const CodeActions = styled.div`
 `;
 
 export default function SourceCode({ title, code, language }) {
-  const colorScheme = useColorScheme();
-
   const [copyStatus, setCopyStatus] = useState(null);
 
   const copy = useCallback(() => {
@@ -47,7 +43,7 @@ export default function SourceCode({ title, code, language }) {
     <CodeBlock>
       <SyntaxHighlighter
         language={language}
-        style={colorScheme === 'dark' ? xonokai : solarizedlight}
+        style={theme}
         customStyle={{
           borderRadius: '0.5em',
           padding: '2em',

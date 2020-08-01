@@ -7,7 +7,9 @@ const PostTheme = styled.div(
   ({ color, complementaryColorLight, complementaryColorDark }) => {
     return css`
       --post-color: ${color};
+      --post-color-plus-30: ${changeColorBrightness(color, 30)};
       --post-color-plus-15: ${changeColorBrightness(color, 15)};
+      --post-color-minus-15: ${changeColorBrightness(color, -15)};
       --post-color-minus-30: ${changeColorBrightness(color, -30)};
       --post-color-0_3: ${hexToRgba(color, 0.3)};
       --post-color-0_15: ${hexToRgba(color, 0.15)};
