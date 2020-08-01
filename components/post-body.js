@@ -18,6 +18,7 @@ import { css } from 'emotion';
 import { panelBoxShadow } from '../styles/global';
 import { toSlug } from '../lib/api';
 import useColorScheme from '../hooks/useColorScheme';
+import Head from 'next/head';
 
 const TwitterTweetEmbed = dynamic(() =>
   import('react-twitter-embed').then((mod) => mod.TwitterTweetEmbed)
@@ -704,17 +705,29 @@ export default function PostBody({ content }) {
           }
           case 'image': {
             const w = '700';
+            const preconnectURL = parse(file.url);
+            Object.assign(preconnectURL, { query: '', pathname: '' });
+
             return (
-              <PostPicture loading="lazy">
-                <source
-                  srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
-                  type="image/webp"
-                />
-                <img
-                  src={getPostImageURL(file.url, { w, fm: 'jpg' })}
-                  alt={description}
-                />
-              </PostPicture>
+              <>
+                <Head>
+                  <link
+                    rel="preconnect"
+                    href={preconnectURL.toString()}
+                    key={'preconnect-' + preconnectURL.toString()}
+                  />
+                </Head>
+                <PostPicture loading="lazy">
+                  <source
+                    srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
+                    type="image/webp"
+                  />
+                  <img
+                    src={getPostImageURL(file.url, { w, fm: 'jpg' })}
+                    alt={description}
+                  />
+                </PostPicture>
+              </>
             );
           }
           case 'application':
