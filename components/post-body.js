@@ -22,6 +22,7 @@ import LoadingSpinner from 'components/loadingSpinner';
 
 const SourceCode = dynamic(() => import('components/source-code'), {
   loading: () => <LoadingSpinner />,
+  ssr: false,
 });
 
 const Quote = dynamic(() => import('components/post-quote'), {
