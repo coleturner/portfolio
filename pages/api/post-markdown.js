@@ -29,7 +29,7 @@ const embeddedEntry = (node) => {
     case 'sourceCode': {
       const { title, code, language } = fields;
       return `
-**${title}
+**${title}**
 
 \`\`\`${language}
 ${code}
