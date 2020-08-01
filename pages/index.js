@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from 'components/propTypes/postPropType';
-import StoriesList from 'components/stories-list';
-import Layout from 'components/layout';
+import postPropType from '../components/propTypes/postPropType';
+import StoriesList from '../components/stories-list';
+import Layout from '../components/layout';
 import { getLatestPostsForHome } from '../lib/api';
 import styled from '@emotion/styled';
 
-import AnimatedPortrait from 'components/animatedPortrait';
-import { PillButton } from 'components/button';
+import AnimatedPortrait from '../components/animatedPortrait';
+import { PillButton, OutlineButton } from '../components/button';
 
-import AppFooter from 'components/footer';
+import AppFooter from '../components/footer';
 import Link from 'next/link';
-import { ScrollDown } from 'components/scrollDown';
-import { Waves } from 'components/waves';
-import { RocketShip } from 'components/rocketShip';
-import { Clouds } from 'components/clouds';
-import { SunOrMoon } from 'components/sunAndMoon';
-import Typewriter from 'components/typewriter';
+import { ScrollDown } from '../components/scrollDown';
+import { Waves } from '../components/waves';
+import { RocketShip } from '../components/rocketShip';
+import { Clouds } from '../components/clouds';
+import { SunOrMoon } from '../components/sunAndMoon';
+import Typewriter from '../components/typewriter';
 import Head from 'next/head';
 import { BASE_URL } from '../lib/constants';
+import MentorIcon from '../components/icons/mentor-icon';
 
 const CardList = styled.div`
   max-width: 100%;
@@ -116,6 +117,11 @@ const LastCardContainer = styled.div`
     background: var(--primary-wave-color);
     height: 4.5em;
     content: ' ';
+  }
+
+  hr {
+    opacity: 0.15;
+    margin: 1em 0 3em 0;
   }
 `;
 
@@ -233,6 +239,40 @@ export default function Index({ preview, latestPosts }) {
                 </div>
               </CardText>
             </CardContent>
+          </Card>
+          <Card
+            style={{
+              color: '#fff',
+              fontSize: '1.5em',
+            }}
+          >
+            <CardText>
+              <hr />
+              <MentorIcon style={{ fontSize: '3em' }} />
+              <h2>Mentorship with Cole</h2>
+              <p>
+                Are you looking to level up, build more agency and autonomy, or
+                develop your software engineering career? I&apos;d love to help.
+                I can give you advice about your job search, including resume
+                and cover letter reviews, or other career development needs.
+              </p>
+
+              <p>
+                Are you seeking technical guidance? I can review code, chat
+                about best practices, or guide you through your work. I can help
+                with full-stack web development, front-end, back-end, and more.
+              </p>
+              <br />
+              <PillButton
+                as="a"
+                colorScheme="dark"
+                href="https://mentorcruise.com/mentor/ColeTurner/"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                Apply for Mentorship
+              </PillButton>
+            </CardText>
           </Card>
           <AppFooter blendColor="rgba(0,0,0,0.55)" />
         </LastCardContainer>

@@ -27,6 +27,7 @@ export const OutlineButton = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 1em;
   outline: none;
+  text-decoration: none;
 
   &:hover {
     background-color: ${UI_COLORS.OutlineButtonHover};
