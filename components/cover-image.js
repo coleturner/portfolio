@@ -6,6 +6,7 @@ import { useEffect, useState, useMemo } from 'react';
 import parse from 'url-parse';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css } from '@emotion/react';
+import { CONTENTFUL_HOST } from '../lib/constants';
 
 const CoverImageContainer = styled.div(
   ({ borderRadius }) => css`
@@ -86,8 +87,6 @@ const CoverImageContent = styled.div`
   z-index: 3;
   position: relative;
 `;
-
-const CONTENTFUL_HOST = 'ctfassets.net';
 
 function getThumbURL(urlStr) {
   if (!urlStr) {

@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HOST_NAME } from '../lib/constants';
+import { HOST_NAME, CONTENTFUL_HOST } from '../lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
@@ -9,6 +9,7 @@ import { UI_COLORS, SHADE, getColorContrast } from '../styles/colors';
 import SourceCode from './source-code';
 import Gallery from './gallery';
 import Link from 'next/link';
+import parse from 'url-parse';
 import dynamic from 'next/dynamic';
 
 import { isDevelopment } from '../lib/environment';
@@ -64,12 +65,15 @@ const PostBodyContainer = styled.div`
     }
   }
 `;
-const PostImage = styled.img`
-  max-width: 100%;
-  margin: 2em auto;
-  display: block;
-  box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
-  border-radius: 0.3em;
+
+const PostPicture = styled.picture`
+  img {
+    display: block;
+    margin: 2em auto;
+    border-radius: 0.3em;
+    box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
+    max-width: 100%;
+  }
 `;
 
 const Paragraph = styled.p`
@@ -601,6 +605,27 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
   return null;
 };
 
+function getPostImageURL(url, { w, fm = 'jpg' }) {
+  if (!url) {
+    return null;
+  }
+
+  const params = {};
+
+  if (url.includes(CONTENTFUL_HOST)) {
+    params.fm = fm;
+  }
+
+  if (w) {
+    // Add some padding to it, for quality
+    params.w = Math.round(w);
+  }
+
+  const urlObj = parse(url, true);
+  urlObj.query = { ...url.query, ...params };
+
+  return urlObj.toString();
+}
 export default function PostBody({ content }) {
   const colorScheme = useColorScheme();
   const options = {
@@ -677,15 +702,21 @@ export default function PostBody({ content }) {
               </VideoEmbed>
             );
           }
-          case 'image':
+          case 'image': {
+            const w = '700';
             return (
-              <PostImage
-                loading="lazy"
-                title={title}
-                alt={description}
-                src={file.url}
-              />
+              <PostPicture loading="lazy">
+                <source
+                  srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
+                  type="image/webp"
+                />
+                <img
+                  src={getPostImageURL(file.url, { w, fm: 'jpg' })}
+                  alt={description}
+                />
+              </PostPicture>
             );
+          }
           case 'application':
             return (
               <a download={file.details.fileName} href={file.url}>
