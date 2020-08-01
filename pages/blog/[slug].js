@@ -78,6 +78,15 @@ export default function BlogTag({ tag, posts, allTags, preview }) {
     <Layout preview={preview}>
       <Head>
         <title key="title">{tag.name} | Cole Turner</title>
+
+        <meta
+          key="description"
+          name="description"
+          content={
+            tag.description ||
+            `Posts about ${tag.name} from a software engineer.`
+          }
+        />
       </Head>
 
       <Header />
