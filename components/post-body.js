@@ -553,7 +553,7 @@ export default function PostBody({ content }) {
                   />
                   <img
                     src={getPostImageURL(file.url, { w, fm: 'jpg' })}
-                    alt={description}
+                    alt={description || title}
                   />
                 </PostPicture>
               </>
