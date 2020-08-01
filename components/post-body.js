@@ -6,7 +6,6 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
 import { UI_COLORS, SHADE } from 'styles/colors';
-import SourceCode from 'components/source-code';
 import Gallery from 'components/gallery';
 import Link from 'next/link';
 import parse from 'url-parse';
@@ -21,17 +20,24 @@ import useColorScheme from 'hooks/useColorScheme';
 import Head from 'next/head';
 import LoadingSpinner from 'components/loadingSpinner';
 
-const Quote = dynamic(() => import('./post-quote'), {
+const SourceCode = dynamic(() => import('components/source-code'), {
   loading: () => <LoadingSpinner />,
 });
 
-const QuoteBubble = dynamic(() => import('./post-quote-bubble'), {
+const Quote = dynamic(() => import('components/post-quote'), {
   loading: () => <LoadingSpinner />,
 });
 
-const TableOfContents = dynamic(() => import('./post-table-of-contents'), {
+const QuoteBubble = dynamic(() => import('components/post-quote-bubble'), {
   loading: () => <LoadingSpinner />,
 });
+
+const TableOfContents = dynamic(
+  () => import('components/post-table-of-contents'),
+  {
+    loading: () => <LoadingSpinner />,
+  }
+);
 
 const TwitterTweetEmbed = dynamic(() =>
   import('react-twitter-embed').then((mod) => mod.TwitterTweetEmbed)
