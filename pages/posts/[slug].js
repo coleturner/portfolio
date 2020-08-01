@@ -240,7 +240,12 @@ export default function Post({ post, morePosts, preview }) {
                 '@type': 'Person',
                 name: 'Cole Turner',
               },
+              publisher: {
+                '@type': 'Person',
+                name: 'Cole Turner',
+              },
               datePublished: post.date,
+              dateModified: post.updatedAt,
             }),
           }}
         />
