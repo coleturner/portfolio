@@ -243,6 +243,10 @@ export default function Post({ post, morePosts, preview }) {
               publisher: {
                 '@type': 'Organization',
                 name: 'Cole Turner',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: BASE_URL + 'portrait.jpg',
+                },
               },
               datePublished: post.date,
               dateModified: post.updatedAt,
