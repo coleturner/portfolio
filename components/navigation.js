@@ -34,14 +34,24 @@ const NavigationContainer = styled.nav`
 
 const Menu = styled.div``;
 
-function NavLink({ matchPaths, href, ...otherProps }) {
+const NavLink = React.forwardRef(function Navlink(
+  { matchPaths, href, ...otherProps },
+  ref
+) {
   const { asPath, route } = useRouter();
   const isActive =
     asPath === href ||
     (Array.isArray(matchPaths) && matchPaths.includes(route));
 
-  return <a href={href} {...otherProps} aria-current={isActive || undefined} />;
-}
+  return (
+    <a
+      ref={ref}
+      href={href}
+      {...otherProps}
+      aria-current={isActive || undefined}
+    />
+  );
+});
 
 NavLink.propTypes = {
   matchPaths: PropTypes.array,

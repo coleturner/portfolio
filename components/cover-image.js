@@ -137,25 +137,21 @@ function getFullURL(urlStr, dimensions) {
 }
 
 function useImage(url, ref) {
-  const [dimensions, setDimensions] = useState([null, null]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const thumbURL = useMemo(() => getThumbURL(url), [url]);
-  const fullURL = useMemo(() => getFullURL(url, dimensions), [
-    url,
-    ...dimensions,
-  ]);
+  const [fullURL, setFullURL] = useState(null);
 
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      setDimensions([rect.width, rect.height]);
+      setFullURL(getFullURL(url, [rect.width, rect.height]));
     }
   }, [ref]);
 
   useEffect(() => {
     // If we're using a ref, wait until the width is set
-    if (ref !== undefined && dimensions.width === null) {
+    if (!ref || !fullURL) {
       return () => {};
     }
 
@@ -175,7 +171,7 @@ function useImage(url, ref) {
     return () => {
       img.onload = () => {};
     };
-  }, [fullURL, ref.current]);
+  }, [fullURL]);
 
   return [isLoaded && fullURL ? fullURL : thumbURL, isLoaded];
 }

@@ -197,7 +197,7 @@ export default function AnimatedPortrait({
     }
   };
 
-  const videos = ['subtle', 'happy'];
+  const videos = ['subtle'];
   const videoPick = videos[Math.floor(Math.random() * videos.length)];
 
   const triggers = [
