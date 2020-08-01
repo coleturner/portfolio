@@ -241,7 +241,7 @@ export default function Post({ post, morePosts, preview }) {
                 name: 'Cole Turner',
               },
               publisher: {
-                '@type': 'Person',
+                '@type': 'Organization',
                 name: 'Cole Turner',
               },
               datePublished: post.date,
