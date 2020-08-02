@@ -10,15 +10,14 @@ import { PillButton } from '../components/button';
 import AppFooter from '../components/footer';
 import Link from 'next/link';
 import { ScrollDown } from '../components/scrollDown';
-import { Waves } from '../components/waves';
-import { RocketShip } from '../components/rocketShip';
-import { Clouds } from '../components/clouds';
-import { SunOrMoon } from '../components/sunAndMoon';
+import Waves from '../components/waves';
 import Head from 'next/head';
 import { BASE_URL } from '../lib/constants';
 import MentorIcon from '../components/icons/mentor-icon';
 import { css } from 'emotion';
 import { keyframes } from '@emotion/react';
+import useColorScheme from '../hooks/useColorScheme';
+import { useReducedMotion } from 'framer-motion';
 
 const GRADIENT_FLASH = keyframes`
   0% {
@@ -93,30 +92,6 @@ const Card = styled.div`
   position: relative;
   z-index: 1;
   min-height: 100vh;
-
-  .netflix-link {
-    color: #e50914;
-
-    @media (prefers-color-scheme: dark) {
-      color: #ff3d47;
-    }
-  }
-
-  .paypal-link {
-    color: #003087;
-
-    @media (prefers-color-scheme: dark) {
-      color: #0079c1;
-    }
-  }
-
-  .tinychat-link {
-    color: #257aa2;
-
-    @media (prefers-color-scheme: dark) {
-      color: #2f9bce;
-    }
-  }
 `;
 
 const CardContent = styled.div`
@@ -178,17 +153,6 @@ const LastCardContainer = styled.div`
     --primary-wave-color-end: #10131c;
   }
 
-  &::before {
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    right: 0;
-    background: #09f;
-    background: var(--primary-wave-color);
-    height: 4.5em;
-    content: ' ';
-  }
-
   hr {
     opacity: 0.15;
     margin: 1em 0 3em 0;
@@ -196,6 +160,9 @@ const LastCardContainer = styled.div`
 `;
 
 export default function Index({ preview, latestPosts }) {
+  const colorScheme = useColorScheme();
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <Layout preview={preview}>
       <Head>
@@ -230,65 +197,23 @@ export default function Index({ preview, latestPosts }) {
               <Biography>
                 <Title>Cole Turner</Title>
                 <p>
-                  Cole Turner is a software engineer who specializes in
-                  developing web application products, seamless user experience,
-                  and cross-functional communications.
+                  I am a software engineer who specializes in developing web
+                  application products, seamless user experience, and
+                  cross-functional communications.
                 </p>
               </Biography>
             </CardText>
           </CardContent>
           <ScrollDown />
-        </Card>
-        <Card>
-          <SunOrMoon />
-          <Waves />
-          <Clouds />
-          <RocketShip />
-
-          <CardContent>
-            <CardText style={{ paddingBottom: '1em' }}>
-              <h2>
-                I ship code at{' '}
-                <strong>
-                  <a
-                    target="_blank"
-                    rel="nofollow noreferrer"
-                    href="https://www.netflix.com/"
-                    className="netflix-link"
-                  >
-                    Netflix
-                  </a>
-                </strong>
-                .
-              </h2>
-              <p>
-                Previously, I worked at{' '}
-                <strong>
-                  <a
-                    target="_blank"
-                    rel="nofollow noreferrer"
-                    href="https://www.paypal.com/"
-                    className="paypal-link"
-                  >
-                    PayPal
-                  </a>
-                </strong>
-                <br />
-                and co-founded{' '}
-                <strong>
-                  <a
-                    target="_blank"
-                    rel="nofollow noreferrer"
-                    href="https://www.tinychat.com/"
-                    className="tinychat-link"
-                  >
-                    Tinychat
-                  </a>
-                </strong>
-                .
-              </p>
-            </CardText>
-          </CardContent>
+          {!shouldReduceMotion && (
+            <Waves
+              colors={
+                colorScheme === 'dark'
+                  ? ['#02144d', '#01081f', '#030f36']
+                  : ['#a2d9ff', '#66bfff', '#09F']
+              }
+            />
+          )}
         </Card>
         <LastCardContainer>
           <Card

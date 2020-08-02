@@ -1,112 +1,155 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRef } from 'react';
-import { keyframes } from '@emotion/react';
-import { useInViewport } from 'react-in-viewport';
-const WAVE_ROCK = keyframes`
-  0%, 100% {
-    transform: translateX(0%) translateY(0%) scaleY(0.2);
+
+function drawWaves(canvas, $width, $height, colors, nodeCount = 6) {
+  const ctx = canvas.getContext('2d');
+  let waves = [];
+  let waveHeight = canvas.height / 2;
+  let isCancelled = false;
+
+  const cancel = () => {
+    isCancelled = true;
+  };
+
+  function update() {
+    if (isCancelled) {
+      return;
+    }
+
+    ctx.fillStyle = 'transparent';
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < waves.length; i++) {
+      for (let j = 0; j < waves[i].nodes.length; j++) {
+        bounce(waves[i].nodes[j]);
+      }
+      drawWave(waves[i]);
+    }
+
+    requestAnimationFrame(update);
   }
 
-  25% {
-    transform: translateX(10%) translateY(-0.25em) scaleY(0.3); 
+  function Wave(colour, lambda, nodes) {
+    this.colour = colour;
+    this.lambda = lambda;
+    this.nodes = [];
+
+    for (let i = 0; i <= nodes + 2; i++) {
+      let temp = [
+        ((i - 1) * canvas.width) / nodes,
+        0,
+        Math.random() * 200,
+        0.3,
+      ];
+      this.nodes.push(temp);
+    }
   }
 
-  75% {
-    transform: translateX(-10%) translateY(0%) scaleY(0.3);
+  function bounce(nodeArr) {
+    nodeArr[1] = Math.max(
+      0,
+      (waveHeight / 2) * Math.sin(nodeArr[2] / 20) +
+        canvas.height / 2 -
+        waveHeight / 2
+    );
+    nodeArr[2] = nodeArr[2] + nodeArr[3];
   }
 
-`;
+  function drawWave(obj) {
+    function diff(a, b) {
+      return (b - a) / 2 + a;
+    }
+
+    ctx.fillStyle = obj.colour;
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height);
+    ctx.lineTo(obj.nodes[0][0], obj.nodes[0][1]);
+
+    for (let i = 0; i < obj.nodes.length; i++) {
+      if (obj.nodes[i + 1]) {
+        ctx.quadraticCurveTo(
+          obj.nodes[i][0],
+          obj.nodes[i][1],
+          diff(obj.nodes[i][0], obj.nodes[i + 1][0]),
+          diff(obj.nodes[i][1], obj.nodes[i + 1][1])
+        );
+      } else {
+        ctx.lineTo(obj.nodes[i][0], obj.nodes[i][1]);
+        ctx.lineTo(canvas.width, canvas.height);
+      }
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawNodes(array) {
+    for (let i = 0; i < array.length; i++) {
+      ctx.beginPath();
+      ctx.arc(array[i][0], array[i][1], 4, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.stroke();
+    }
+  }
+
+  function drawLine(array) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i + 1]) {
+        ctx.lineTo(array[i + 1][0], array[i + 1][1]);
+      }
+    }
+
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < 3; i++) {
+    waves.push(new Wave(colors[i], 1, nodeCount));
+  }
+
+  update();
+
+  return cancel;
+}
+
 const WavesContainer = styled.div`
-  position: absolute;
   width: 100%;
-  overflow: hidden;
-  top: 0;
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  user-select: none;
+  z-index: -1;
   pointer-events: none;
 
-  .wave {
-    position: absolute;
-    left: -20%;
-    right: -20%;
-    bottom: 2em;
-    width: 140%;
-
-    svg {
-      width: 100%;
-      max-width: none;
-      display: block;
-      height: auto;
-      transform-origin: bottom center;
-      transform: translateX(0%) translateY(0%) scaleY(0.2);
-      animation: ${WAVE_ROCK} 10s infinite linear;
-      animation-fill-mode: backwards;
-
-      @media (prefers-reduced-motion: reduce) {
-        animation: 30s;
-      }
-    }
-
-    &:nth-child(2) svg {
-      animation-delay: -2.5s;
-    }
-
-    &:nth-child(3) svg {
-      animation-delay: -5s;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      &:nth-child(1) svg path {
-        fill: #02144d;
-      }
-
-      &:nth-child(2) svg path {
-        fill: #01081f;
-      }
-
-      &:nth-child(3) svg path {
-        fill: #030f36;
-      }
-    }
+  canvas {
+    width: 100%;
+    height: 10vw;
+    display: block;
   }
 `;
-export function Waves(props) {
-  const ref = useRef();
-  const { inViewport } = useInViewport(ref, undefined, undefined, props);
 
-  const animationPlayState = inViewport ? 'running' : 'paused';
+export default function WavesComponent({ colors }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const cancel = drawWaves(ref.current, rect.width, rect.height, colors);
+
+      return () => cancel();
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current
+          .getContext('2d')
+          .clearRect(0, 0, ref.current.width, ref.current.height);
+      }
+    };
+  }, [ref.current, ...colors]);
 
   return (
-    <WavesContainer ref={ref}>
-      <div className="wave">
-        <svg viewBox="0 0 1440 285" style={{ animationPlayState }}>
-          <path
-            fill="#a2d9ff"
-            d="M0 29l48 10.7C96 50 192 72 288 98.3c96 26.7 192 58.7 288 37.4C672 114 768 40 864 13s192-5 288 16 192 43 240 53.3l48 10.7v192H0V29z"
-          />
-        </svg>
-      </div>
-
-      <div className="wave">
-        <svg viewBox="0 0 1440 272" style={{ animationPlayState }}>
-          <path
-            fill="#66bfff"
-            d="M0 160l48 5.3c48 5.7 144 15.7 240-16C384 117 480 43 576 53.3 672 64 768 160 864 170.7 960 181 1056 107 1152 64s192-53 240-58.7l48-5.3v288H0V160z"
-          />
-        </svg>
-      </div>
-
-      <div className="wave">
-        <svg viewBox="0 0 1440 132" style={{ animationPlayState }}>
-          <path
-            fill="#09F"
-            d="M0 32l48 5.3C96 43 192 53 288 42.7 384 32 480 0 576 0s192 32 288 53.3c96 21.7 192 31.7 288 32 96-.3 192-10.3 240-16l48-5.3v128H0V32z"
-          />
-        </svg>
-      </div>
+    <WavesContainer>
+      <canvas ref={ref} />
     </WavesContainer>
   );
 }
