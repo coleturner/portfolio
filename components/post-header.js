@@ -14,6 +14,11 @@ const MainHeader = styled.div`
   z-index: 2;
 `;
 
+const PostMainHeader = styled.div`
+  padding-top: 20%;
+  padding-bottom: 2em;
+`;
+
 const PostMetadata = styled.div`
   display: flex;
   flex-direction: row;
@@ -115,21 +120,25 @@ export default function PostHeader({
           style={{ position: 'relative', zIndex: 2, marginBottom: '-4em' }}
           borderRadius={0}
         >
-          <PostTitle>{title}</PostTitle>
-          <PostMetadata>
-            <div>
-              {author && <Avatar name={author.name} picture={author.picture} />}
-            </div>
-            <div>
-              {author.name && <AvatarName>{author.name}</AvatarName>}
+          <PostMainHeader>
+            <PostTitle>{title}</PostTitle>
+            <PostMetadata>
               <div>
-                <Date dateString={date} />
-                {readingTime && (
-                  <ReadingTime>{readingTime} min read</ReadingTime>
+                {author && (
+                  <Avatar name={author.name} picture={author.picture} />
                 )}
               </div>
-            </div>
-          </PostMetadata>
+              <div>
+                {author.name && <AvatarName>{author.name}</AvatarName>}
+                <div>
+                  <Date dateString={date} />
+                  {readingTime && (
+                    <ReadingTime>{readingTime} min read</ReadingTime>
+                  )}
+                </div>
+              </div>
+            </PostMetadata>
+          </PostMainHeader>
         </CoverImage>
       </MainHeader>
       <StickyHeader>

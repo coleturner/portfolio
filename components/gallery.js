@@ -47,6 +47,7 @@ const Scroller = styled.div`
   position: relative;
   min-height: 15em;
   transform: translateX(${({ slideIndex }) => `${-1 * slideIndex * 100}%`});
+  will-change: transform;
 
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
@@ -226,13 +227,16 @@ export default function Gallery({ images, fit = 'contain' }) {
 
   const aspectRatio = useMemo(
     () =>
-      images.reduce((value, image) => {
-        const { width, height } = image;
+      Math.min(
+        100,
+        images.reduce((value, image) => {
+          const { width, height } = image;
 
-        const ratio = width && height && (height / width) * 100;
+          const ratio = width && height && (height / width) * 100;
 
-        return Math.max(ratio, value);
-      }, 0),
+          return Math.max(ratio, value);
+        }, 0)
+      ),
     [...images.map((n) => n.src)]
   );
 

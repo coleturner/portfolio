@@ -102,7 +102,6 @@ export default function PostPreview({
   readingTime,
   excerpt,
   slug,
-  size = 80,
   color,
 }) {
   const { complementaryColorDark, complementaryColorLight } = usePostTheme(
@@ -118,12 +117,7 @@ export default function PostPreview({
           complementaryColorDark={complementaryColorDark}
         >
           <PostCoverImage>
-            <CoverImage
-              titleText={title}
-              slug={slug}
-              url={coverImage.url}
-              size={size}
-            />
+            <CoverImage titleText={title} slug={slug} url={coverImage.url} />
           </PostCoverImage>
           <PostHighlight>
             <div>
@@ -151,6 +145,5 @@ PostPreview.propTypes = {
   readingTime: PropTypes.number,
   excerpt: PropTypes.string,
   slug: PropTypes.string,
-  size: PropTypes.number,
   color: PropTypes.string,
 };
