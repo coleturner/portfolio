@@ -7,6 +7,7 @@ import Container from 'components/container';
 import Navigation from 'components/navigation';
 import { SHADE } from 'styles/colors';
 import AnimatedPortrait from 'components/animatedPortrait';
+import { PORTRAIT_URL } from '../lib/constants';
 
 const LOGO_TEXT_ANIMATE = keyframes`
   0% {
@@ -83,18 +84,18 @@ const Title = styled.div`
 `;
 
 const Logo = styled.div`
-  --portrait-size: 3em;
   display: flex;
   flex-direction: row;
   text-decoration: none;
   color: inherit;
+  align-items: center;
+`;
 
-  svg {
-    margin: 0 auto;
-    display: block;
-    font-size: 5em;
-    border-radius: 100em;
-  }
+const Portrait = styled.img`
+  width: 3em;
+  height: 3em;
+  border-radius: 3em;
+  margin-right: 0.3em;
 `;
 
 export default function Header() {
@@ -105,7 +106,7 @@ export default function Header() {
     <HeaderContainer>
       <Container flex="row">
         <Logo>
-          <AnimatedPortrait border={false} />
+          <Portrait loading="eager" src={PORTRAIT_URL} alt="Cole Turner" />
           <Title as={tag}>
             <a href="/">Cole Turner</a>
           </Title>
