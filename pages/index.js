@@ -190,7 +190,7 @@ export default function Index({ preview, latestPosts }) {
         <Card>
           <CardContent>
             <Portrait>
-              <img src="/portrait.jpg" alt="Cole Turner" />
+              <img loading="eager" src="/portrait.jpg" alt="Cole Turner" />
             </Portrait>
 
             <CardText>
