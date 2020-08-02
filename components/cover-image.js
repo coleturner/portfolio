@@ -6,6 +6,7 @@ import { useEffect, useState, useMemo } from 'react';
 import parse from 'url-parse';
 import { css } from '@emotion/react';
 import { CONTENTFUL_HOST } from 'lib/constants';
+import Head from 'next/head';
 
 const CoverImageContainer = styled.div(
   ({ borderRadius }) => css`
@@ -237,6 +238,9 @@ export default function CoverImage({
   const ref = useRef();
   const thumbURL = useMemo(() => getThumbURL(url), [url]);
 
+  const preconnectURL = parse(url);
+  Object.assign(preconnectURL, { query: '', pathname: '' });
+
   return (
     <CoverImageContainer
       ref={ref}
@@ -244,6 +248,13 @@ export default function CoverImage({
       style={style}
       borderRadius={borderRadius}
     >
+      <Head>
+        <link
+          rel="preconnect"
+          href={preconnectURL.toString()}
+          key={'preconnect-' + preconnectURL.toString()}
+        />
+      </Head>
       <Thumbnail loading="eager" src={thumbURL} alt="" fit={fit} />
       <Picture fit={fit}>
         <source
