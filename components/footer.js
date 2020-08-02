@@ -5,6 +5,7 @@ import Navigation from 'components/navigation';
 import TwitterIcon from 'components/icons/twitter-icon';
 import LinkedInIcon from 'components/icons/linkedin-icon';
 import GithubIcon from 'components/icons/github-icon';
+import { PORTRAIT_URL } from '../lib/constants';
 
 const BREAKPOINT_MOBILE = '500px';
 
@@ -172,7 +173,7 @@ export default function AppFooter() {
           </NavigationContainer>
           <div>
             <Portrait>
-              <img src="/portrait.jpg" alt="Cole, smiling." />
+              <img src={PORTRAIT_URL} alt="Cole, smiling." />
             </Portrait>
           </div>
         </Container>

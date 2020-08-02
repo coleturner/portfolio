@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { ScrollDown } from '../components/scrollDown';
 import Waves from '../components/waves';
 import Head from 'next/head';
-import { BASE_URL } from '../lib/constants';
+import { BASE_URL, PORTRAIT_URL } from '../lib/constants';
 import MentorIcon from '../components/icons/mentor-icon';
 import { css } from 'emotion';
 import { keyframes } from '@emotion/react';
@@ -62,14 +62,24 @@ const borderStyle = css`
 const Portrait = styled.div`
   margin: 0 auto;
   margin-top: 1.5em;
+  min-width: 6em;
+  min-height: 6em;
   width: 9em;
   height: 9em;
+  width: 30vmin;
+  height: 30vmin;
+  max-width: 288px;
+  max-height: 288px;
   border-radius: 10em;
   ${borderStyle};
 
   img {
     width: inherit;
     height: inherit;
+    min-width: inherit;
+    min-height: inherit;
+    max-width: inherit;
+    max-height: inherit;
     border-radius: inherit;
     position: relative;
     z-index: 2;
@@ -190,7 +200,7 @@ export default function Index({ preview, latestPosts }) {
         <Card>
           <CardContent>
             <Portrait>
-              <img loading="eager" src="/portrait.jpg" alt="Cole Turner" />
+              <img loading="eager" src={PORTRAIT_URL} alt="Cole Turner" />
             </Portrait>
 
             <CardText>
