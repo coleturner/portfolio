@@ -139,17 +139,20 @@ const Biography = styled.div`
   font-size: 1em;
 
   @media (prefers-color-scheme: dark) {
-    background: #fff;
-    background-size: 100%;
-    background: linear-gradient(
-      to bottom right,
-      var(--link-color-stop-1) 0%,
-      var(--link-color-stop-2) 50%,
-      var(--link-color-stop-3) 100%
-    );
+    h2,
+    p {
+      background: #fff;
+      background-size: 100%;
+      background: linear-gradient(
+        to bottom right,
+        var(--link-color-stop-1) 0%,
+        var(--link-color-stop-2) 50%,
+        var(--link-color-stop-3) 100%
+      );
 
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 `;
 
