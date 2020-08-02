@@ -62,6 +62,7 @@ const borderStyle = css`
 
 const Portrait = styled.div`
   margin: 0 auto;
+  margin-top: 1.5em;
   width: 9em;
   height: 9em;
   border-radius: 10em;
