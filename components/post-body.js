@@ -88,6 +88,16 @@ const PostBodyContainer = styled.div`
   }
 `;
 
+const CustomPostStyles = styled.div(({ styles }) => {
+  try {
+    return css`
+      ${typeof styles === 'string' ? styles : styles.join(';\n\n')}
+    `;
+  } catch (e) {
+    return '';
+  }
+});
+
 const PostPicture = styled.picture`
   img {
     display: block;
@@ -352,58 +362,76 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
   switch (contentType.sys.id) {
     case 'sourceCode': {
       const { title, code, language } = fields;
-      return <SourceCode title={title} code={code} language={language} />;
+      return (
+        <div data-id={sys.id}>
+          <SourceCode title={title} code={code} language={language} />
+        </div>
+      );
     }
     case 'imageGallery': {
       const { title, images, fit } = fields;
       return (
-        <ImageGallery>
-          <Gallery
-            fit={fit}
-            images={images.map((n) => {
-              const { title: imageTitle, file } = n.fields;
-              const src = file.url;
+        <div data-id={sys.id}>
+          <ImageGallery>
+            <Gallery
+              fit={fit}
+              images={images.map((n) => {
+                const { title: imageTitle, file } = n.fields;
+                const src = file.url;
 
-              const { width, height } = file.details.image;
-              return { src, width, height, title: imageTitle };
-            })}
-          />
-          <h6 style={{ textAlign: 'center' }}>{title}</h6>
-        </ImageGallery>
+                const { width, height } = file.details.image;
+                return { src, width, height, title: imageTitle };
+              })}
+            />
+            <h6 style={{ textAlign: 'center' }}>{title}</h6>
+          </ImageGallery>
+        </div>
       );
     }
     case 'youtubeVideo': {
       const { title, url } = fields;
-      return <YoutubeVideo title={title} url={url} />;
+      return (
+        <div data-id={sys.id}>
+          <YoutubeVideo title={title} url={url} />
+        </div>
+      );
     }
     case 'googleForm': {
       const { formId } = fields;
-      return <GoogleForm formId={formId} />;
+      return (
+        <div data-id={sys.id}>
+          <GoogleForm formId={formId} />;
+        </div>
+      );
     }
     case 'tweetEmbed': {
       const { tweetId, conversation } = fields;
       return (
-        <TwitterEmbedContainer>
-          <TwitterTweetEmbed
-            tweetId={tweetId}
-            options={{
-              conversation: conversation || 'none',
-              theme: colorScheme,
-            }}
-          />
-        </TwitterEmbedContainer>
+        <div data-id={sys.id}>
+          <TwitterEmbedContainer>
+            <TwitterTweetEmbed
+              tweetId={tweetId}
+              options={{
+                conversation: conversation || 'none',
+                theme: colorScheme,
+              }}
+            />
+          </TwitterEmbedContainer>
+        </div>
       );
     }
     case 'tableOfContents': {
       const index = content.content.indexOf(node);
 
       return (
-        <TableOfContents
-          content={{
-            ...content,
-            content: content.content.slice(index),
-          }}
-        />
+        <div data-id={sys.id}>
+          <TableOfContents
+            content={{
+              ...content,
+              content: content.content.slice(index),
+            }}
+          />
+        </div>
       );
     }
     default:
@@ -438,7 +466,63 @@ function getPostImageURL(url, { w, fm = 'jpg' }) {
 
   return urlObj.toString();
 }
-export default function PostBody({ content }) {
+
+function getEmbeddedAssetElement(node) {
+  const { title, description, file } = node.data.target.fields;
+
+  const mimeType = file?.contentType;
+  const mimeGroup = mimeType.split('/')[0];
+
+  switch (mimeGroup) {
+    case 'video': {
+      return (
+        <VideoEmbed controls={true} autoPictureInPicture={true} loop={true}>
+          <source src={file.url} type="video/mp4" />
+          <p>Your browser doesn&apos;t support HTML5 video.</p>
+        </VideoEmbed>
+      );
+    }
+    case 'image': {
+      const w = '700';
+      const preconnectURL = parse(file.url);
+      Object.assign(preconnectURL, { query: '', pathname: '' });
+
+      return (
+        <>
+          <Head>
+            <link
+              rel="preconnect"
+              href={preconnectURL.toString()}
+              key={'preconnect-' + preconnectURL.toString()}
+            />
+          </Head>
+          <PostPicture loading="lazy">
+            <source
+              srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
+              type="image/webp"
+            />
+            <img
+              src={getPostImageURL(file.url, { w, fm: 'jpg' })}
+              alt={description || title}
+            />
+          </PostPicture>
+        </>
+      );
+    }
+    case 'application':
+      return (
+        <a download={file.details.fileName} href={file.url}>
+          {title ? title : file.details.fileName}
+        </a>
+      );
+    default:
+      if (isDevelopment()) {
+        throw new Error('Unrecognized mime type: ' + mimeType);
+      }
+  }
+}
+
+export default function PostBody({ attributes, content }) {
   const colorScheme = useColorScheme();
   const options = {
     renderMark: {
@@ -514,61 +598,10 @@ export default function PostBody({ content }) {
         return <li>{children}</li>;
       },
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
-        const { title, description, file } = node.data.target.fields;
+        const element = getEmbeddedAssetElement(node);
 
-        const mimeType = file?.contentType;
-        const mimeGroup = mimeType.split('/')[0];
-
-        switch (mimeGroup) {
-          case 'video': {
-            return (
-              <VideoEmbed
-                controls={true}
-                autoPictureInPicture={true}
-                loop={true}
-              >
-                <source src={file.url} type="video/mp4" />
-                <p>Your browser doesn&apos;t support HTML5 video.</p>
-              </VideoEmbed>
-            );
-          }
-          case 'image': {
-            const w = '700';
-            const preconnectURL = parse(file.url);
-            Object.assign(preconnectURL, { query: '', pathname: '' });
-
-            return (
-              <>
-                <Head>
-                  <link
-                    rel="preconnect"
-                    href={preconnectURL.toString()}
-                    key={'preconnect-' + preconnectURL.toString()}
-                  />
-                </Head>
-                <PostPicture loading="lazy">
-                  <source
-                    srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
-                    type="image/webp"
-                  />
-                  <img
-                    src={getPostImageURL(file.url, { w, fm: 'jpg' })}
-                    alt={description || title}
-                  />
-                </PostPicture>
-              </>
-            );
-          }
-          case 'application':
-            return (
-              <a download={file.details.fileName} href={file.url}>
-                {title ? title : file.details.fileName}
-              </a>
-            );
-          default:
-            if (isDevelopment()) {
-              throw new Error('Unrecognized mime type: ' + mimeType);
-            }
+        if (element) {
+          return <div data-id={node.data.target.sys.id}>{element}</div>;
         }
 
         return null;
@@ -591,11 +624,14 @@ export default function PostBody({ content }) {
 
   return (
     <PostBodyContainer>
-      {documentToReactComponents(content, options)}
+      <CustomPostStyles styles={attributes?.styles || []}>
+        {documentToReactComponents(content, options)}
+      </CustomPostStyles>
     </PostBodyContainer>
   );
 }
 
 PostBody.propTypes = {
+  attributes: PropTypes.object,
   content: PropTypes.object,
 };

@@ -109,7 +109,7 @@ function PostView({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
-          <PostBody content={post.content} />
+          <PostBody content={post.content} attributes={post.attributes} />
 
           {post.tags && post.tags.length ? (
             <Tags>
