@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { ScrollDown } from '../components/scrollDown';
 import Waves from '../components/waves';
 import Head from 'next/head';
-import { BASE_URL, PORTRAIT_URL } from '../lib/constants';
+import { BASE_URL, PORTRAIT_DATA_URI } from '../lib/constants';
 import MentorIcon from '../components/icons/mentor-icon';
 import { css } from 'emotion';
 import { keyframes } from '@emotion/react';
@@ -195,14 +195,12 @@ export default function Index({ preview, latestPosts }) {
             }),
           }}
         />
-
-        <link rel="preload" href={PORTRAIT_URL} as="image" />
       </Head>
       <CardList>
         <Card>
           <CardContent>
             <Portrait>
-              <img loading="eager" src={PORTRAIT_URL} alt="Cole Turner" />
+              <img src={PORTRAIT_DATA_URI} alt="Cole Turner" />
             </Portrait>
 
             <CardText>
