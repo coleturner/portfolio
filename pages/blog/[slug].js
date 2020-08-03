@@ -74,18 +74,24 @@ export default function BlogTag({ tag, posts, allTags, preview }) {
       <ErrorPage statusCode={404} title="There are no posts with that tag." />
     );
   }
+
+  const title = `${tag.name} | Cole Turner`;
+
+  const description =
+    tag.description || `Posts about ${tag.name} from a software engineer.`;
+
   return (
     <Layout preview={preview}>
       <Head>
-        <title key="title">{tag.name} | Cole Turner</title>
+        <title key="title">{title}</title>
 
+        <meta key="description" name="description" content={description} />
+        <meta key="og:title" property="og:title" content={title} />
+        <meta key="twitter:title" property="twitter:title" content={title} />
         <meta
-          key="description"
-          name="description"
-          content={
-            tag.description ||
-            `Posts about ${tag.name} from a software engineer.`
-          }
+          key="og:description"
+          name="og:description"
+          content={description}
         />
       </Head>
 
