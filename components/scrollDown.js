@@ -1,11 +1,6 @@
 import React from 'react';
 import { useCallback } from 'react';
-import {
-  motion,
-  useViewportScroll,
-  useTransform,
-  useReducedMotion,
-} from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import styled from '@emotion/styled';
 import { UI_COLORS } from 'styles/colors';
 import { keyframes } from '@emotion/react';
@@ -70,8 +65,6 @@ const ScrollDownContainer = styled.div`
 
 export function ScrollDown(props) {
   const shouldReduceMotion = useReducedMotion();
-  const { scrollYProgress } = useViewportScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
   const scrollPastThis = useCallback((e) => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -88,22 +81,16 @@ export function ScrollDown(props) {
 
   return (
     <ScrollDownContainer>
-      <motion.div
-        style={{
-          opacity,
-        }}
+      <button
+        className="page-down"
+        title="Jump to main content"
+        onClick={scrollPastThis}
+        onKeyDown={scrollPastThis}
       >
-        <button
-          className="page-down"
-          title="Jump to main content"
-          onClick={scrollPastThis}
-          onKeyDown={scrollPastThis}
-        >
-          <svg viewBox="0 0 1792 1792" {...props}>
-            <path d="M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19L403 749q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z" />
-          </svg>
-        </button>
-      </motion.div>
+        <svg viewBox="0 0 1792 1792" {...props}>
+          <path d="M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19L403 749q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z" />
+        </svg>
+      </button>
     </ScrollDownContainer>
   );
 }
