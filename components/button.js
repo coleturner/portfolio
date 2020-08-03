@@ -83,10 +83,14 @@ export const PillButton = styled.button(
 
     @media screen and (prefers-color-scheme: dark) {
       background-color: var(--dark-background);
-      color: var(--dark-color);
 
       &,
       &:hover {
+        color: var(--dark-color);
+      }
+
+      &:hover {
+        background-color: ${UI_COLORS.PillButtonDarkHoverBackground};
         background-color: var(--dark-hover-background);
       }
     }

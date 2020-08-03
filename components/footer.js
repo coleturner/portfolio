@@ -6,6 +6,8 @@ import TwitterIcon from 'components/icons/twitter-icon';
 import LinkedInIcon from 'components/icons/linkedin-icon';
 import GithubIcon from 'components/icons/github-icon';
 import { PORTRAIT_URL } from '../lib/constants';
+import { OutlineButton, PillButton } from './button';
+import NewsIcon from './icons/news-icon';
 
 const BREAKPOINT_MOBILE = '500px';
 
@@ -112,9 +114,72 @@ const SocialMenu = styled.nav`
   }
 `;
 
+const Newsletter = styled.div`
+  padding: 2em 1em;
+  background: rgba(255, 255, 255, 0.15);
+  flex: 1;
+  text-align: center;
+  font-size: 1.25em;
+
+  svg {
+    font-size: 5em;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0;
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+
+  input {
+    border-radius: 1em;
+    border: 1px solid #e2e8f0;
+    line-height: 1.5;
+    padding: 0.25em 0.75em;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-right: 0.5em;
+  }
+`;
+
 export default function AppFooter() {
   return (
     <FooterContainer>
+      <Newsletter>
+        <Container>
+          <div>
+            <a href="#goodnews"></a>
+            <NewsIcon />
+            <p>
+              Read it before anyone else. Subscribe to my newsletter for early
+              access to the latest news in software engineering, web
+              development, and more.
+            </p>
+            <form
+              action="https://tinyletter.com/coleturner"
+              method="post"
+              target="popupwindow"
+              onSubmit={() => {
+                window.open(
+                  'https://tinyletter.com/coleturner',
+                  'popupwindow',
+                  'scrollbars=yes,width=800,height=600'
+                );
+              }}
+            >
+              {' '}
+              <input
+                type="text"
+                name="email"
+                id="tlemail"
+                placeholder="Email address"
+              />
+              <input type="hidden" value="1" name="embed" />
+              <PillButton>Subscribe</PillButton>
+            </form>
+          </div>
+        </Container>
+      </Newsletter>
       <Footer>
         <Container>
           <NavigationContainer>
