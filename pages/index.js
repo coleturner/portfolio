@@ -195,6 +195,8 @@ export default function Index({ preview, latestPosts }) {
             }),
           }}
         />
+
+        <link rel="preload" href={PORTRAIT_URL} as="image" />
       </Head>
       <CardList>
         <Card>
