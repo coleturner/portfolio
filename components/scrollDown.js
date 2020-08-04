@@ -19,10 +19,14 @@ const BOUNCE_DOWN = keyframes`
 
 const ScrollDownContainer = styled.div`
   font-size: 1rem;
-  color: ${UI_COLORS.ScrollDown};
+  color: ${UI_COLORS.ScrollDownLight};
   cursor: pointer;
   position: relative;
   width: 100%;
+
+  @media screen and (prefers-color-scheme: dark) {
+    color: ${UI_COLORS.ScrollDownDark};
+  }
 
   a {
     display: none;

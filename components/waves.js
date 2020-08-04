@@ -2,57 +2,63 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRef } from 'react';
 
-function drawWaves(canvas, $width, $height, colors, nodeCount = 6) {
+function drawWaves(canvas, $width, $height, colors, nodeCount = 4) {
   const ctx = canvas.getContext('2d');
   let waves = [];
-  let waveHeight = canvas.height / 2;
   let isCancelled = false;
 
   const cancel = () => {
     isCancelled = true;
   };
 
+  let lastFrame = null;
+
   function update() {
     if (isCancelled) {
       return;
     }
 
-    ctx.fillStyle = 'transparent';
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < waves.length; i++) {
-      for (let j = 0; j < waves[i].nodes.length; j++) {
-        bounce(waves[i].nodes[j]);
+    const nowFrame = performance.now();
+    if (!lastFrame || nowFrame - lastFrame > 15) {
+      ctx.fillStyle = 'transparent';
+      ctx.globalCompositeOperation = 'source-over';
+      canvas.width = $width;
+      canvas.height = $height;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < waves.length; i++) {
+        for (let j = 0; j < waves[i].nodes.length; j++) {
+          bounce(waves[i].nodes[j], waves[i].waveHeight);
+        }
+        drawWave(waves[i]);
       }
-      drawWave(waves[i]);
+
+      lastFrame = nowFrame;
     }
 
     requestAnimationFrame(update);
   }
 
-  function Wave(colour, lambda, nodes) {
+  function Wave(colour, nodes, waveHeight) {
     this.colour = colour;
-    this.lambda = lambda;
     this.nodes = [];
+    this.waveHeight = waveHeight;
 
     for (let i = 0; i <= nodes + 2; i++) {
       let temp = [
         ((i - 1) * canvas.width) / nodes,
-        0,
-        Math.random() * 200,
+        Math.random() * waveHeight,
+        Math.random() * waveHeight,
         0.3,
       ];
       this.nodes.push(temp);
     }
   }
 
-  function bounce(nodeArr) {
-    nodeArr[1] = Math.max(
-      0,
-      (waveHeight / 2) * Math.sin(nodeArr[2] / 20) +
-        canvas.height / 2 -
-        waveHeight / 2
-    );
+  function bounce(nodeArr, waveHeight) {
+    nodeArr[1] =
+      canvas.height * 0.85 + (waveHeight / 2) * Math.sin(nodeArr[2] / 40);
+
     nodeArr[2] = nodeArr[2] + nodeArr[3];
   }
 
@@ -83,27 +89,19 @@ function drawWaves(canvas, $width, $height, colors, nodeCount = 6) {
     ctx.fill();
   }
 
-  function drawNodes(array) {
-    for (let i = 0; i < array.length; i++) {
-      ctx.beginPath();
-      ctx.arc(array[i][0], array[i][1], 4, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.stroke();
-    }
-  }
+  const totalPossibleHeight = canvas.height * 0.75;
 
-  function drawLine(array) {
-    for (let i = 0; i < array.length; i++) {
-      if (array[i + 1]) {
-        ctx.lineTo(array[i + 1][0], array[i + 1][1]);
-      }
-    }
+  for (let i = 0; i < colors.length; i++) {
+    const percent = Math.min(
+      0.9,
+      Math.max(2, colors.length - i) / colors.length
+    );
 
-    ctx.stroke();
-  }
+    const waveHeight = Math.round(
+      Math.min(totalPossibleHeight, totalPossibleHeight * percent)
+    );
 
-  for (let i = 0; i < 3; i++) {
-    waves.push(new Wave(colors[i], 1, nodeCount));
+    waves.push(new Wave(colors[i], nodeCount, waveHeight));
   }
 
   update();
@@ -122,18 +120,24 @@ const WavesContainer = styled.div`
 
   canvas {
     width: 100%;
-    height: 10vw;
+    height: 30vw;
     display: block;
   }
 `;
 
-export default function WavesComponent({ colors }) {
+export default function WavesComponent({ nodeCount, colors }) {
   const ref = useRef();
 
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      const cancel = drawWaves(ref.current, rect.width, rect.height, colors);
+      const cancel = drawWaves(
+        ref.current,
+        rect.width,
+        rect.height,
+        colors,
+        nodeCount
+      );
 
       return () => cancel();
     }

@@ -30,16 +30,26 @@ const GRADIENT_FLASH = keyframes`
 `;
 
 const borderStyle = css`
+  --color-1: var(--theme-color-1);
+  --color-2: var(--theme-color-2);
+  --color-3: var(--theme-color-3);
+
+  @media (prefers-color-scheme: dark) {
+    --color-1: var(--link-color-stop-1);
+    --color-2: var(--link-color-stop-2);
+    --color-3: var(--link-color-stop-3);
+  }
+
   position: relative;
 
   &::before {
     background: repeating-linear-gradient(
       to right,
-      var(--link-color-stop-1) 0%,
-      var(--link-color-stop-2) 25%,
-      var(--link-color-stop-3) 50%,
-      var(--link-color-stop-2) 75%,
-      var(--link-color-stop-1) 100%
+      var(--color-1) 0%,
+      var(--color-2) 25%,
+      var(--color-3) 50%,
+      var(--color-2) 75%,
+      var(--color-1) 100%
     );
     background-size: 200%;
     border-radius: 100em;
@@ -159,8 +169,8 @@ const LastCardContainer = styled.div`
   z-index: 1;
 
   @media (prefers-color-scheme: dark) {
-    --primary-wave-color: #030f36;
-    --primary-wave-color-end: #10131c;
+    --primary-wave-color: #011630;
+    --primary-wave-color-end: #000b17;
   }
 
   hr {
@@ -219,8 +229,25 @@ export default function Index({ preview, latestPosts }) {
             <Waves
               colors={
                 colorScheme === 'dark'
-                  ? ['#02144d', '#01081f', '#030f36']
-                  : ['#a2d9ff', '#66bfff', '#09F']
+                  ? [
+                      'rgba(255, 72, 43, 0.5)',
+                      'rgba(252, 186, 3, 0.5)',
+                      'rgba(255, 72, 43, 0.5)',
+                      'rgba(255, 230, 3, 0.5)',
+                      'rgba(252, 107, 3, 0.5)',
+                      'rgba(255, 230, 3, 0.25)',
+                      'rgba(102, 191, 255, 0.5)',
+                      '#011630',
+                    ]
+                  : [
+                      '#a2d9ff',
+                      'rgba(0, 204, 255, 0.5)',
+                      'rgba(0, 153, 255, 0.5)',
+                      '#66bfff',
+                      'rgba(0, 229, 255, 0.5)',
+                      'rgba(0, 153, 255, 0.5)',
+                      '#09F',
+                    ]
               }
             />
           )}
