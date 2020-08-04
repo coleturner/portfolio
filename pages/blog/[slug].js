@@ -12,6 +12,7 @@ import {
   getAllPostWithTagId,
   getAllPostTags,
   getTagBySlug,
+  getPortraitURL,
 } from '../../lib/api';
 import AppFooter from 'components/footer';
 import LoadingSpinner from 'components/loadingSpinner';
@@ -62,7 +63,7 @@ const Description = styled.p`
   margin: 0;
 `;
 
-export default function BlogTag({ tag, posts, allTags, preview }) {
+export default function BlogTag({ tag, posts, allTags, portraitURL, preview }) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -95,7 +96,7 @@ export default function BlogTag({ tag, posts, allTags, preview }) {
         />
       </Head>
 
-      <Header />
+      <Header portraitURL={portraitURL} />
 
       <TagList tags={allTags} />
       <Container>
@@ -107,7 +108,7 @@ export default function BlogTag({ tag, posts, allTags, preview }) {
         </Hero>
         <StoriesList posts={posts} />
       </Container>
-      <AppFooter />
+      <AppFooter portraitURL={portraitURL} />
     </Layout>
   );
 }
@@ -134,8 +135,8 @@ export async function getStaticProps({ params, preview = false }) {
   }
 
   const allTags = await getAllPostTags();
-
   const posts = await getAllPostWithTagId(tag.id, preview);
+  const portraitURL = await getPortraitURL();
 
   return {
     props: {
@@ -143,6 +144,7 @@ export async function getStaticProps({ params, preview = false }) {
       posts,
       allTags,
       tag,
+      portraitURL,
     },
     revalidate: 60,
   };

@@ -5,7 +5,7 @@ import Container from 'components/container';
 import StoriesList from 'components/stories-list';
 import Header from 'components/header';
 import Layout from 'components/layout';
-import { getAllPostsForHome, getAllPostTags } from '../lib/api';
+import { getAllPostsForHome, getAllPostTags, getPortraitURL } from '../lib/api';
 import Head from 'next/head';
 import AppFooter from 'components/footer';
 import styled from '@emotion/styled';
@@ -21,7 +21,7 @@ const Divider = styled.div`
   padding: 1em;
 `;
 
-export default function BlogIndex({ preview, allPosts, allTags }) {
+export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
 
@@ -31,7 +31,7 @@ export default function BlogIndex({ preview, allPosts, allTags }) {
         <title key="title">Blog | Cole Turner</title>
       </Head>
 
-      <Header />
+      <Header portraitURL={portraitURL} />
       <TagList tags={allTags} />
       <Content>
         {heroPost && (
@@ -46,7 +46,7 @@ export default function BlogIndex({ preview, allPosts, allTags }) {
           )}
         </Container>
       </Content>
-      <AppFooter />
+      <AppFooter portraitURL={portraitURL} />
     </Layout>
   );
 }
@@ -65,9 +65,10 @@ BlogIndex.propTypes = {
 export async function getStaticProps({ preview = false }) {
   const allPosts = await getAllPostsForHome(preview);
   const allTags = await getAllPostTags();
+  const portraitURL = await getPortraitURL();
 
   return {
-    props: { preview, allPosts, allTags },
+    props: { preview, allPosts, allTags, portraitURL },
     revalidate: 60,
   };
 }

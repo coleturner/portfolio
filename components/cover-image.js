@@ -7,6 +7,7 @@ import parse from 'url-parse';
 import { css } from '@emotion/react';
 import { CONTENTFUL_HOST } from 'lib/constants';
 import Head from 'next/head';
+import { getFormattedImageURL } from '../lib/api';
 
 const CoverImageContainer = styled.div(
   ({ borderRadius }) => css`
@@ -180,13 +181,6 @@ const ColorShade = styled.div(
     }
   `
 );
-
-function getFormattedImageURL(urlStr, params) {
-  const url = parse(urlStr, true);
-  url.query = { ...url.query, ...params };
-
-  return url.toString();
-}
 
 function getDefaultImage(urlStr) {
   if (!urlStr || !urlStr.includes(CONTENTFUL_HOST)) {

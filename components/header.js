@@ -98,7 +98,7 @@ const Portrait = styled.img`
   margin-right: 0.3em;
 `;
 
-export default function Header() {
+export default function Header({ portraitURL }) {
   const { route } = useRouter();
   const tag = route === '/' ? 'h1' : 'div';
 
@@ -106,7 +106,11 @@ export default function Header() {
     <HeaderContainer>
       <Container flex="row">
         <Logo>
-          <Portrait loading="eager" src={PORTRAIT_URL} alt="Cole Turner" />
+          <Portrait
+            loading="eager"
+            src={portraitURL || PORTRAIT_URL}
+            alt="Cole Turner"
+          />
           <Title as={tag}>
             <a href="/">Cole Turner</a>
           </Title>

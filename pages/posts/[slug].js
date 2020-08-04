@@ -10,7 +10,11 @@ import StoriesList from 'components/stories-list';
 import Header from 'components/header';
 import PostHeader from 'components/post-header';
 import Layout from 'components/layout';
-import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api';
+import {
+  getAllPostsWithSlug,
+  getPostAndMorePosts,
+  getPortraitURL,
+} from '../../lib/api';
 import AppFooter from 'components/footer';
 import { ScrollUp } from 'components/scrollUp';
 import { PillButton } from 'components/button';
@@ -152,7 +156,7 @@ PostView.propTypes = {
   preview: PropTypes.bool,
 };
 
-export default function Post({ post, morePosts, preview }) {
+export default function Post({ post, morePosts, portraitURL, preview }) {
   const router = useRouter();
 
   if (!router.isFallback && !post) {
@@ -246,9 +250,9 @@ export default function Post({ post, morePosts, preview }) {
           }}
         />
       </Head>
-      <Header />
+      <Header portraitURL={portraitURL} />
       <PostView post={post} morePosts={morePosts} preview={preview} />
-      <AppFooter />
+      <AppFooter portraitURL={portraitURL} />
     </Layout>
   );
 }
@@ -261,12 +265,14 @@ Post.propTypes = {
 
 export async function getStaticProps({ params, preview = false }) {
   const data = await getPostAndMorePosts(params.slug, preview);
+  const portraitURL = await getPortraitURL();
 
   const post = data?.post ?? null;
   return {
     props: {
       preview,
       post,
+      portraitURL,
       morePosts: data?.morePosts ?? null,
     },
     revalidate: 60,

@@ -148,7 +148,7 @@ const Newsletter = styled.div`
   }
 `;
 
-export default function AppFooter() {
+export default function AppFooter({ portraitURL }) {
   return (
     <FooterContainer>
       <Newsletter>
@@ -244,7 +244,7 @@ export default function AppFooter() {
           </NavigationContainer>
           <div>
             <Portrait>
-              <img src={PORTRAIT_URL} alt="Cole, smiling." />
+              <img src={portraitURL || PORTRAIT_URL} alt="Cole, smiling." />
             </Portrait>
           </div>
         </Container>

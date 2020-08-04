@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import postPropType from '../components/propTypes/postPropType';
 import StoriesList from '../components/stories-list';
 import Layout from '../components/layout';
-import { getLatestPostsForHome } from '../lib/api';
+import { getLatestPostsForHome, getPortraitURL } from '../lib/api';
 import styled from '@emotion/styled';
 import { PillButton } from '../components/button';
-
 import AppFooter from '../components/footer';
 import Link from 'next/link';
 import { ScrollDown } from '../components/scrollDown';
 import Waves from '../components/waves';
 import Head from 'next/head';
-import { BASE_URL, PORTRAIT_DATA_URI } from '../lib/constants';
+import { BASE_URL } from '../lib/constants';
 import MentorIcon from '../components/icons/mentor-icon';
 import { css } from 'emotion';
 import { keyframes } from '@emotion/react';
@@ -179,7 +178,7 @@ const LastCardContainer = styled.div`
   }
 `;
 
-export default function Index({ preview, latestPosts }) {
+export default function Index({ preview, latestPosts, portraitURL }) {
   const colorScheme = useColorScheme();
   const shouldReduceMotion = useReducedMotion();
 
@@ -210,7 +209,7 @@ export default function Index({ preview, latestPosts }) {
         <Card>
           <CardContent>
             <Portrait>
-              <img src={PORTRAIT_DATA_URI} alt="Cole Turner" />
+              <img src={portraitURL} alt="Cole Turner" />
             </Portrait>
 
             <CardText>
@@ -312,7 +311,7 @@ export default function Index({ preview, latestPosts }) {
               </PillButton>
             </CardText>
           </Card>
-          <AppFooter blendColor="rgba(0,0,0,0.55)" />
+          <AppFooter portraitURL={portraitURL} blendColor="rgba(0,0,0,0.55)" />
         </LastCardContainer>
       </CardList>
     </Layout>
@@ -326,8 +325,9 @@ Index.propTypes = {
 
 export async function getStaticProps({ preview = false }) {
   const latestPosts = await getLatestPostsForHome(preview);
+  const portraitURL = await getPortraitURL();
   return {
-    props: { preview, latestPosts },
+    props: { preview, latestPosts, portraitURL },
     revalidate: 60,
   };
 }

@@ -149,7 +149,7 @@ export default function WavesComponent({ nodeCount, colors }) {
           .clearRect(0, 0, ref.current.width, ref.current.height);
       }
     };
-  }, [ref.current, ...colors]);
+  }, [ref.current, colors.join(',')]);
 
   return (
     <WavesContainer>
