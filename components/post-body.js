@@ -65,6 +65,9 @@ const PostBodyContainer = styled.div`
   h5,
   h6 {
     line-height: 1.4;
+    i {
+      color: var(--post-color);
+    }
   }
 
   h1,
@@ -191,6 +194,10 @@ const Emphasis = styled.em`
 
   img + p + & {
     margin-top: 3em;
+  }
+
+  i {
+    color: var(--post-color);
   }
 `;
 
