@@ -133,7 +133,7 @@ const ImageGallery = styled.div`
 `;
 
 const HR = styled.hr`
-  border-color: ${SHADE[0.15]};
+  border-color: var(--page-background-color-invert-15);
   margin: 3em 0;
 `;
 
