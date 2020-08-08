@@ -111,6 +111,15 @@ const PostPicture = styled.picture`
 const Paragraph = styled.p`
   padding: 1px 0;
   margin-bottom: 1em;
+
+  > b {
+    color: var(--post-color);
+  }
+
+  > i,
+  > b > i {
+    color: var(--post-complementary-color);
+  }
 `;
 
 const ImageGallery = styled.div`
