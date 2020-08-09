@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 import useSWR from 'swr';
 import { debounce } from 'lodash';
 import abbreviate from 'number-abbreviate';
+import { logEvent } from '../lib/analytics';
+import parse from 'url-parse';
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -262,6 +264,19 @@ export default function Reactions({ postId, sticky }) {
 
     // Update the server
     postReactions(postId, { ...mutations.current }, () => {
+      const currentURL = parse(window.location.href);
+      currentURL.query = {};
+      currentURL.hash = '';
+
+      Object.entries({ ...mutations.current }).forEach(([key, value]) => {
+        logEvent({
+          category: 'Reaction',
+          action: key,
+          value: value,
+          label: currentURL.toString(),
+        });
+      });
+
       mutations.current = {};
     });
   };
