@@ -114,11 +114,13 @@ const ReactionSVGS = {
   ),
 };
 
+const BREAKPOINT = 960;
+
 const ReactionsContainer = styled.div`
   &.sticky {
     display: none;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${BREAKPOINT}px) {
       display: block;
       position: sticky;
       top: 5em;
@@ -129,7 +131,7 @@ const ReactionsContainer = styled.div`
   &.static {
     display: block;
 
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${BREAKPOINT}px) {
       display: none;
     }
   }
@@ -148,7 +150,7 @@ const ReactionsContent = styled.div`
   padding: 1em 0;
 
   .sticky & {
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${BREAKPOINT}px) {
       flex-direction: column;
       position: absolute;
       right: 100%;
@@ -173,7 +175,7 @@ const Reaction = styled.div`
   }
 
   .sticky & {
-    @media screen and (min-width: 800px) {
+    @media screen and (min-width: ${BREAKPOINT}px) {
       margin: 0.3em 0;
     }
   }
