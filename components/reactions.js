@@ -4,6 +4,7 @@ import { REACTIONS } from 'lib/constants';
 import styled from '@emotion/styled';
 import useSWR from 'swr';
 import { debounce } from 'lodash';
+import abbreviate from 'number-abbreviate';
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -274,7 +275,7 @@ export default function Reactions({ postId, sticky }) {
                 {ReactionSVGS[name] || emoji}
               </ReactionIcon>
               <ReactionCount className="st-count">
-                {count || <>&nbsp;</>}
+                {count ? abbreviate(count, 2) : <>&nbsp;</>}
               </ReactionCount>
               <ReactionText>{name}</ReactionText>
             </Reaction>
