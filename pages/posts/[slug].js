@@ -114,9 +114,12 @@ function PostView({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
-          <Reactions postId={post.id} />
+
+          <Reactions sticky={true} postId={post.id} />
 
           <PostBody content={post.content} attributes={post.attributes} />
+
+          <Reactions postId={post.id} />
 
           {post.tags && post.tags.length ? (
             <Tags>

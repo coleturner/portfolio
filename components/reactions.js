@@ -113,34 +113,69 @@ const ReactionSVGS = {
   ),
 };
 
+const ReactionsContainer = styled.div`
+  &.sticky {
+    display: none;
+
+    @media screen and (min-width: 800px) {
+      display: block;
+      position: sticky;
+      top: 5em;
+      right: 0;
+    }
+  }
+
+  &.static {
+    display: block;
+
+    @media screen and (min-width: 800px) {
+      display: none;
+    }
+  }
+`;
+
 const ReactionsPositionRelative = styled.div`
   position: relative;
 `;
 
-const ReactionsPositionSticky = styled.div`
-  position: sticky;
-  top: 5em;
-  right: 0;
-`;
+const ReactionsContent = styled.div`
+  border-top: 1px solid var(--page-background-color-invert-15);
+  border-bottom: 1px solid var(--page-background-color-invert-15);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1em 0;
 
-const ReactionsContainer = styled.div`
-  position: absolute;
-  right: 100%;
-  padding: 0 1em;
-  margin: 1em 0;
-  margin-right: 3em;
-  border-right: 1px solid var(--page-background-color-invert-15);
+  .sticky & {
+    @media screen and (min-width: 800px) {
+      flex-direction: column;
+      position: absolute;
+      right: 100%;
+      padding: 0 1em;
+      margin: 1em 0;
+      margin-right: 3em;
+      border: 0;
+      border-right: 1px solid var(--page-background-color-invert-15);
+    }
+  }
 `;
 
 const Reaction = styled.div`
+  display: inline-block;
   padding: 0 1em;
   border-radius: 1em;
-  margin: 0.25em;
+  margin: 0.1rem;
   cursor: pointer;
   text-align: center;
 
   &:hover .grow {
     transform: scale(1.45);
+  }
+
+  .sticky & {
+    @media screen and (min-width: 800px) {
+      margin: 0.3em 0;
+    }
   }
 `;
 
@@ -182,7 +217,7 @@ const postReactions = debounce(
   { trailing: true }
 );
 
-export default function Reactions({ postId }) {
+export default function Reactions({ postId, sticky }) {
   const mutations = useRef({});
   const { data = {}, mutate } = useSWR(
     () => postId && `/api/posts/${postId}/reactions`,
@@ -221,30 +256,33 @@ export default function Reactions({ postId }) {
     });
   };
 
-  return (
-    <ReactionsPositionSticky>
-      <ReactionsPositionRelative>
-        <ReactionsContainer>
-          {Object.entries(REACTIONS).map(([name, emoji]) => {
-            const count = data[name] || 0;
-            return (
-              <Reaction key={name} onClick={(e) => addReaction(e, name)}>
-                <ReactionIcon className="grow rotate">
-                  {ReactionSVGS[name] || emoji}
-                </ReactionIcon>
-                <ReactionCount className="st-count">
-                  {count || ''}
-                </ReactionCount>
-                <ReactionText>{name}</ReactionText>
-              </Reaction>
-            );
-          })}
-        </ReactionsContainer>
-      </ReactionsPositionRelative>
-    </ReactionsPositionSticky>
+  const contents = (
+    <ReactionsPositionRelative>
+      <ReactionsContent>
+        {Object.entries(REACTIONS).map(([name, emoji]) => {
+          const count = data[name] || 0;
+          return (
+            <Reaction key={name} onClick={(e) => addReaction(e, name)}>
+              <ReactionIcon className="grow rotate">
+                {ReactionSVGS[name] || emoji}
+              </ReactionIcon>
+              <ReactionCount className="st-count">{count || ''}</ReactionCount>
+              <ReactionText>{name}</ReactionText>
+            </Reaction>
+          );
+        })}
+      </ReactionsContent>
+    </ReactionsPositionRelative>
+  );
+
+  return sticky ? (
+    <ReactionsContainer className="sticky">{contents}</ReactionsContainer>
+  ) : (
+    <ReactionsContainer className="static">{contents}</ReactionsContainer>
   );
 }
 
 Reactions.propTypes = {
   postId: PropTypes.string.isRequired,
+  sticky: PropTypes.bool.isRequired,
 };
