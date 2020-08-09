@@ -266,7 +266,9 @@ export default function Reactions({ postId, sticky }) {
               <ReactionIcon className="grow rotate">
                 {ReactionSVGS[name] || emoji}
               </ReactionIcon>
-              <ReactionCount className="st-count">{count || ''}</ReactionCount>
+              <ReactionCount className="st-count">
+                {count || <>&nbsp;</>}
+              </ReactionCount>
               <ReactionText>{name}</ReactionText>
             </Reaction>
           );
