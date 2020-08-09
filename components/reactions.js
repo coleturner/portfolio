@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { REACTIONS } from 'lib/constants';
 import styled from '@emotion/styled';
@@ -222,6 +222,14 @@ export default function Reactions({ postId, sticky }) {
     () => postId && `/api/posts/${postId}/reactions`,
     fetcher
   );
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', postReactions.flush);
+    return () => {
+      window.removeEventListener('beforeunload', postReactions.flush);
+      postReactions.flush();
+    };
+  }, []);
 
   const addReaction = (event, name) => {
     const animateTarget = event.currentTarget?.querySelector('.rotate');
