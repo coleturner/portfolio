@@ -104,6 +104,10 @@ const StickyHeaderTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
+const Spacer = styled.div`
+  padding: 1.5em;
+`;
+
 export default function PostHeader({
   title,
   coverImage,
@@ -148,6 +152,7 @@ export default function PostHeader({
           <Date dateString={date} />
         </Container>
       </StickyHeader>
+      <Spacer />
     </>
   );
 }

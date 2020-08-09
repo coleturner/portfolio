@@ -152,7 +152,6 @@ const ReactionsContent = styled.div`
       position: absolute;
       right: 100%;
       padding: 0 1em;
-      margin: 1em 0;
       margin-right: 3em;
       border: 0;
       border-right: 1px solid var(--page-background-color-invert-15);

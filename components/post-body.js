@@ -47,7 +47,7 @@ const PostBodyContainer = styled.div`
   font-size: clamp(1rem, 1rem + 0.5vh, 4em);
   max-width: 42rem;
   max-width: 70ch;
-  padding: 3em 0;
+  margin-bottom: 3em;
   color: rgba(0, 0, 0, 0.75);
 
   @media screen and (prefers-color-scheme: dark) {
