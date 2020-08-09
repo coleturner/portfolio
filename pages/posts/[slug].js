@@ -25,6 +25,7 @@ import styled from '@emotion/styled';
 import { css } from 'emotion';
 import PostTheme from 'components/post-theme';
 import usePostTheme from '../../hooks/usePostTheme';
+import Reactions from '../../components/reactions';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -113,6 +114,8 @@ function PostView({ post, morePosts, preview }) {
               </PillButton>
             </div>
           )}
+          <Reactions postId={post.id} />
+
           <PostBody content={post.content} attributes={post.attributes} />
 
           {post.tags && post.tags.length ? (
