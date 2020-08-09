@@ -46,6 +46,7 @@ const Tags = styled.div(
       background: var(--post-color);
       border-radius: 0.2em;
       padding: 0.5em 1em;
+      margin: 0.5em 0;
       margin-right: 0.5em;
       text-decoration: none;
       opacity: 0.85;
