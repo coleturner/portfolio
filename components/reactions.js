@@ -119,6 +119,8 @@ const ReactionSVGS = {
 const BREAKPOINT = 960;
 
 const ReactionsContainer = styled.div`
+  max-width: 100%;
+
   &.sticky {
     display: none;
 
@@ -148,6 +150,7 @@ const ReactionsContent = styled.div`
   border-bottom: 1px solid var(--page-background-color-invert-15);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 1em 0;
 
