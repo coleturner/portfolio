@@ -169,7 +169,6 @@ const ReactionsContent = styled.div`
 
 const Reaction = styled.div`
   display: inline-block;
-  padding: 0 1em;
   border-radius: 1em;
   margin: 0.1rem;
   cursor: pointer;
