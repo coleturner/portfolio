@@ -89,6 +89,18 @@ const PostBodyContainer = styled.div`
   a {
     color: var(--post-complementary-color);
   }
+
+  ul,
+  ol {
+    b {
+      color: var(--post-color);
+    }
+
+    i,
+    b > i {
+      color: var(--post-complementary-color);
+    }
+  }
 `;
 
 const CustomPostStyles = styled.div(({ styles }) => {
@@ -119,13 +131,9 @@ const Paragraph = styled.p`
     color: var(--post-color);
   }
 
-  ol li,
-  ul li,
-  & {
-    > i,
-    > b > i {
-      color: var(--post-complementary-color);
-    }
+  > i,
+  > b > i {
+    color: var(--post-complementary-color);
   }
 `;
 
