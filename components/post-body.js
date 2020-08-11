@@ -119,9 +119,13 @@ const Paragraph = styled.p`
     color: var(--post-color);
   }
 
-  > i,
-  > b > i {
-    color: var(--post-complementary-color);
+  ol,
+  ul,
+  & {
+    > i,
+    > b > i {
+      color: var(--post-complementary-color);
+    }
   }
 `;
 
