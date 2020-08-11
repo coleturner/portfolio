@@ -73,17 +73,21 @@ const PostBodyContainer = styled.div`
   h1,
   h2,
   h3 {
-    color: var(--post-color-minus-15);
+    color: var(--post-color-minus-30);
 
     @media screen and (prefers-color-scheme: dark) {
-      color: var(--post-color-plus-15);
+      color: var(--post-color-plus-30);
     }
   }
 
   h4,
   h5,
   h6 {
-    color: var(--post-color-plus-15);
+    color: var(--post-color-minus-15);
+
+    @media screen and (prefers-color-scheme: dark) {
+      color: var(--post-color-plus-15);
+    }
   }
 
   a {
