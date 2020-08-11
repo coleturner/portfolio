@@ -170,10 +170,10 @@ const ReactionsContent = styled.div`
 const Reaction = styled.div`
   flex: 0 1 auto;
   display: inline-block;
-  border-radius: 1em;
-  margin: 0.1rem;
   cursor: pointer;
   text-align: center;
+  padding: 0 1em;
+  margin: 0;
 
   &:hover .grow {
     transform: scale(1.45);
@@ -189,6 +189,8 @@ const Reaction = styled.div`
 const ReactionIcon = styled.button`
   background: transparent;
   border: 0;
+  margin: 0;
+  padding: 0;
 
   font-size: 2em;
   transition: transform 150ms;
