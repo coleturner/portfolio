@@ -119,8 +119,8 @@ const Paragraph = styled.p`
     color: var(--post-color);
   }
 
-  ol,
-  ul,
+  ol li,
+  ul li,
   & {
     > i,
     > b > i {
