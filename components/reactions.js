@@ -168,6 +168,7 @@ const ReactionsContent = styled.div`
 `;
 
 const Reaction = styled.div`
+  flex: 0 1 auto;
   display: inline-block;
   border-radius: 1em;
   margin: 0.1rem;
