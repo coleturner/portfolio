@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import postPropType from 'components/propTypes/postPropType';
 import { useRouter } from 'next/router';
@@ -26,6 +26,9 @@ import { css } from 'emotion';
 import PostTheme from 'components/post-theme';
 import usePostTheme from '../../hooks/usePostTheme';
 import Reactions from '../../components/reactions';
+import Notifications, {
+  NotificationProvider,
+} from '../../components/notifications';
 
 function metaImageURL(url) {
   if (url && url.startsWith('//')) {
@@ -94,66 +97,70 @@ function PostView({ post, morePosts, preview }) {
     : () => {};
 
   return (
-    <PostTheme
-      color={color}
-      complementaryColorLight={complementaryColorLight}
-      complementaryColorDark={complementaryColorDark}
-    >
-      <Article>
-        <PostHeader
-          title={post.title}
-          coverImage={post.coverImage}
-          date={post.date}
-          readingTime={post.readingTime}
-          author={post.author}
-        />
-        <Container>
-          {preview && (
-            <div style={{ padding: '1em 0' }}>
-              <PillButton onClick={generateOGImage}>
-                Generate OG Image
-              </PillButton>
-            </div>
-          )}
-
-          <Reactions sticky={true} postId={post.id} />
-
-          <PostBody content={post.content} attributes={post.attributes} />
-
-          <Reactions postId={post.id} />
-
-          {post.tags && post.tags.length ? (
-            <Tags>
-              <h3>Related Tags</h3>
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag.slug}
-                  as={`/blog/${tag.slug}`}
-                  href="/blog/[slug]"
-                >
-                  <a>{tag.name}</a>
-                </Link>
-              ))}
-            </Tags>
-          ) : null}
-        </Container>
-      </Article>
-      <Spacer />
-      {morePosts && morePosts.length > 0 && (
-        <>
+    <NotificationProvider>
+      <PostTheme
+        color={color}
+        complementaryColorLight={complementaryColorLight}
+        complementaryColorDark={complementaryColorDark}
+      >
+        <Article>
+          <PostHeader
+            title={post.title}
+            coverImage={post.coverImage}
+            date={post.date}
+            readingTime={post.readingTime}
+            author={post.author}
+          />
           <Container>
-            <StoriesList title="More Stories" posts={morePosts} />
+            {preview && (
+              <div style={{ padding: '1em 0' }}>
+                <PillButton onClick={generateOGImage}>
+                  Generate OG Image
+                </PillButton>
+              </div>
+            )}
 
-            <div style={{ textAlign: 'center' }}>
-              <Link href="/blog" passHref>
-                <PillButton as="a">See more posts</PillButton>
-              </Link>
-            </div>
+            <Reactions sticky={true} postId={post.id} />
+
+            <PostBody content={post.content} attributes={post.attributes} />
+
+            <Reactions postId={post.id} />
+
+            {post.tags && post.tags.length ? (
+              <Tags>
+                <h3>Related Tags</h3>
+                {post.tags.map((tag) => (
+                  <Link
+                    key={tag.slug}
+                    as={`/blog/${tag.slug}`}
+                    href="/blog/[slug]"
+                  >
+                    <a>{tag.name}</a>
+                  </Link>
+                ))}
+              </Tags>
+            ) : null}
           </Container>
-        </>
-      )}
-      <ScrollUp />
-    </PostTheme>
+        </Article>
+        <Spacer />
+        {morePosts && morePosts.length > 0 && (
+          <>
+            <Container>
+              <StoriesList title="More Stories" posts={morePosts} />
+
+              <div style={{ textAlign: 'center' }}>
+                <Link href="/blog" passHref>
+                  <PillButton as="a">See more posts</PillButton>
+                </Link>
+              </div>
+            </Container>
+          </>
+        )}
+        <ScrollUp />
+
+        <Notifications />
+      </PostTheme>
+    </NotificationProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { REACTIONS } from 'lib/constants';
 import styled from '@emotion/styled';
@@ -7,6 +7,8 @@ import { debounce } from 'lodash';
 import abbreviate from 'number-abbreviate';
 import { logEvent } from '../lib/analytics';
 import parse from 'url-parse';
+import { css } from 'emotion';
+import { useNotifications, Warning } from './notifications';
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -145,6 +147,18 @@ const ReactionsPositionRelative = styled.div`
   position: relative;
 `;
 
+const ReactionError = styled.div`
+  background: #dc3000;
+  color: #fff;
+  border-radius: 1em;
+  padding: 1em 3em;
+  position: fixed;
+  bottom: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 91%;
+`;
+
 const ReactionsContent = styled.div`
   border-top: 1px solid var(--page-background-color-invert-15);
   border-bottom: 1px solid var(--page-background-color-invert-15);
@@ -167,24 +181,26 @@ const ReactionsContent = styled.div`
   }
 `;
 
-const Reaction = styled.div`
-  flex: 0 1 auto;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-  padding: 0 1em;
-  margin: 0;
+const Reaction = styled.div(
+  ({ hasExceeded }) => css`
+    flex: 0 1 auto;
+    display: inline-block;
+    cursor: ${hasExceeded ? 'default' : 'pointer'};
+    text-align: center;
+    padding: 0 1em;
+    margin: 0;
 
-  &:hover .grow {
-    transform: scale(1.45);
-  }
-
-  .sticky & {
-    @media screen and (min-width: ${BREAKPOINT}px) {
-      margin: 0.3em 0;
+    &:hover .grow {
+      transform: scale(1.45);
     }
-  }
-`;
+
+    .sticky & {
+      @media screen and (min-width: ${BREAKPOINT}px) {
+        margin: 0.3em 0;
+      }
+    }
+  `
+);
 
 const ReactionIcon = styled.button`
   background: transparent;
@@ -205,32 +221,79 @@ const ReactionText = styled.div`
   display: none;
 `;
 
-const postReactions = debounce(
-  (postId, updates, onExecute) => {
-    if (!Object.keys(updates).length) {
-      return Promise.resolve(null);
-    }
-
-    onExecute();
-
-    return fetch(`/api/posts/${postId}/addReaction`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updates),
-    });
-  },
-  1000,
-  { trailing: true }
-);
-
 export default function Reactions({ postId, sticky }) {
+  const { addNotification } = useNotifications();
+  const [error, setError] = useState(null);
+  const [hasExceeded, setHasExceeded] = useState(false);
   const mutations = useRef({});
   const { data = {}, mutate } = useSWR(
     () => postId && `/api/posts/${postId}/reactions`,
     fetcher
+  );
+
+  const postReactions = useMemo(
+    () =>
+      debounce(
+        () => {
+          const updates = { ...mutations.current };
+          if (!Object.keys(updates).length) {
+            return;
+          }
+
+          const currentURL = parse(window.location.href);
+          currentURL.query = {};
+          currentURL.hash = '';
+
+          Object.entries(updates).forEach(([key, value]) => {
+            logEvent({
+              category: 'Reaction',
+              action: key,
+              value: value,
+              label: currentURL.toString(),
+            });
+          });
+
+          mutations.current = {};
+
+          fetch(`/api/posts/${postId}/addReaction`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updates),
+          }).then((response) => {
+            if ([413, 429].includes(response.status)) {
+              setHasExceeded(true);
+
+              // Undo the changes
+              mutate((reactions) => {
+                const revert = Object.fromEntries(
+                  Object.entries(reactions).map(([key, val]) => [
+                    key,
+                    Math.max(0, val - (updates?.[key] || 0)),
+                  ])
+                );
+
+                return revert;
+              }, false);
+
+              addNotification(
+                <>
+                  <strong>Thank you for your reaction!</strong> Your enthusiasm
+                  is so awesome, however you have exceeded the limit for this
+                  post.
+                </>,
+                Warning,
+                15 * 1000
+              );
+            }
+          });
+        },
+        1000,
+        { trailing: true }
+      ),
+    [postId]
   );
 
   useEffect(() => {
@@ -268,32 +331,25 @@ export default function Reactions({ postId, sticky }) {
     );
 
     // Update the server
-    postReactions(postId, { ...mutations.current }, () => {
-      const currentURL = parse(window.location.href);
-      currentURL.query = {};
-      currentURL.hash = '';
-
-      Object.entries({ ...mutations.current }).forEach(([key, value]) => {
-        logEvent({
-          category: 'Reaction',
-          action: key,
-          value: value,
-          label: currentURL.toString(),
-        });
-      });
-
-      mutations.current = {};
-    });
+    postReactions();
   };
 
   const contents = (
     <ReactionsPositionRelative>
+      {error && <ReactionError>{error}</ReactionError>}
       <ReactionsContent>
         {Object.entries(REACTIONS).map(([name, emoji]) => {
           const count = data[name] || 0;
           return (
-            <Reaction key={name} onClick={(e) => addReaction(e, name)}>
-              <ReactionIcon className="grow rotate">
+            <Reaction
+              key={name}
+              onClick={(e) => !hasExceeded && addReaction(e, name)}
+              hasExceeded={hasExceeded}
+            >
+              <ReactionIcon
+                className={hasExceeded ? '' : 'grow rotate'}
+                as={hasExceeded ? 'div' : 'button'}
+              >
                 {ReactionSVGS[name] || emoji}
               </ReactionIcon>
               <ReactionCount className="st-count">
