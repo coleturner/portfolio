@@ -302,7 +302,7 @@ export default function Reactions({ postId, sticky }) {
       window.removeEventListener('beforeunload', postReactions.flush);
       postReactions.flush();
     };
-  }, []);
+  }, [postReactions]);
 
   const addReaction = (event, name) => {
     const animateTarget = event.currentTarget?.querySelector('.rotate');
