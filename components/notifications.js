@@ -1,4 +1,11 @@
-import React, { useState, useContext, useMemo, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useContext,
+  useMemo,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import { css } from 'emotion';
 import styled from '@emotion/styled';
 
@@ -66,27 +73,32 @@ export function NotificationProvider({ children }) {
 
   const [_notifications, setNotifications] = useState([]);
 
-  const autoCloseNotifications = () => {
+  const autoCloseNotifications = useCallback(() => {
     setNotifications(
       [..._notifications].filter(
         (n) => !n.expiresAfter || n.expiresAfter > new Date()
       )
     );
-  };
+  }, [_notifications]);
 
-  const removeByIndex = (index) => {
-    const newNotifications = [..._notifications];
-    newNotifications.splice(index, 1);
-    setNotifications(newNotifications);
-  };
+  const removeByIndex = useCallback(
+    (index) => {
+      const newNotifications = [..._notifications];
+      newNotifications.splice(index, 1);
+      setNotifications(newNotifications);
+    },
+    [_notifications]
+  );
 
   useEffect(() => {
     autoCloseNotifications();
 
     return () => {
+      // This doesn't depend on the DOM node
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       timeoutsRef.current.forEach(clearTimeout);
     };
-  }, []);
+  }, [autoCloseNotifications, removeByIndex]);
 
   const notifications = useMemo(
     () =>
@@ -94,7 +106,7 @@ export function NotificationProvider({ children }) {
         ...n,
         removeNotification: () => removeByIndex(i),
       })),
-    [_notifications]
+    [_notifications, removeByIndex]
   );
 
   const addNotification = (text, renderer = Info, autoClose = 3000) => {

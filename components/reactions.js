@@ -147,18 +147,6 @@ const ReactionsPositionRelative = styled.div`
   position: relative;
 `;
 
-const ReactionError = styled.div`
-  background: #dc3000;
-  color: #fff;
-  border-radius: 1em;
-  padding: 1em 3em;
-  position: fixed;
-  bottom: 1em;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 91%;
-`;
-
 const ReactionsContent = styled.div`
   border-top: 1px solid var(--page-background-color-invert-15);
   border-bottom: 1px solid var(--page-background-color-invert-15);
@@ -223,7 +211,6 @@ const ReactionText = styled.div`
 
 export default function Reactions({ postId, sticky }) {
   const { addNotification } = useNotifications();
-  const [error, setError] = useState(null);
   const [hasExceeded, setHasExceeded] = useState(false);
   const mutations = useRef({});
   const { data = {}, mutate } = useSWR(
@@ -293,7 +280,7 @@ export default function Reactions({ postId, sticky }) {
         1000,
         { trailing: true }
       ),
-    [postId]
+    [postId, addNotification, mutate]
   );
 
   useEffect(() => {
@@ -336,7 +323,6 @@ export default function Reactions({ postId, sticky }) {
 
   const contents = (
     <ReactionsPositionRelative>
-      {error && <ReactionError>{error}</ReactionError>}
       <ReactionsContent>
         {Object.entries(REACTIONS).map(([name, emoji]) => {
           const count = data[name] || 0;
