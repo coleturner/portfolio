@@ -393,6 +393,21 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
   const { contentType } = sys;
 
   switch (contentType.sys.id) {
+    case 'postVideo': {
+      const { autoplay, video } = fields;
+      return (
+        <VideoEmbed
+          autoPlay={autoplay}
+          controls={true}
+          autoPictureInPicture={false}
+          loop={true}
+          muted={autoplay}
+        >
+          <source src={video.fields.file.url} type="video/mp4" />
+          <p>Your browser doesn&apos;t support HTML5 video.</p>
+        </VideoEmbed>
+      );
+    }
     case 'sourceCode': {
       const { title, code, language } = fields;
       return (
@@ -509,7 +524,7 @@ function getEmbeddedAssetElement(node) {
   switch (mimeGroup) {
     case 'video': {
       return (
-        <VideoEmbed controls={true} autoPictureInPicture={true} loop={true}>
+        <VideoEmbed controls={true} autoPictureInPicture={false} loop={true}>
           <source src={file.url} type="video/mp4" />
           <p>Your browser doesn&apos;t support HTML5 video.</p>
         </VideoEmbed>
