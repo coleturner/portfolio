@@ -20,6 +20,7 @@ import styled from '@emotion/styled';
 import { css } from 'emotion';
 import { getColorContrast, changeColorBrightness } from '../../styles/colors';
 import TagList from 'components/taglist';
+import { BASE_URL } from '../../lib/constants';
 
 const Hero = styled.div(
   ({ color = '#111' }) => css`
@@ -86,6 +87,7 @@ export default function BlogTag({ tag, posts, allTags, portraitURL, preview }) {
       <Head>
         <title key="title">{title}</title>
 
+        <link rel="canonical" href={BASE_URL + 'blog/' + tag.slug} />
         <meta key="description" name="description" content={description} />
         <meta key="og:title" property="og:title" content={title} />
         <meta key="twitter:title" property="twitter:title" content={title} />

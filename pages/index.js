@@ -185,6 +185,7 @@ export default function Index({ preview, latestPosts, portraitURL }) {
   return (
     <Layout preview={preview}>
       <Head>
+        <link rel="canonical" href={BASE_URL} />
         <script
           key="structured-data"
           type="application/ld+json"

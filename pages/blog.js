@@ -11,6 +11,7 @@ import AppFooter from 'components/footer';
 import styled from '@emotion/styled';
 import { SHADE } from '../styles/colors';
 import TagList from 'components/taglist';
+import { BASE_URL } from '../lib/constants';
 
 const Content = styled.div`
   --post-preview-shadow-color: ${SHADE[0.15]};
@@ -29,6 +30,7 @@ export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
     <Layout preview={preview}>
       <Head>
         <title key="title">Blog | Cole Turner</title>
+        <link rel="canonical" href={BASE_URL + 'blog'} />
       </Head>
 
       <Header portraitURL={portraitURL} />

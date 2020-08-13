@@ -188,6 +188,7 @@ export default function Post({ post, morePosts, portraitURL, preview }) {
       <Head>
         <title key="title">{post.title} | Cole Turner</title>
         <meta key="description" name="description" content={post.excerpt} />
+        <link rel="canonical" href={BASE_URL + 'posts/' + post.slug} />
         <meta
           key="og:image"
           property="og:image"
