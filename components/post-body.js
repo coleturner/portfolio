@@ -393,6 +393,10 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
   const { contentType } = sys;
 
   switch (contentType.sys.id) {
+    case 'postHtmlEmbed': {
+      const { html } = fields;
+      return <div dangerouslySetInnerHTML={{ __html: html }} />;
+    }
     case 'postVideo': {
       const { autoplay, video } = fields;
       return (
