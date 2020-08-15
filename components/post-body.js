@@ -452,7 +452,7 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
       const { formId } = fields;
       return (
         <div data-id={sys.id}>
-          <GoogleForm formId={formId} />;
+          <GoogleForm formId={formId} />
         </div>
       );
     }
