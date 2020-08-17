@@ -117,7 +117,7 @@ export default function PostPreview({
           complementaryColorDark={complementaryColorDark}
         >
           <PostCoverImage>
-            <CoverImage titleText={title} slug={slug} url={coverImage.url} />
+            <CoverImage titleText={title} slug={slug} url={coverImage?.url} />
           </PostCoverImage>
           <PostHighlight>
             <div>

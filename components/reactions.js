@@ -215,7 +215,10 @@ export default function Reactions({ postId, sticky }) {
   const mutations = useRef({});
   const { data = {}, mutate } = useSWR(
     () => postId && `/api/posts/${postId}/reactions`,
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
   );
 
   const postReactions = useMemo(

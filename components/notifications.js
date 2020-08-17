@@ -74,11 +74,13 @@ export function NotificationProvider({ children }) {
   const [_notifications, setNotifications] = useState([]);
 
   const autoCloseNotifications = useCallback(() => {
-    setNotifications(
-      [..._notifications].filter(
-        (n) => !n.expiresAfter || n.expiresAfter > new Date()
-      )
+    const newNotifications = [..._notifications].filter(
+      (n) => !n.expiresAfter || n.expiresAfter > new Date()
     );
+
+    if (newNotifications.length !== _notifications.length) {
+      setNotifications(newNotifications);
+    }
   }, [_notifications]);
 
   const removeByIndex = useCallback(
