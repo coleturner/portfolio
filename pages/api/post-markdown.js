@@ -21,11 +21,40 @@ const renderHyperlink = (node, next) => {
   return `[${next(node.content)}](${node.data.uri})`;
 };
 
+function getPostImageURL(url, { w, fm = 'jpg' }) {
+  if (!url) {
+    return null;
+  }
+
+  const params = {};
+
+  if (url.includes(CONTENTFUL_HOST)) {
+    params.fm = fm;
+  }
+
+  if (w) {
+    // Add some padding to it, for quality
+    params.w = Math.round(w);
+  }
+
+  const urlObj = parse(url, true);
+  urlObj.query = { ...url.query, ...params };
+
+  return urlObj.toString();
+}
+
 const embeddedEntry = (node) => {
   const { sys, fields } = node.data.target;
   const { contentType } = sys;
 
   switch (contentType.sys.id) {
+    case 'postImage': {
+      const { alt, title, image } = fields;
+      return `![${alt || title}](${getPostImageURL(image.fields.file.url, {
+        w: 700,
+        format: 'jpg',
+      })})`;
+    }
     case 'sourceCode': {
       const { title, code, language } = fields;
       return `
@@ -123,7 +152,10 @@ export default async function postToMarkdown(req, res) {
         return `\nWatch [${title}](${BASE_URL}posts/${post.slug}))\n\n`;
       }
       case 'image':
-        return `\n![${title}](${file.url})\n\n`;
+        return `\n![${title}](${getPostImageURL(file.url, {
+          w: 700,
+          format: 'jpg',
+        })})\n\n`;
       case 'application':
         return `\nDownload [${
           title ? title : file.details.fileName
