@@ -33,7 +33,7 @@ const addPostReaction = async (req, res) => {
     const postDoc = await posts.findOneAndUpdate(
       { postId },
       { $inc: { ...mutations } },
-      { upsert: true, returnNewDocument: true }
+      { upsert: true, returnOriginal: false }
     );
 
     res.statusCode = 200;
