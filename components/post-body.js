@@ -5,7 +5,7 @@ import { HOST_NAME, CONTENTFUL_HOST } from 'lib/constants';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import styled from '@emotion/styled';
-import { UI_COLORS, SHADE } from 'styles/colors';
+import { UI_COLORS } from 'styles/colors';
 import Gallery from 'components/gallery';
 import Link from 'next/link';
 import parse from 'url-parse';
@@ -117,15 +117,23 @@ const CustomPostStyles = styled.div(({ styles }) => {
   }
 });
 
-const PostPicture = styled.picture`
-  img {
-    display: block;
-    margin: 2em auto;
-    border-radius: 0.3em;
-    box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
-    max-width: 100%;
-  }
-`;
+const PostPicture = styled.picture(
+  ({ useDefaultStyle, style }) => css`
+    img {
+      display: block;
+      margin: 2em auto;
+      max-width: 100%;
+
+      ${useDefaultStyle &&
+      css`
+        border-radius: 0.3em;
+        box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
+      `}
+
+      ${style && css(style)};
+    }
+  `
+);
 
 const Paragraph = styled.p`
   padding: 1px 0;
@@ -164,30 +172,39 @@ const headingAfterImageStyle = css`
 
 const H1 = styled.h1`
   font-size: 2em;
+  font-size: clamp(1.25em, 1em + 0.75vh + 1vw, 2em);
   margin: 2em 0 0.5em 0;
 
   ${headingAfterImageStyle};
 `;
+
 const H2 = styled.h2`
   font-size: 2em;
+  font-size: clamp(1.15em, 1em + 0.5vh + 0.85vw, 1.75em);
   margin: 2em 0 0.5em 0;
 
   ${headingAfterImageStyle};
 `;
+
 const H3 = styled.h3`
   font-size: 1.5em;
+  font-size: clamp(1.1em, 1em + 0.5vh + 0.5vw, 1.5em);
   margin: 2em 0 0.5em 0;
 
   ${headingAfterImageStyle};
 `;
+
 const H4 = styled.h4`
   font-size: 1.25em;
+  font-size: clamp(1.05em, 1em + 0.25vh + 0.35vw, 1.25em);
   margin: 2em 0 0.5em 0;
 
   ${headingAfterImageStyle};
 `;
+
 const H5 = styled.h5`
   font-size: 1.15em;
+  font-size: clamp(1em, 1em + 0.25vh + 0.15vw, 1.15em);
   margin: 2em 0 0.5em 0;
 
   ${headingAfterImageStyle};
@@ -198,6 +215,7 @@ const Emphasis = styled.em`
   text-align: center;
   font-weight: 100;
   font-size: 1.5em;
+  font-size: clamp(1.15em, 1em + 1.5vw, 1.5em);
   margin: 2em 0;
   color: ${UI_COLORS.POST_TEXT_H6_TEXT};
   color: var(--post-complementary-color, ${UI_COLORS.POST_TEXT_H6_TEXT});
@@ -397,6 +415,18 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
       const { html } = fields;
       return <div dangerouslySetInnerHTML={{ __html: html }} />;
     }
+    case 'postImage': {
+      const { alt, title, image, defaultStyle, style } = fields;
+
+      return (
+        <PostImage
+          file={image.fields.file}
+          alt={alt || title}
+          useDefaultStyle={defaultStyle}
+          style={style}
+        />
+      );
+    }
     case 'postVideo': {
       const { autoplay, video } = fields;
       return (
@@ -519,6 +549,38 @@ function getPostImageURL(url, { w, fm = 'jpg' }) {
   return urlObj.toString();
 }
 
+function PostImage({ file, alt, useDefaultStyle = true, style }) {
+  const w = '700';
+  const preconnectURL = parse(file.url);
+  Object.assign(preconnectURL, { query: '', pathname: '' });
+
+  const isSVG = file.contentType === 'image/svg+xml';
+
+  return (
+    <>
+      <Head>
+        <link
+          rel="preconnect"
+          href={preconnectURL.toString()}
+          key={'preconnect-' + preconnectURL.toString()}
+        />
+      </Head>
+      <PostPicture
+        loading="lazy"
+        useDefaultStyle={useDefaultStyle}
+        style={style}
+      >
+        {isSVG && <source srcSet={file.url} type="image/svg+xml" />}
+        <source
+          srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
+          type="image/webp"
+        />
+        <img src={getPostImageURL(file.url, { w, fm: 'jpg' })} alt={alt} />
+      </PostPicture>
+    </>
+  );
+}
+
 function getEmbeddedAssetElement(node) {
   const { title, description, file } = node.data.target.fields;
 
@@ -535,31 +597,7 @@ function getEmbeddedAssetElement(node) {
       );
     }
     case 'image': {
-      const w = '700';
-      const preconnectURL = parse(file.url);
-      Object.assign(preconnectURL, { query: '', pathname: '' });
-
-      return (
-        <>
-          <Head>
-            <link
-              rel="preconnect"
-              href={preconnectURL.toString()}
-              key={'preconnect-' + preconnectURL.toString()}
-            />
-          </Head>
-          <PostPicture loading="lazy">
-            <source
-              srcSet={getPostImageURL(file.url, { w, fm: 'webp' })}
-              type="image/webp"
-            />
-            <img
-              src={getPostImageURL(file.url, { w, fm: 'jpg' })}
-              alt={description || title}
-            />
-          </PostPicture>
-        </>
-      );
+      return <PostImage file={file} alt={description || title} />;
     }
     case 'application':
       return (
