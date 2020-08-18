@@ -148,6 +148,13 @@ const Biography = styled.div`
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    p {
+      font-size: 1em;
+      font-size: clamp(1rem, 0.5em + 1vmin, 1em);
+      max-width: 70ch;
+      margin: 0 auto;
+    }
   }
 `;
 
