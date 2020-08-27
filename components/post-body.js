@@ -118,7 +118,7 @@ const CustomPostStyles = styled.div(({ styles }) => {
 });
 
 const PostPicture = styled.picture(
-  ({ useDefaultStyle, style }) => css`
+  ({ useDefaultStyle, customStyle }) => css`
     img {
       display: block;
       margin: 2em auto;
@@ -130,7 +130,7 @@ const PostPicture = styled.picture(
         box-shadow: ${panelBoxShadow(15, 'rgba(0,0,0,0.15)')};
       `}
 
-      ${style && css(style)};
+      ${customStyle && css(customStyle)};
     }
   `
 );
@@ -423,7 +423,7 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
           file={image.fields.file}
           alt={alt || title}
           useDefaultStyle={defaultStyle}
-          style={style}
+          customStyle={style}
         />
       );
     }
@@ -549,7 +549,7 @@ function getPostImageURL(url, { w, fm = 'jpg' }) {
   return urlObj.toString();
 }
 
-function PostImage({ file, alt, useDefaultStyle = true, style }) {
+function PostImage({ file, alt, useDefaultStyle = true, customStyle }) {
   const w = '700';
   const preconnectURL = parse(file.url);
   Object.assign(preconnectURL, { query: '', pathname: '' });
@@ -568,7 +568,7 @@ function PostImage({ file, alt, useDefaultStyle = true, style }) {
       <PostPicture
         loading="lazy"
         useDefaultStyle={useDefaultStyle}
-        style={style}
+        customStyle={customStyle}
       >
         {isSVG && <source srcSet={file.url} type="image/svg+xml" />}
         <source
