@@ -17,6 +17,7 @@ import { css } from 'emotion';
 import { keyframes } from '@emotion/react';
 import useColorScheme from '../hooks/useColorScheme';
 import { useReducedMotion } from 'framer-motion';
+import { gradientTextStyle } from '../styles/global';
 
 const GRADIENT_FLASH = keyframes`
   0% {
@@ -136,17 +137,7 @@ const Biography = styled.div`
   @media (prefers-color-scheme: dark) {
     h2,
     p {
-      background: #fff;
-      background-size: 100%;
-      background: linear-gradient(
-        to bottom right,
-        var(--link-color-stop-1) 0%,
-        var(--link-color-stop-2) 50%,
-        var(--link-color-stop-3) 100%
-      );
-
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      ${gradientTextStyle};
     }
 
     p {
@@ -183,6 +174,11 @@ const LastCardContainer = styled.div`
     opacity: 0.15;
     margin: 1em 0 3em 0;
   }
+`;
+
+const MorePosts = styled.div`
+  font-size: 1.5em;
+  margin: 3em auto;
 `;
 
 export default function Index({ preview, latestPosts, portraitURL }) {
@@ -276,11 +272,13 @@ export default function Index({ preview, latestPosts, portraitURL }) {
                   {latestPosts.length > 0 && (
                     <StoriesList posts={latestPosts} />
                   )}
-                  <Link href="/blog" passHref>
-                    <PillButton as="a" colorScheme="dark">
-                      See more posts
-                    </PillButton>
-                  </Link>
+                  <MorePosts>
+                    <Link href="/blog" passHref>
+                      <PillButton as="a" colorScheme="dark">
+                        See more posts
+                      </PillButton>
+                    </Link>
+                  </MorePosts>
                 </div>
               </CardText>
             </CardContent>

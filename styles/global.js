@@ -22,6 +22,20 @@ const LOADING_GROW = keyframes`
   }
 `;
 
+export const gradientTextStyle = css`
+  background: #fff;
+  background-size: 100%;
+  background: linear-gradient(
+    to bottom right,
+    var(--link-color-stop-1) 0%,
+    var(--link-color-stop-2) 50%,
+    var(--link-color-stop-3) 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
 export const globalStyles = (
   <>
     <Global
