@@ -423,7 +423,7 @@ const embeddedEntryFactory = (content, colorScheme = 'light') => (node) => {
           file={image.fields.file}
           alt={alt || title}
           useDefaultStyle={defaultStyle}
-          css={style}
+          style={style}
         />
       );
     }
