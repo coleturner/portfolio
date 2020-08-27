@@ -46,6 +46,7 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.27",
     "babel-eslint": "^10.1.0",
     "contentful-import": "^7.7.12",
     "dotenv": "8.2.0",
