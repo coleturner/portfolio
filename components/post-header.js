@@ -12,6 +12,23 @@ const MainHeader = styled.div`
   background: #000;
   position: relative;
   z-index: 2;
+
+  --cover-image-border-width: 0;
+`;
+
+const GradientBorder = styled.div`
+  padding: 5px;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    var(--post-color-minus-15) 0%,
+    var(--post-color-plus-15) 50%,
+    var(--post-color-minus-15) 100%
+  );
 `;
 
 const PostMainHeader = styled.div`
@@ -42,6 +59,12 @@ const StickyHeader = styled.div`
   align-items: center;
   background: ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND};
   background: var(--post-color, ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND});
+  background: linear-gradient(
+    to right,
+    var(--post-color-minus-15) 0%,
+    var(--post-color-plus-15) 50%,
+    var(--post-color-minus-15) 100%
+  );
   color: ${UI_COLORS.POST_STICKY_HEADER_TEXT};
   color: var(--post-color-contrast, ${UI_COLORS.POST_STICKY_HEADER_TEXT});
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -49,8 +72,6 @@ const StickyHeader = styled.div`
     var(--post-color-contrast-shadow-0_45, rgba(255, 255, 255, 0.15));
   padding: 1em;
   line-height: 1;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.3);
-  border-bottom: 3px solid var(--post-color-minus-30, rgba(0, 0, 0, 0.3));
 
   position: sticky;
   top: 0;
@@ -144,6 +165,7 @@ export default function PostHeader({
             </PostMetadata>
           </PostMainHeader>
         </CoverImage>
+        <GradientBorder />
       </MainHeader>
       <StickyHeader>
         <Container flex="row" style={{ alignItems: 'center' }}>
