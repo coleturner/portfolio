@@ -324,7 +324,7 @@ export function getAnchorID(children) {
     return children;
   }
 
-  return toSlug(anchorChildren.join('-').replace(/^-+/, '').replace(/-+$/, ''));
+  return toSlug(anchorChildren.join('-'));
 }
 
 export function getAnchorText(
