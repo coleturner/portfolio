@@ -28,11 +28,20 @@ const Hero = styled.div`
 `;
 
 export default function Resume({ preview, resumeProjects, portraitURL }) {
+  const description =
+    'Senior Software Engineer, Startup Co-Founder. Full-stack, UI/UX, JavaScript, Communication Studies B.A.';
+
   return (
     <>
       <Layout preview={preview}>
         <Head>
           <title key="title">Resume | Cole Turner</title>
+          <meta key="description" name="description" content={description} />
+          <meta
+            key="og:description"
+            property="og:description"
+            content={description}
+          />
         </Head>
 
         <Header portraitURL={portraitURL} />
@@ -57,7 +66,11 @@ export default function Resume({ preview, resumeProjects, portraitURL }) {
   );
 }
 
-Resume.propTypes = { preview: PropTypes.bool, resumeProjects: PropTypes.array };
+Resume.propTypes = {
+  preview: PropTypes.bool,
+  resumeProjects: PropTypes.array,
+  portraitURL: PropTypes.string,
+};
 
 export async function getStaticProps({ preview = false }) {
   const resumeProjects = await getResumeProjects(preview);

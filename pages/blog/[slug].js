@@ -80,7 +80,8 @@ export default function BlogTag({ tag, posts, allTags, portraitURL, preview }) {
   const title = `${tag.name} | Cole Turner`;
 
   const description =
-    tag.description || `Posts about ${tag.name} from a software engineer.`;
+    tag.description ||
+    `Here is where I write about ${tag.name}, such as ${posts[0].title}.`;
 
   return (
     <Layout preview={preview}>

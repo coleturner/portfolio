@@ -3,9 +3,8 @@ import Head from 'next/head';
 
 export default function Meta() {
   const title = 'Cole Turner &middot; Software Engineer';
-
   const description =
-    'Senior Software Engineer focused on UI/UX and communications. My mission is to build seamless applications that power businesses worldwide.';
+    'Software Engineer, UI/UX and Communications. I build seamless web apps that power businesses worldwide.';
 
   return (
     <Head>

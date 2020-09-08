@@ -26,11 +26,20 @@ export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
   const heroPost = allPosts[0];
   const morePosts = allPosts.slice(1);
 
+  const description =
+    'Here is where Cole shares career advice, writes about software engineering, user experience, and more.';
+
   return (
     <Layout preview={preview}>
       <Head>
         <title key="title">Blog | Cole Turner</title>
         <link rel="canonical" href={BASE_URL + 'blog'} />
+        <meta key="description" name="description" content={description} />
+        <meta
+          key="og:description"
+          name="og:description"
+          content={description}
+        />
       </Head>
 
       <Header portraitURL={portraitURL} />
@@ -62,6 +71,7 @@ BlogIndex.propTypes = {
       slug: PropTypes.string,
     })
   ),
+  portraitURL: PropTypes.string,
 };
 
 export async function getStaticProps({ preview = false }) {
