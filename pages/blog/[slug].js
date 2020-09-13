@@ -25,13 +25,13 @@ import { BASE_URL } from '../../lib/constants';
 const Hero = styled.div(
   ({ color = '#111' }) => css`
     border-radius: 0.3em;
-    padding: 3em;
+    padding: 2em;
     background: ${color};
     border-bottom: 6px solid ${changeColorBrightness(color, -15)};
     color: ${getColorContrast(color)};
     margin: 2em 0 3em 0;
-    font-size: 1.5em;
-    font-size: clamp(1rem, 1rem + 0.5vh, 4em);
+    font-size: 1.25em;
+    font-size: clamp(1rem, 1rem + 0.25vmin, 4em);
     position: relative;
     text-shadow: 0 1px 0px rgba(255, 255, 255, 0.2);
 
