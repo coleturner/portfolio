@@ -70,7 +70,7 @@ const PostHighlight = styled.div`
 const PostTitle = styled.h3`
   font-size: 1.1em;
   margin: 0 0 0.1em 0;
-  color: var(--post-color);
+  color: var(--post-color-invert-30);
 
   a {
     color: inherit;

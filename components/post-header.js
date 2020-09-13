@@ -7,6 +7,8 @@ import PostTitle from 'components/post-title';
 import styled from '@emotion/styled';
 import { UI_COLORS } from 'styles/colors';
 import Container from 'components/container';
+import Link from 'next/link';
+import { css } from 'emotion';
 
 const MainHeader = styled.div`
   background: #000;
@@ -57,22 +59,10 @@ const ReadingTime = styled.span`
 
 const StickyHeader = styled.div`
   align-items: center;
-  background: ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND};
-  background: var(--post-color, ${UI_COLORS.POST_STICKY_HEADER_BACKGROUND});
-  background: linear-gradient(
-    to right,
-    var(--post-color-minus-15) 0%,
-    var(--post-color) 50%,
-    var(--post-color-minus-15) 100%
-  );
-  color: ${UI_COLORS.POST_STICKY_HEADER_TEXT};
-  color: var(--post-color-contrast, ${UI_COLORS.POST_STICKY_HEADER_TEXT});
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-  text-shadow: 0 1px 0
-    var(--post-color-contrast-shadow-0_45, rgba(255, 255, 255, 0.15));
+  background: #000;
+  color: var(--post-color-contrast);
   padding: 1em;
-  line-height: 1;
-
+  line-height: 1.3;
   position: sticky;
   top: 0;
   right: 0;
@@ -103,7 +93,8 @@ const StickyHeader = styled.div`
     &::before {
       display: block;
       content: '';
-      border-left: 3px solid currentColor;
+      border-left: 2px solid rgba(255, 255, 255, 0.85);
+      border-left-color: var(--post-color-invert-30);
       opacity: 0.45;
       position: absolute;
       left: 0;
@@ -114,15 +105,25 @@ const StickyHeader = styled.div`
 `;
 
 const StickyHeaderTitle = styled.div`
+  flex: 1;
   display: block;
   align-items: center;
   font-size: 1em;
   font-weight: bold;
   margin: 0;
-  line-height: inherit;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  background: linear-gradient(
+    to bottom,
+    var(--post-color-invert-45) 0%,
+    var(--post-color-invert-30) 70%,
+    var(--post-color) 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 const Spacer = styled.div`
@@ -171,7 +172,29 @@ export default function PostHeader({
         <Container flex="row" style={{ alignItems: 'center' }}>
           <Avatar name={author.name} picture={author.picture} pictureSize={2} />
           <StickyHeaderTitle>{title}</StickyHeaderTitle>
-          <Date dateString={date} />
+
+          <Link href="/blog">
+            <a
+              css={css`
+                color: #fff;
+              `}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                css={css`
+                  margin-right: 0.5em;
+                `}
+              >
+                <defs />
+                <path
+                  fill="currentColor"
+                  d="M16 8l-6-5v3C5.5 6 2 7 0 12c3-2.5 6-3 10-2v3l6-5zm0 0"
+                />
+              </svg>
+              Blog
+            </a>
+          </Link>
         </Container>
       </StickyHeader>
       <Spacer />

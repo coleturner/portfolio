@@ -9,8 +9,12 @@ const PostTheme = styled.div(
       --post-color: ${color};
       --post-color-plus-30: ${changeColorBrightness(color, 30)};
       --post-color-plus-15: ${changeColorBrightness(color, 15)};
+      --post-color-plus-15: ${changeColorBrightness(color, 15)};
       --post-color-minus-15: ${changeColorBrightness(color, -15)};
       --post-color-minus-30: ${changeColorBrightness(color, -30)};
+      --post-color-invert-15: ${changeColorBrightness(color, -15)};
+      --post-color-invert-30: ${changeColorBrightness(color, -30)};
+      --post-color-invert-45: ${changeColorBrightness(color, -45)};
       --post-color-0_3: ${hexToRgba(color, 0.3)};
       --post-color-0_15: ${hexToRgba(color, 0.15)};
       --post-color-0_85: ${hexToRgba(color, 0.85)};
@@ -32,6 +36,9 @@ const PostTheme = styled.div(
 
       @media screen and (prefers-color-scheme: dark) {
         --post-complementary-color: ${complementaryColorDark};
+        --post-color-invert-15: ${changeColorBrightness(color, 15)};
+        --post-color-invert-30: ${changeColorBrightness(color, 30)};
+        --post-color-invert-45: ${changeColorBrightness(color, 45)};
       }
     `;
   }
