@@ -60,7 +60,6 @@ const PostHighlight = styled.div`
   padding: 0 2em;
   position: relative;
   z-index: 3;
-  color: ${UI_COLORS.POST_PREVIEW_HIGHLIGHT_TEXT};
 
   time {
     opacity: 0.75;
@@ -84,7 +83,7 @@ const PostTitle = styled.h3`
 `;
 
 const PostMetadata = styled.div`
-  color: ${TINT[0.75]};
+  opacity: 0.75;
 `;
 
 const ReadingTime = styled.span`

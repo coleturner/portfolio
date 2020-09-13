@@ -5,13 +5,16 @@ import { css } from 'emotion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { getColorContrast } from 'styles/colors';
+import { panelBoxShadow } from '../styles/global';
+import { SHADE } from '../styles/colors';
 
 const TaglistContainer = styled.div`
-  background: var(--page-background-color);
-  box-shadow: inset 0 100px 100px 100px rgba(0, 0, 0, 0.3);
-  border-bottom: 3px solid rgba(0, 0, 0, 0.3);
-  padding: 0.25em;
+  background: var(--page-background-color-invert-5);
+  box-shadow: ${panelBoxShadow(15, SHADE[0.2])};
+  padding: 0.5em 1em;
   text-align: center;
+  position: relative;
+  z-index: 2;
 
   white-space: nowrap;
   overflow: auto;
@@ -35,32 +38,25 @@ const TaglistContainer = styled.div`
 const Tag = styled.span(
   ({ color, isActive }) => css`
     display: inline-block;
-    background: rgba(255, 255, 255, 0.15);
-    border-bottom: 3px solid ${color};
-    border-radius: 0.2em;
     margin: 0.25em 0;
     margin-right: 0.5em;
     opacity: 0.85;
     position: relative;
     z-index: 1;
+    border-bottom: 3px solid transparent;
 
     a,
     a:hover {
       display: inline-block;
-      padding: 0.5em 1em;
+      padding: 0.15em 0.75em;
       text-decoration: none;
       color: inherit;
-    }
-
-    &,
-    &:hover {
-      color: var(--page-text-color);
     }
 
     &:hover,
     &:focus {
       opacity: 1;
-      transform: scale(1.1);
+      border-bottom: 3px solid ${color};
       z-index: 2;
     }
 
@@ -70,12 +66,8 @@ const Tag = styled.span(
 
     ${isActive
       ? css`
-          background: ${color};
-
-          &,
-          &:hover {
-            color: ${getColorContrast(color)};
-          }
+          color: ${color};
+          font-weight: bold;
         `
       : ''};
   `

@@ -13,10 +13,7 @@ module.exports = {
       ],
     },
     production: {
-      presets: [
-        'next/babel',
-        [require.resolve('@emotion/babel-preset-css-prop')],
-      ],
+      presets: [require.resolve('@emotion/babel-preset-css-prop')],
     },
   },
 };
