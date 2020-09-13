@@ -5,52 +5,59 @@ import Date from 'components/date';
 import CoverImage from 'components/cover-image';
 import styled from '@emotion/styled';
 import { panelBoxShadow } from 'styles/global';
-import { UI_COLORS, TINT } from 'styles/colors';
+import { UI_COLORS, TINT, SHADE } from 'styles/colors';
 import PostTheme from 'components/post-theme';
 import usePostTheme from 'hooks/usePostTheme';
+import { PillButtonStyle } from './button';
+import { css } from 'emotion';
+
+const BREAKPOINT = 'min-width: 600px';
 
 const PostPreviewSection = styled.section`
+  --cover-image-border-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  border-radius: 1em;
-  box-shadow: ${panelBoxShadow(30)};
+  align-items: center;
+  border-bottom: 3px solid var(--page-background-color-invert-5);
   cursor: pointer;
-  margin-bottom: 2em;
   transition: all 150ms ease-in;
   position: relative;
   will-change: box-shadow, transform;
   text-align: left;
+  padding: 2em 1em;
+  width: 100%;
 
-  &:hover {
-    transform: scale(1.015);
+  @media screen and (${BREAKPOINT}) {
+    flex-direction: row;
   }
 
   &:active,
   &:focus,
   &:focus-within {
-    transitionduration: 30ms;
+    transition-duration: 30ms;
     outline: none;
     transform: scale(1.035);
-    boxshadow: ${panelBoxShadow(
-      30,
-      `var(--post-preview-shadow-color, ${TINT[0.15]})`
-    )};
   }
 `;
 
 const PostCoverImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  width: calc(100% - 2em);
+  height: 15em;
+  margin-bottom: 1.25em;
+
+  @media screen and (${BREAKPOINT}) {
+    margin: 0;
+    width: 10em;
+    height: 10em;
+  }
 `;
 
 const PostHighlight = styled.div`
-  padding: 1.5em 2em;
-  padding-top: 50%;
+  flex: 1 1 auto;
+  padding: 0 2em;
   position: relative;
   z-index: 3;
   color: ${UI_COLORS.POST_PREVIEW_HIGHLIGHT_TEXT};
@@ -61,8 +68,9 @@ const PostHighlight = styled.div`
 `;
 
 const PostTitle = styled.h3`
-  font-size: 1.5em;
-  margin: 0 0 0.5em 0;
+  font-size: 1.1em;
+  margin: 0 0 0.1em 0;
+  color: var(--post-color);
 
   a {
     color: inherit;
@@ -73,6 +81,10 @@ const PostTitle = styled.h3`
   a:hover {
     color: inherit;
   }
+`;
+
+const PostMetadata = styled.div`
+  color: ${TINT[0.75]};
 `;
 
 const ReadingTime = styled.span`
@@ -87,12 +99,9 @@ const ReadingTime = styled.span`
 const PostExcerpt = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  opacity: 0.75;
+  opacity: 0.8;
   lineheight: 1.6;
-  lineclamp: 3;
-  -webkit-line-clamp: 3;
-  text-verflow: ellipsis;
-  overflow: hidden;
+  margin-bottom: 0;
 `;
 
 export default function PostPreview({
@@ -110,30 +119,35 @@ export default function PostPreview({
 
   return (
     <Link as={`/posts/${slug}`} href="/posts/[slug]">
-      <PostPreviewSection>
-        <PostTheme
-          color={color}
-          complementaryColorLight={complementaryColorLight}
-          complementaryColorDark={complementaryColorDark}
-        >
+      <PostTheme
+        color={color}
+        complementaryColorLight={complementaryColorLight}
+        complementaryColorDark={complementaryColorDark}
+      >
+        <PostPreviewSection>
           <PostCoverImage>
-            <CoverImage titleText={title} slug={slug} url={coverImage?.url} />
+            <CoverImage
+              titleText={title}
+              slug={slug}
+              url={coverImage?.url}
+              shadow={false}
+            />
           </PostCoverImage>
           <PostHighlight>
-            <div>
-              {date && <Date dateString={date} />}
-              {readingTime && <ReadingTime>{readingTime} min read</ReadingTime>}
-            </div>
             <PostTitle>
               <Link as={`/posts/${slug}`} href="/posts/[slug]">
                 <a>{title}</a>
               </Link>
             </PostTitle>
+            <PostMetadata>
+              {date && <Date dateString={date} />}
+              {readingTime && <ReadingTime>{readingTime} min read</ReadingTime>}
+            </PostMetadata>
 
             <PostExcerpt>{excerpt}</PostExcerpt>
           </PostHighlight>
-        </PostTheme>
-      </PostPreviewSection>
+        </PostPreviewSection>
+      </PostTheme>
     </Link>
   );
 }

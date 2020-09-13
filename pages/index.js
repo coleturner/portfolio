@@ -118,12 +118,17 @@ const CardContent = styled.div`
   width: 100%;
 `;
 
-const CardText = styled.div`
-  margin: 0 auto;
-  max-width: 700px;
-  max-width: 60ch;
-  width: 91%;
-`;
+const CardText = styled.div(
+  ({ fontSize = '1em' }) => css`
+    margin: 0 auto;
+    max-width: 700px;
+    max-width: 60ch;
+    width: 91%;
+    ${[...(typeof fontSize === 'string' ? [fontSize] : fontSize)].map(
+      (it) => `font-size: ${it};`
+    )};
+  `
+);
 
 const Title = styled.h1`
   margin: 0;
@@ -256,22 +261,20 @@ export default function Index({ preview, latestPosts, portraitURL }) {
           )}
         </Card>
         <LastCardContainer>
-          <Card
-            style={{
-              color: '#fff',
-              placeItems: 'flex-start',
-            }}
-          >
-            <CardContent>
-              <CardText>
-                <h2>Recent posts</h2>
-
-                <div
-                  style={{ maxWidth: 600, margin: '0 auto', fontSize: '1rem' }}
+          {latestPosts.length > 0 && (
+            <Card
+              style={{
+                color: '#fff',
+                placeItems: 'flex-start',
+              }}
+            >
+              <CardContent>
+                <CardText
+                  fontSize={['1.5rem', '1rem']}
+                  css={{ maxWidth: 'calc(60ch + 10em)' }}
                 >
-                  {latestPosts.length > 0 && (
-                    <StoriesList posts={latestPosts} />
-                  )}
+                  <h2>Recent posts</h2>
+                  <StoriesList posts={latestPosts} />
                   <MorePosts>
                     <Link href="/blog" passHref>
                       <PillButton as="a" colorScheme="dark">
@@ -279,10 +282,10 @@ export default function Index({ preview, latestPosts, portraitURL }) {
                       </PillButton>
                     </Link>
                   </MorePosts>
-                </div>
-              </CardText>
-            </CardContent>
-          </Card>
+                </CardText>
+              </CardContent>
+            </Card>
+          )}
           <Card
             style={{
               color: '#fff',

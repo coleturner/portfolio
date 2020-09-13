@@ -12,6 +12,7 @@ const AvatarContainer = styled.div`
 const AvatarImage = styled.img(
   ({ size }) =>
     css`
+      border: 2px solid var(--page-background-color-invert-15);
       border-radius: ${size}em;
       width: ${size}em;
       height: ${size}em;

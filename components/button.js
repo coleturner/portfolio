@@ -46,54 +46,59 @@ export const OutlineButton = styled.button`
   }
 `;
 
-export const PillButton = styled.button(
-  ({ colorScheme }) => css`
-    --light-background: ${UI_COLORS.PillButtonLightBackground};
-    --light-color: ${UI_COLORS.PillButtonLightColor};
-    --light-hover-background: ${UI_COLORS.PillButtonLightHoverBackground};
-    --dark-background: ${UI_COLORS.PillButtonDarkBackground};
-    --dark-color: ${UI_COLORS.PillButtonDarkColor};
-    --dark-hover-background: ${UI_COLORS.PillButtonDarkHoverBackground};
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0.5em 1em;
-    border-radius: 1em;
-    border: 0;
-    text-decoration: none;
-    background-color: ${UI_COLORS.PillButtonLightBackground};
-    background-color: var(--light-background);
+export const PillButtonStyle = css`
+  --light-background: ${UI_COLORS.PillButtonLightBackground};
+  --light-color: ${UI_COLORS.PillButtonLightColor};
+  --light-hover-background: ${UI_COLORS.PillButtonLightHoverBackground};
+  --dark-background: ${UI_COLORS.PillButtonDarkBackground};
+  --dark-color: ${UI_COLORS.PillButtonDarkColor};
+  --dark-hover-background: ${UI_COLORS.PillButtonDarkHoverBackground};
+  display: inline-block;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border-radius: 1em;
+  border: 0;
+  text-decoration: none;
+  background-color: ${UI_COLORS.PillButtonLightBackground};
+  background-color: var(--light-background);
+
+  &,
+  &:hover {
+    color: ${UI_COLORS.PillButtonLightColor};
+  }
+
+  &:hover {
+    background-color: ${UI_COLORS.PillButtonLightHoverBackground};
+    background-color: var(--light-hover-background);
+  }
+
+  svg {
+    margin-right: 0.5em;
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: var(--dark-background);
 
     &,
     &:hover {
-      color: ${UI_COLORS.PillButtonLightColor};
+      color: var(--dark-color);
     }
 
     &:hover {
-      background-color: ${UI_COLORS.PillButtonLightHoverBackground};
-      background-color: var(--light-hover-background);
+      background-color: ${UI_COLORS.PillButtonDarkHoverBackground};
+      background-color: var(--dark-hover-background);
     }
+  }
+`;
 
-    svg {
-      margin-right: 0.5em;
-    }
-
-    @media screen and (prefers-color-scheme: dark) {
-      background-color: var(--dark-background);
-
-      &,
-      &:hover {
-        color: var(--dark-color);
-      }
-
-      &:hover {
-        background-color: ${UI_COLORS.PillButtonDarkHoverBackground};
-        background-color: var(--dark-hover-background);
-      }
-    }
+export const PillButton = styled.button(
+  ({ colorScheme }) => css`
+    ${PillButtonStyle};
 
     ${colorScheme &&
     css`

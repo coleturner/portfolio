@@ -15,7 +15,7 @@ module.exports = {
     production: {
       presets: [
         'next/babel',
-        [require.resolve('@emotion/babel-preset-css-prop'), { hoist: true }],
+        [require.resolve('@emotion/babel-preset-css-prop')],
       ],
     },
   },

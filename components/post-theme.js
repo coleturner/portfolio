@@ -13,6 +13,7 @@ const PostTheme = styled.div(
       --post-color-minus-30: ${changeColorBrightness(color, -30)};
       --post-color-0_3: ${hexToRgba(color, 0.3)};
       --post-color-0_15: ${hexToRgba(color, 0.15)};
+      --post-color-0_85: ${hexToRgba(color, 0.85)};
       --post-color-0_0: ${hexToRgba(color, 0)};
 
       --post-color-contrast: ${getColorContrast(color)};

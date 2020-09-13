@@ -169,8 +169,8 @@ const ColorShade = styled.div(
           rgba(0, 0, 0, 0) 0%,
           rgba(0, 0, 0, 0.85) 100%
         );
+        box-shadow: inset 0 0 100px #000;
       `};
-      box-shadow: inset 0 0 100px #000;
       position: absolute;
       left: 0;
       right: 0;

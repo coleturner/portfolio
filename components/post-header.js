@@ -62,7 +62,7 @@ const StickyHeader = styled.div`
   background: linear-gradient(
     to right,
     var(--post-color-minus-15) 0%,
-    var(--post-color-plus-15) 50%,
+    var(--post-color) 50%,
     var(--post-color-minus-15) 100%
   );
   color: ${UI_COLORS.POST_STICKY_HEADER_TEXT};

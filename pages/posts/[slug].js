@@ -148,7 +148,7 @@ function PostView({ post, morePosts, preview }) {
             <Container>
               <StoriesList title="More Stories" posts={morePosts} />
 
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', padding: '2em 0' }}>
                 <Link href="/blog" passHref>
                   <PillButton as="a">See more posts</PillButton>
                 </Link>

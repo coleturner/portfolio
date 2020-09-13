@@ -12,7 +12,7 @@ const Heading = styled.h2`
   text-align: center;
   font-size: 2em;
   text-decoration: underline;
-  text-decoration-color: var(--theme-color-1);
+  text-decoration-color: var(--post-complementary-color);
   text-underline-position: under;
 `;
 
