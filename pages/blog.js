@@ -82,9 +82,10 @@ export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
                 css={css`
                   font-size: 2.3em;
                   font-size: clamp(1em, 1em + 1vmin, 2.3em);
+                  max-width: 100%;
 
                   strong {
-                    ${gradientTextStyle};
+                    color: var(--link-color-stop-1);
 
                     span {
                       white-space: nowrap;
