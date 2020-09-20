@@ -113,7 +113,14 @@ export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
               flex: 0;
             `}
           >
-            <img src="/cole_desk.svg" alt="" style={{ width: '20em' }} />{' '}
+            <img
+              src="/cole_desk.svg"
+              alt=""
+              css={css`
+                width: 20em;
+                -webkit-transform-style: preserve-3d;
+              `}
+            />{' '}
           </div>
         </div>
       </div>

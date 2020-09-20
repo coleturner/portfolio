@@ -182,7 +182,6 @@ const LastCardContainer = styled.div`
 `;
 
 const MorePosts = styled.div`
-  font-size: 1.5em;
   margin: 3em auto;
 `;
 
@@ -289,7 +288,7 @@ export default function Index({ preview, latestPosts, portraitURL }) {
           <Card
             style={{
               color: '#fff',
-              fontSize: '1.5em',
+              fontSize: '1.25em',
             }}
           >
             <CardText>
