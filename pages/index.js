@@ -170,6 +170,10 @@ const LastCardContainer = styled.div`
   position: relative;
   z-index: 1;
 
+  @media (prefers-color-scheme: light) {
+    --post-preview-title-color: #fff;
+  }
+
   @media (prefers-color-scheme: dark) {
     --primary-wave-color: #011630;
     --primary-wave-color-end: #000b17;

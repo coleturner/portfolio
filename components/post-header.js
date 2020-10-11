@@ -117,10 +117,19 @@ const StickyHeaderTitle = styled.div`
 
   background: linear-gradient(
     to bottom,
-    var(--post-color-invert-45) 0%,
-    var(--post-color-invert-30) 70%,
+    var(--post-color-plus-30) 0%,
+    var(--post-color-plus-15) 70%,
     var(--post-color) 100%
   );
+
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(
+      to bottom,
+      var(--post-color-invert-45) 0%,
+      var(--post-color-invert-30) 70%,
+      var(--post-color) 100%
+    );
+  }
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
