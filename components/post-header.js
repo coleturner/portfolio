@@ -115,24 +115,27 @@ const StickyHeaderTitle = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  background: linear-gradient(
+  background-image: linear-gradient(
     to bottom,
     var(--post-color-plus-30) 0%,
     var(--post-color-plus-15) 70%,
     var(--post-color) 100%
   );
 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(
+    background-image: linear-gradient(
       to bottom,
       var(--post-color-invert-45) 0%,
       var(--post-color-invert-30) 70%,
       var(--post-color) 100%
     );
-  }
 
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const Spacer = styled.div`
