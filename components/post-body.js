@@ -703,7 +703,7 @@ export default function PostBody({ attributes, content }) {
         const { slug } = fields;
 
         return (
-          <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <Link href={`/posts/${slug}`}>
             <a>{children}</a>
           </Link>
         );

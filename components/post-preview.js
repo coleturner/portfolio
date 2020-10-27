@@ -117,7 +117,7 @@ export default function PostPreview({
   );
 
   return (
-    <Link as={`/posts/${slug}`} href="/posts/[slug]">
+    <Link href={`/posts/${slug}`}>
       <PostTheme
         color={color}
         complementaryColorLight={complementaryColorLight}
@@ -134,7 +134,7 @@ export default function PostPreview({
           </PostCoverImage>
           <PostHighlight>
             <PostTitle>
-              <Link as={`/posts/${slug}`} href="/posts/[slug]">
+              <Link href={`/posts/${slug}`}>
                 <a>{title}</a>
               </Link>
             </PostTitle>

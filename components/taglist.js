@@ -85,7 +85,7 @@ export default function Taglist({ tags }) {
     <TaglistContainer>
       {tags.map((tag) => (
         <Tag key={tag.slug} color={tag.color} isActive={slug === tag.slug}>
-          <Link as={`/blog/${tag.slug}`} href="/blog/[slug]">
+          <Link href={`/blog/${tag.slug}`}>
             <a>{tag.name}</a>
           </Link>
         </Tag>
