@@ -246,21 +246,25 @@ const TwitterEmbedContainer = styled.div`
 `;
 
 const renderHyperlink = (node, children) => {
-  try {
-    const url = new URL(node.data.uri);
-    if (url.hostname !== HOST_NAME) {
-      return (
-        <a rel="nofollow noreferrer" target="_blank" href={node.data.uri}>
-          {children}
-        </a>
-      );
+  const { uri } = node.data;
+
+  if (!uri.startsWith('#')) {
+    try {
+      const url = new URL(uri);
+      if (url.hostname !== HOST_NAME) {
+        return (
+          <a rel="nofollow noreferrer" target="_blank" href={node.data.uri}>
+            {children}
+          </a>
+        );
+      }
+    } catch (e) {
+      console.error(e);
+      // do nothing
     }
-  } catch (e) {
-    console.error(e);
-    // do nothing
   }
 
-  return <a href={node.data.uri}>{children}</a>;
+  return <a href={uri}>{children}</a>;
 };
 
 const AnchorLinkContainer = styled.div`
