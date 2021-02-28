@@ -228,9 +228,9 @@ export default function Index({ preview, latestPosts, portraitURL }) {
               <Biography>
                 <Title>Cole Turner</Title>
                 <p>
-                  I am a software engineer who specializes in developing web
-                  application products, seamless user experience, and
-                  cross-functional communications.
+                  I am a software engineer and mentor who specializes in
+                  developing web application products, seamless user experience,
+                  and cross-functional communications.
                 </p>
               </Biography>
             </CardText>
