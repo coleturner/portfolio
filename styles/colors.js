@@ -122,6 +122,7 @@ export const UI_COLORS = {
     ABSOLUTE_COLORS.BLACK333,
     -10
   ),
+  PillButtonLightHoverColor: TINT[1],
 
   PillButtonDarkBackground: ABSOLUTE_COLORS.LIGHTER_GREY,
   PillButtonDarkColor: SHADE[0.85],

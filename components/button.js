@@ -75,6 +75,7 @@ export const PillButtonStyle = css`
   &:hover {
     background-color: ${UI_COLORS.PillButtonLightHoverBackground};
     background-color: var(--light-hover-background);
+    color: ${UI_COLORS.PillButtonLightHoverColor};
   }
 
   svg {
@@ -96,18 +97,6 @@ export const PillButtonStyle = css`
   }
 `;
 
-export const PillButton = styled.button(
-  ({ colorScheme }) => css`
-    ${PillButtonStyle};
-
-    ${colorScheme &&
-    css`
-      background-color: var(--${colorScheme}-background);
-
-      &,
-      &:hover {
-        color: var(--${colorScheme}-color);
-      }
-    `};
-  `
-);
+export const PillButton = styled.button(css`
+  ${PillButtonStyle};
+`);

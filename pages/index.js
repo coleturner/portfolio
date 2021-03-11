@@ -280,9 +280,7 @@ export default function Index({ preview, latestPosts, portraitURL }) {
                   <StoriesList posts={latestPosts} />
                   <MorePosts>
                     <Link href="/blog" passHref>
-                      <PillButton as="a" colorScheme="dark">
-                        See more posts
-                      </PillButton>
+                      <PillButton as="a">See more posts</PillButton>
                     </Link>
                   </MorePosts>
                 </CardText>
