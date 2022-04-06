@@ -16,7 +16,12 @@ const Heading = styled.h2`
   text-underline-position: under;
 `;
 
-export default function StoriesList({ title, posts }) {
+export default function StoriesList({
+  title,
+  posts,
+  usePreviewImage = true,
+  usePostColor = false,
+}) {
   return (
     <Section>
       {title && <Heading>{title}</Heading>}
@@ -26,13 +31,13 @@ export default function StoriesList({ title, posts }) {
             <PostPreview
               key={post.slug}
               title={post.title}
-              coverImage={post.coverImage}
+              coverImage={usePreviewImage ? post.coverImage : null}
               date={post.date}
               readingTime={post.readingTime}
               author={post.author}
               slug={post.slug}
               excerpt={post.excerpt}
-              color={post.color}
+              color={usePostColor ? post.color : null}
               size={70}
             />
           </ListItem>
@@ -45,4 +50,6 @@ export default function StoriesList({ title, posts }) {
 StoriesList.propTypes = {
   title: PropTypes.string,
   posts: PropTypes.arrayOf(postPropType),
+  usePreviewImage: PropTypes.bool,
+  usePostColor: PropTypes.bool,
 };

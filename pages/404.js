@@ -59,8 +59,6 @@ export default function Error404Page() {
         <title key="title">
           {statusCode}: {title}
         </title>
-
-        {globalStyles}
       </Head>
       <img style={styles.errorPortrait} src="/error-portrait.png" alt="" />
       <div>
@@ -72,7 +70,7 @@ export default function Error404Page() {
       </div>
       <div style={{ padding: '3em' }} />
       <PillButton as="a" href="/">
-        Go to the homepage
+        Go somewhere useful
       </PillButton>
     </div>
   );

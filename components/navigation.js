@@ -59,19 +59,18 @@ NavLink.propTypes = {
 };
 
 export default function Navigation() {
-  return (
-    <NavigationContainer>
-      <Menu>
-        <Link href="/" passHref>
-          <NavLink>Home</NavLink>
-        </Link>
-        <Link href="/resume" passHref>
-          <NavLink>Resume</NavLink>
-        </Link>
-        <Link href="/blog" passHref>
-          <NavLink matchPaths={['/posts/[slug]', '/blog/[slug]']}>Blog</NavLink>
-        </Link>
-      </Menu>
-    </NavigationContainer>
-  );
+  return null;
+
+  // return (
+  //   <NavigationContainer>
+  //     <Menu>
+  //       <Link href="/" passHref>
+  //         <NavLink>Home</NavLink>
+  //       </Link>
+  //       <Link href="/blog" passHref>
+  //         <NavLink matchPaths={['/posts/[slug]', '/blog/[slug]']}>Blog</NavLink>
+  //       </Link>
+  //     </Menu>
+  //   </NavigationContainer>
+  // );
 }

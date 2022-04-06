@@ -34,7 +34,7 @@ const GradientBorder = styled.div`
 `;
 
 const PostMainHeader = styled.div`
-  padding-top: 20%;
+  padding-top: 10%;
   padding-bottom: 2em;
 `;
 

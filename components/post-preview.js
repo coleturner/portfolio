@@ -18,25 +18,22 @@ const PostPreviewSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 3px solid var(--page-background-color-invert-5);
+  border-bottom: 1px solid var(--page-background-color-invert-5);
   cursor: pointer;
   transition: all 150ms ease-in;
   position: relative;
   will-change: box-shadow, transform;
   text-align: left;
-  padding: 2em 1em;
+  padding: 2em 0;
+  margin: 0;
   width: 100%;
+
+  &:last-child {
+    border: 0;
+  }
 
   @media screen and (${BREAKPOINT}) {
     flex-direction: row;
-  }
-
-  &:active,
-  &:focus,
-  &:focus-within {
-    transition-duration: 30ms;
-    outline: none;
-    transform: scale(1.035);
   }
 `;
 
@@ -78,7 +75,7 @@ const PostTitle = styled.h3`
   }
 
   a:hover {
-    color: inherit;
+    color: var(--post-preview-title-color, var(--post-color-invert-30));
   }
 `;
 
@@ -112,26 +109,23 @@ export default function PostPreview({
   slug,
   color,
 }) {
-  const { complementaryColorDark, complementaryColorLight } = usePostTheme(
-    color
-  );
+  const Theme = color ? PostTheme : ({ children }) => <div>{children}</div>;
 
   return (
     <Link href={`/posts/${slug}`}>
-      <PostTheme
-        color={color}
-        complementaryColorLight={complementaryColorLight}
-        complementaryColorDark={complementaryColorDark}
-      >
+      <Theme color={color}>
         <PostPreviewSection>
-          <PostCoverImage>
-            <CoverImage
-              titleText={title}
-              slug={slug}
-              url={coverImage?.url}
-              shadow={false}
-            />
-          </PostCoverImage>
+          {coverImage && (
+            <PostCoverImage>
+              <CoverImage
+                titleText={title}
+                slug={slug}
+                url={coverImage?.url}
+                shadow={false}
+              />
+            </PostCoverImage>
+          )}
+
           <PostHighlight>
             <PostTitle>
               <Link href={`/posts/${slug}`}>
@@ -146,7 +140,7 @@ export default function PostPreview({
             <PostExcerpt>{excerpt}</PostExcerpt>
           </PostHighlight>
         </PostPreviewSection>
-      </PostTheme>
+      </Theme>
     </Link>
   );
 }

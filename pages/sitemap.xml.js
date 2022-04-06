@@ -13,11 +13,6 @@ const createSitemap = ({
             <priority>0.5</priority>
         </url>
         <url>
-            <loc>${`${BASE_URL}resume`}</loc>
-            <changefreq>monthly</changefreq>
-            <priority>0.5</priority>
-        </url>
-        <url>
             <loc>${`${BASE_URL}blog`}</loc>
             <changefreq>daily</changefreq>
             <priority>0.5</priority>

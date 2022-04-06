@@ -120,7 +120,7 @@ const WavesContainer = styled.div`
 
   canvas {
     width: 100%;
-    height: 30vw;
+    height: 15vw;
     display: block;
   }
 `;

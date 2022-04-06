@@ -1,9 +1,12 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { changeColorBrightness, getColorContrast } from 'styles/colors';
 import hexToRgba from 'hex-to-rgba';
 import { css } from 'emotion';
+import usePostTheme from '../hooks/usePostTheme';
 
-const PostTheme = styled.div(
+const ThemeContainer = styled.div(
   ({ color, complementaryColorLight, complementaryColorDark }) => {
     return css`
       --post-color: ${color};
@@ -44,4 +47,23 @@ const PostTheme = styled.div(
   }
 );
 
-export default PostTheme;
+export default function PostTheme({ color, children }) {
+  const { complementaryColorDark, complementaryColorLight } = usePostTheme(
+    color
+  );
+
+  return (
+    <ThemeContainer
+      color={color}
+      complementaryColorDark={complementaryColorDark}
+      complementaryColorLight={complementaryColorLight}
+    >
+      {children}
+    </ThemeContainer>
+  );
+}
+
+PostTheme.propTypes = {
+  color: PropTypes.string,
+  children: PropTypes.node,
+};

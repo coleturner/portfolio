@@ -1,5 +1,5 @@
 import React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { extractCritical } from 'emotion-server';
 
 export default class MyDocument extends Document {
@@ -22,7 +22,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <link rel="icon" href="/favicon.ico" />
           <meta name="theme-color" content="#000000" />
@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
             <div></div>
           </div>
         </body>
-      </html>
+      </Html>
     );
   }
 }

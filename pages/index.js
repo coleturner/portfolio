@@ -1,343 +1,69 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import postPropType from '../components/propTypes/postPropType';
-import StoriesList from '../components/stories-list';
-import Layout from '../components/layout';
-import { getLatestPostsForHome, getPortraitURL } from '../lib/api';
-import styled from '@emotion/styled';
-import { PillButton } from '../components/button';
-import AppFooter from '../components/footer';
-import Link from 'next/link';
-import { ScrollDown } from '../components/scrollDown';
-import Waves from '../components/waves';
+import postPropType from 'components/propTypes/postPropType';
+import Container from 'components/container';
+import StoriesList from 'components/stories-list';
+import Header from 'components/header';
+import Layout from 'components/layout';
+import { getAllPostsForHome, getAllPostTags, getPortraitURL } from '../lib/api';
 import Head from 'next/head';
-import { BASE_URL } from '../lib/constants';
-import MentorIcon from '../components/icons/mentor-icon';
-import { css } from 'emotion';
-import { keyframes } from '@emotion/react';
-import useColorScheme from '../hooks/useColorScheme';
-import { useReducedMotion } from 'framer-motion';
+import AppFooter from 'components/footer';
+import styled from '@emotion/styled';
 import { gradientTextStyle } from '../styles/global';
+import { SHADE } from '../styles/colors';
+import { BASE_URL } from '../lib/constants';
+import { css } from 'emotion';
 
-const GRADIENT_FLASH = keyframes`
-  0% {
-    background-position: 0%;
-  }
-
-  100% {
-    background-position: 200%;
-  }
+const Content = styled.div`
+  --post-preview-shadow-color: ${SHADE[0.15]};
+  --post-preview-title-color: #5199d5;
 `;
 
-const borderStyle = css`
-  --color-1: var(--theme-color-1);
-  --color-2: var(--theme-color-2);
-  --color-3: var(--theme-color-3);
-
-  @media (prefers-color-scheme: dark) {
-    --color-1: var(--link-color-stop-1);
-    --color-2: var(--link-color-stop-2);
-    --color-3: var(--link-color-stop-3);
-  }
-
-  position: relative;
-
-  &::before {
-    background: repeating-linear-gradient(
-      to right,
-      var(--color-1) 0%,
-      var(--color-2) 25%,
-      var(--color-3) 50%,
-      var(--color-2) 75%,
-      var(--color-1) 100%
-    );
-    background-size: 200%;
-    border-radius: 100em;
-    animation: ${GRADIENT_FLASH} 5s infinite linear;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    padding: 0.15em;
-    transform: translate(-50%, -50%) rotate(45deg);
-    content: ' ';
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-    }
-  }
-`;
-
-const Portrait = styled.div`
-  margin: 0 auto;
-  margin-top: 1.5em;
-  min-width: 6em;
-  min-height: 6em;
-  width: 9em;
-  height: 9em;
-  width: 30vmin;
-  height: 30vmin;
-  max-width: 288px;
-  max-height: 288px;
-  border-radius: 10em;
-  ${borderStyle};
-
-  img {
-    width: inherit;
-    height: inherit;
-    min-width: inherit;
-    min-height: inherit;
-    max-width: inherit;
-    max-height: inherit;
-    border-radius: inherit;
-    position: relative;
-    z-index: 2;
-  }
-`;
-
-const CardList = styled.div`
-  max-width: 100%;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const Card = styled.div`
-  display: grid;
-  place-items: center;
-  font-size: 2em;
-  min-height: 100%;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-`;
-
-const CardContent = styled.div`
-  width: 100%;
-`;
-
-const CardText = styled.div(
-  ({ fontSize = '1em' }) => css`
-    margin: 0 auto;
-    max-width: 700px;
-    max-width: 60ch;
-    width: 91%;
-    ${[...(typeof fontSize === 'string' ? [fontSize] : fontSize)].map(
-      (it) => `font-size: ${it};`
-    )};
-  `
-);
-
-const Title = styled.h1`
-  margin: 0;
-  letter-spacing: -0.06em;
-  margin-top: 0.5em;
-`;
-
-const Biography = styled.div`
-  font-size: 1em;
-
-  @media (prefers-color-scheme: dark) {
-    h2,
-    p {
-      ${gradientTextStyle};
-    }
-
-    p {
-      font-size: 1em;
-      font-size: clamp(1rem, 0.5em + 1vmin, 1em);
-      max-width: 70ch;
-      margin: 0 auto;
-    }
-  }
-`;
-
-const LastCardContainer = styled.div`
-  --primary-wave-color: #09f;
-  --primary-wave-color-end: #04a;
-
-  background: #09f;
-  background: var(--primary-wave-color);
-  background: #09f linear-gradient(to bottom, #09f 0%, #04a 100%);
-  background: var(--primary-wave-color)
-    linear-gradient(
-      to bottom,
-      var(--primary-wave-color) 0%,
-      var(--primary-wave-color-end) 100%
-    );
-  position: relative;
-  z-index: 1;
-
-  @media (prefers-color-scheme: light) {
-    --post-preview-title-color: #fff;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    --primary-wave-color: #011630;
-    --primary-wave-color-end: #000b17;
-  }
-
-  hr {
-    opacity: 0.15;
-    margin: 1em 0 3em 0;
-  }
-`;
-
-const MorePosts = styled.div`
-  margin: 3em auto;
-`;
-
-export default function Index({ preview, latestPosts, portraitURL }) {
-  const colorScheme = useColorScheme();
-  const shouldReduceMotion = useReducedMotion();
+export default function BlogIndex({ preview, allPosts, allTags, portraitURL }) {
+  const heroPost = allPosts[0];
+  const morePosts = allPosts.slice(1);
 
   return (
     <Layout preview={preview}>
       <Head>
         <link rel="canonical" href={BASE_URL} />
-        <script
-          key="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org/',
-              '@type': 'Person',
-              name: 'Cole Turner',
-              url: BASE_URL,
-              image: BASE_URL + 'portrait.jpg',
-              sameAs: [
-                'https://twitter.com/coleturner',
-                'https://www.linkedin.com/in/colept/',
-                'https://github.com/coleturner',
-              ],
-              jobTitle: 'Software Engineer',
-            }),
-          }}
-        />
       </Head>
-      <CardList>
-        <Card>
-          <CardContent>
-            <Portrait>
-              <img src={portraitURL} alt="Cole Turner" />
-            </Portrait>
 
-            <CardText>
-              <Biography>
-                <Title>Cole Turner</Title>
-                <p>
-                  I am a software engineer and mentor who specializes in
-                  developing web application products, seamless user experience,
-                  and cross-functional communications.
-                </p>
-              </Biography>
-            </CardText>
-          </CardContent>
-          <ScrollDown />
-          {!shouldReduceMotion && (
-            <Waves
-              colors={
-                colorScheme === 'dark'
-                  ? [
-                      'rgba(255, 72, 43, 0.5)',
-                      'rgba(252, 186, 3, 0.5)',
-                      'rgba(255, 72, 43, 0.5)',
-                      'rgba(255, 230, 3, 0.5)',
-                      'rgba(252, 107, 3, 0.5)',
-                      'rgba(255, 230, 3, 0.25)',
-                      'rgba(102, 191, 255, 0.5)',
-                      '#011630',
-                    ]
-                  : [
-                      '#a2d9ff',
-                      'rgba(0, 204, 255, 0.5)',
-                      'rgba(0, 153, 255, 0.5)',
-                      '#66bfff',
-                      'rgba(0, 229, 255, 0.5)',
-                      'rgba(0, 153, 255, 0.5)',
-                      '#09F',
-                    ]
-              }
-            />
-          )}
-        </Card>
-        <LastCardContainer>
-          {latestPosts.length > 0 && (
-            <Card
-              style={{
-                color: '#fff',
-                placeItems: 'flex-start',
-              }}
-            >
-              <CardContent>
-                <CardText
-                  fontSize={['1.5rem', '1rem']}
-                  css={{ maxWidth: 'calc(60ch + 10em)' }}
-                >
-                  <h2>Recent posts</h2>
-                  <StoriesList posts={latestPosts} />
-                  <MorePosts>
-                    <Link href="/blog" passHref>
-                      <PillButton as="a">See more posts</PillButton>
-                    </Link>
-                  </MorePosts>
-                </CardText>
-              </CardContent>
-            </Card>
-          )}
-          <Card
-            style={{
-              color: '#fff',
-              fontSize: '1.25em',
-            }}
-          >
-            <CardText>
-              <hr />
-              <MentorIcon style={{ fontSize: '3em' }} />
-              <h2>Mentorship with Cole</h2>
-              <p>
-                Are you looking to level up, build more agency and autonomy, or
-                develop your software engineering career? I&apos;d love to help.
-                I can give you advice about your job search, including resume
-                and cover letter reviews, or other career development needs.
-              </p>
-
-              <p>
-                Are you seeking technical guidance? I can review code, chat
-                about best practices, or guide you through your work. I can help
-                with full-stack web development, front-end, back-end, and more.
-              </p>
-              <br />
-              <PillButton
-                as="a"
-                colorScheme="dark"
-                href="https://mentorcruise.com/mentor/ColeTurner/"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-              >
-                Apply for Mentorship
-              </PillButton>
-            </CardText>
-          </Card>
-          <AppFooter portraitURL={portraitURL} blendColor="rgba(0,0,0,0.55)" />
-        </LastCardContainer>
-      </CardList>
+      <Header portraitURL={portraitURL} />
+      <Content>
+        {heroPost && (
+          <Container>
+            <StoriesList posts={[heroPost]} />
+          </Container>
+        )}
+        <Container>
+          {morePosts.length > 0 && <StoriesList posts={morePosts} />}
+        </Container>
+      </Content>
+      <AppFooter portraitURL={portraitURL} />
     </Layout>
   );
 }
 
-Index.propTypes = {
+BlogIndex.propTypes = {
   preview: PropTypes.bool,
-  latestPosts: PropTypes.arrayOf(postPropType),
+  allPosts: PropTypes.arrayOf(postPropType),
+  allTags: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      slug: PropTypes.string,
+    })
+  ),
+  portraitURL: PropTypes.string,
 };
 
 export async function getStaticProps({ preview = false }) {
-  const latestPosts = await getLatestPostsForHome(preview);
+  const allPosts = await getAllPostsForHome(preview);
+  const allTags = await getAllPostTags();
   const portraitURL = await getPortraitURL();
+
   return {
-    props: { preview, latestPosts, portraitURL },
+    props: { preview, allPosts, allTags, portraitURL },
     revalidate: 60,
   };
 }
